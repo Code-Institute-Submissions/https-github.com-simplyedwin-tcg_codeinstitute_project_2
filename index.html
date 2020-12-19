@@ -3,10 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <link href="/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
+    <title>AlightLiaoLah</title>
 </head>
 <body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <form id="frmSearch" action="">
+                    <label for="txtQuery">Where are you heading to ?</label><br>
+                    <input type="text" name="txtQuery" id="txtQuery">
+                    <button type="submit" id="submitQuery">
+                        <span class="oi oi-magnifying-glass" title="icon name" aria-hidden="true"></span>
+                    </button>
+
+                </form>
+                <!-- <div id="loading"><img src='cube-animated.gif' style="width:48px; height:48px; "></div>
+                <div id="response"></div> -->
+            </div>
+
+            <div class="col">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
     
     <script src="js\jquery.js"></script>
+    <script src="js\bootstrap.bundle.min.js"></script>
 </body>
 </html>
