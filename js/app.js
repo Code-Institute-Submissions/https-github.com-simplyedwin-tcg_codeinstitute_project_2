@@ -64,64 +64,7 @@ $(document).ready(function () {
       minLength: 0,
       select: function (event, ui) {
         console.log(ui.item.value);  
-        // ui.item.value = landmark;
-        // log(
-        //   ui.item
-        //     ? "Selected: " + ui.item.value + ", geonameId: " + ui.item.id
-        //     : "Nothing selected, input was " + this.value
-        // );
       },
     });
-    	
-// $( "#txtQuery" ).on( "autocompleteselect", function( event, ui ) {
-//     ui.item.value = "testing";  
-// } );
-
-    	
-// $( "#txtQuery" ).on( "click", function( event, ui ) {
-//     console.log(landmark)
-//     $("#txtQuery").val(landmark);} );
-
-    // $("#txtQuery").catcomplete({
-    //     delay: 0,
-    //     source: queryResult
-    //     // select: function (event, ui) {
-    //     //   log(
-    //     //     ui.item
-    //     //       ? "Selected: " + ui.item.value + ", geonameId: " + ui.item.id
-    //     //       : "Nothing selected, input was " + this.value
-    //     //   );
-    //     // },
-    //   });
-
   });
-
-  //   $.ajax({
-  //     url: "london.xml",
-  //     dataType: "xml",
-  //     success: function (xmlResponse) {
-  //       var data = $("geoname", xmlResponse)
-  //         .map(function () {
-  //           return {
-  //             value:
-  //               $("name", this).text() +
-  //               ", " +
-  //               ($.trim($("countryName", this).text()) || "(unknown country)"),
-  //             id: $("geonameId", this).text(),
-  //           };
-  //         })
-  //         .get();
-  //       $("#txtQuery").autocomplete({
-  //         source: data,
-  //         minLength: 0,
-  //         select: function (event, ui) {
-  //           log(
-  //             ui.item
-  //               ? "Selected: " + ui.item.value + ", geonameId: " + ui.item.id
-  //               : "Nothing selected, input was " + this.value
-  //           );
-  //         },
-  //       });
-  //     },
-  //   });
 });
