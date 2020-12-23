@@ -1,30 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css\bootstrap\bootstrap.min.css">
     <link href="lib\open-iconic\font\css\open-iconic-bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="lib\jquery-ui-1.12.1.custom\jquery-ui.css">
     <title>AlightLiaoLah</title>
 </head>
+
 <body>
     <div class="container-fluid">
         <div class="row">
             <div class="col">
                 <form id="frmSearch" action="">
-                    <label for="txtQuery">Where are you heading to ?</label><br>
-                    <input type="text" name="txtQuery" id="txtQuery">
-                    <button type="submit" id="submitQuery">
-                        <span class="oi oi-magnifying-glass" title="icon name" aria-hidden="true"></span>
-                    </button>
+                    <label for="txtQuery" style="font-size: 30px;">Where are you heading to ?</label><br>
+                    <div class="input-group mb-3 w-50">
+                        <input type="text" class="form-control" placeholder="road name / street name / nearby bus stop"
+                            aria-label="Recipient's username" aria-describedby="button-addon2" id="txtQuery">
+                        <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                            <span class="oi oi-magnifying-glass" title="icon name" aria-hidden="true"></span>
+                        </button>
+                    </div>
 
                 </form>
-                <!-- <div id="loading"><img src='cube-animated.gif' style="width:48px; height:48px; "></div>
-                <div id="response"></div> -->
             </div>
-
-            <div class="col">
+        </div>
+        <div class="row">
+            <div class="col-sm">
                 <div id="map"></div>
+            </div>
+            <div class="col-sm">
+                <div id="map"><span class="border"></span></div>
             </div>
         </div>
     </div>
@@ -33,4 +41,5 @@
     <script src="lib\jquery-ui-1.12.1.custom\jquery-ui.js"></script>
     <script src="js\app.js"></script>
 </body>
+
 </html>
