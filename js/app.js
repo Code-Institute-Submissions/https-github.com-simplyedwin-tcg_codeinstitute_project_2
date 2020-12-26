@@ -1,9 +1,12 @@
 $(document).ready(function () {
   var userdestbscode = "waiting for user input...";
   var queryResult = [];
-  var gmllat = 1.3544;
-  var gmllong = 103.82;
+  let gculat = 1.3544;
+  let gculong = 103.82;
   var mapzoom = 11;
+  getmap(mapzoom, gculong, gculat);
+
+  // this array is declared due to pagination of the api, which only publish the first 500 apis by default
   var busstopnoapicalls = [
     0,
     500,
@@ -18,6 +21,7 @@ $(document).ready(function () {
     5000,
   ];
 
+  // to get the next 500 api calls using loop
   busstopnoapicalls.forEach(function (apicalls) {
     var settings = {
       url:
@@ -32,10 +36,6 @@ $(document).ready(function () {
     };
 
     $.ajax(settings).done(function (response) {
-      // console.log(response);
-      // console.log(response.value);
-      // console.log(response.value[0].RoadName);
-      // console.log(response.value.length);
       var roadname;
       var landmark;
       var busstopcode;
@@ -50,6 +50,7 @@ $(document).ready(function () {
     });
   });
 
+  // to provide autocomplete of address when user starts to type more than 1 character
   $("#txtQuery").autocomplete({
     source: queryResult,
     minLength: 1,
@@ -64,24 +65,45 @@ $(document).ready(function () {
 
   console.log(userdestbscode);
 
-  // for generating map using mapbox api
-  mapboxgl.accessToken =
-    "pk.eyJ1Ijoic2ltcGx5ZWR3aW4iLCJhIjoiY2tpcmUycDI1MDZzczJ3cnh3cGx4NHZoYyJ9.h4T1J2-6QQW7-bRJZuwJrg";
-  var map = new mapboxgl.Map({
-    container: "map", // container id
-    style: "mapbox://styles/mapbox/streets-v11", // style URL
-    center: [gmllong, gmllat], // starting position [lng, lat]
-    zoom: mapzoom, // starting zoom
+  // to retrieve user location using geolocation when clicked onto the form query and update onto the map
+  $("#txtQuery").click(function () {
+    if ("geolocation" in navigator) {
+      //check geolocation available
+      //try to get user current location using getCurrentPosition() method
+      navigator.geolocation.getCurrentPosition(function (position) {
+        gculat = position.coords.latitude;
+        gculong = position.coords.longitude;
+        mapzoom = 16
+        getmap(mapzoom, gculong, gculat);
+        // console.log(`gculat: ${gculat} gculong: ${gculong}`);
+      });
+    } else {
+      console.log("Browser doesn't support geolocation!");
+    }
   });
-  map.addControl(
-    new mapboxgl.GeolocateControl({
-      positionOptions: {
-        enableHighAccuracy: true,
-      },
-      trackUserLocation: true,
-    })
-  );
+  console.log(`gculat: ${gculat} gculong: ${gculong}`);
 
+  // function to generating map using mapbox api
+  function getmap(mapzoom, gculong, gculat) {
+    mapboxgl.accessToken =
+      "pk.eyJ1Ijoic2ltcGx5ZWR3aW4iLCJhIjoiY2tpcmUycDI1MDZzczJ3cnh3cGx4NHZoYyJ9.h4T1J2-6QQW7-bRJZuwJrg";
+    var map = new mapboxgl.Map({
+      container: "map", // container id
+      style: "mapbox://styles/mapbox/streets-v11", // style URL
+      center: [gculong, gculat], // starting position [lng, lat]
+      zoom: mapzoom, // starting zoom
+    });
+
+    // to retrieve user location using mapbox build in feature
+    map.addControl(
+      new mapboxgl.GeolocateControl({
+        positionOptions: {
+          enableHighAccuracy: true,
+        },
+        trackUserLocation: true,
+      })
+    );
+  }
   // $("#txtQuery").on("focus", ()=>{
   //   $("#searchbox").attr('class','input-group mb-3 w-75');
   // });
