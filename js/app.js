@@ -31,6 +31,7 @@ $(document).ready(function () {
   busstopnoapicalls.forEach(function (apicalls) {
     var settings = {
       url:
+        //"https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
         "http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
         apicalls,
       method: "GET",
@@ -108,14 +109,23 @@ $(document).ready(function () {
     }
   });
 
-  $("#searchbutton").on("click", () => {
+  $("#searchbutton").on("click", (e) => {
     console.log(querydata.length);
     console.log(`gculat: ${gculat} gculong: ${gculong}`);
-
-    // gculat = 1.4346393;
-    // gculong = 103.79162930000001;
-
+    var markercoords = [];
+    var jobj = new Object();
     for (var i = 0; i < querydata.length; i++) {
+      // to handle empty value passed back to userdestcide 
+      if (userdestbscode == NaN) {
+        e.preventDefault();
+      } else if (querydata[i].BusStopCode == userdestbscode) {
+        jobj.long = querydata[i].Longitude;
+        jobj.lat = querydata[i].Latitude;
+        jobj.type = "dest";
+        var userdestcoord = JSON.parse(JSON.stringify(jobj));
+        markercoords.push(userdestcoord);
+        console.log(markercoords);
+      }
       // if this location is within 0.1KM of the user, add it to the list
       if (
         distance(
@@ -126,26 +136,21 @@ $(document).ready(function () {
           "K"
         ) <= 0.12
       ) {
-        // mapboxgl.accessToken =
-        //   "pk.eyJ1Ijoic2ltcGx5ZWR3aW4iLCJhIjoiY2tpcmUycDI1MDZzczJ3cnh3cGx4NHZoYyJ9.h4T1J2-6QQW7-bRJZuwJrg";
-        // var map = new mapboxgl.Map({
-        //   container: "map", // container id
-        //   style: "mapbox://styles/mapbox/streets-v11", // style URL
-        //   center: [gculong, gculat], // starting position [lng, lat]
-        //   zoom: mapzoom, // starting zoom
-        // });
-        // var marker = new mapboxgl.Marker()
-        //   .setLngLat([querydata[i].Longitude, querydata[i].Latitude])
-        //   .addTo(map);
         console.log(
           `The nearest bus stop to your current location is ${querydata[i].Description} near ${querydata[i].RoadName} (${querydata[i].BusStopCode})`
         );
+        jobj.long = querydata[i].Longitude;
+        jobj.lat = querydata[i].Latitude;
+        jobj.type = "curr";
+        var usercurcoord = JSON.parse(JSON.stringify(jobj));
+        markercoords.push(usercurcoord);
       }
     }
+    getmap(1, mapzoom, gculong, gculat, markercoords);
   });
 
   // function to generating map using mapbox api
-  function getmap(maptype, mapzoom, gculong, gculat) {
+  function getmap(maptype, mapzoom, gculong, gculat, markercoordJsarr = 0) {
     mapboxgl.accessToken =
       "pk.eyJ1Ijoic2ltcGx5ZWR3aW4iLCJhIjoiY2tpcmUycDI1MDZzczJ3cnh3cGx4NHZoYyJ9.h4T1J2-6QQW7-bRJZuwJrg";
     var map = new mapboxgl.Map({
@@ -196,6 +201,17 @@ $(document).ready(function () {
         trackUserLocation: true,
       })
     );
+    for (var i = 0; i < markercoordJsarr.length; i++) {
+      // var markercoord = JSON.parse(markercoordJsarr[i]);
+      //console.log(`markercoordJsarr[i].long: ${markercoordJsarr[i].long} markercoordJsarr[i].lat: ${markercoordJsarr[i]}`);
+      var col = "#00FFF7";
+      if (markercoordJsarr[i].type == "dest") {
+        col = "#0023FF";
+      }
+      var marker = new mapboxgl.Marker({ color: col })
+        .setLngLat([markercoordJsarr[i].long, markercoordJsarr[i].lat])
+        .addTo(map);
+    }
   }
 
   // to create a pulsingDot object on the map
