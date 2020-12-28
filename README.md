@@ -58,4 +58,4 @@ Geodatasource on the sample code for the calculation of distance between 2 coord
 
 Trent colleage staff and classmates for feedbacks on website design
 
-"https://www.flaticon.com/authors/freepik" Freepik
+Design of logo are sourced from [Freepik](https://www.flaticon.com/authors/freepik)
