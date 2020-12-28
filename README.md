@@ -9,7 +9,7 @@
 
 ### Large Devices View (>991.98px)
 
-The website can be accessed via [here](http://simplyedwin.github.io/trent_dip_in_fsswd_project_1/)
+The website can be accessed via [here]( https://simplyedwin.github.io/tcg_codeinstitute_project_2/)
 
 ## UX
       
