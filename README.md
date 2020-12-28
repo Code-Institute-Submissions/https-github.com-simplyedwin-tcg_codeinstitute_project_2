@@ -1,6 +1,6 @@
-![brandlogo](https://github.com/simplyedwin/trent_dip_in_fsswd_project_1/blob/main/images/brandlogo.svg?raw=true)
+![brandlogo](https://github.com/simplyedwin/tcg_codeinstitute_project_2/blob/master/images/AlightLiaoLahCompleted.svg?raw=true)
 
-# Milestone Project 2 Interactive Front-End Development - SgCarpark Bot
+# Milestone Project 2 Interactive Front-End Development - AlightLiaoLah
 ## Introduction
 
 
