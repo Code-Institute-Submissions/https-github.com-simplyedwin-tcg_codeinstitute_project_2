@@ -66,7 +66,7 @@ $(document).ready(function () {
   // to provide autocomplete of address when user starts to type more than 1 character
   $("#txtQuery").autocomplete({
     source: queryResult,
-    minLength: 1,
+    minLength: 4,
     select: function (event, ui) {
       console.log(ui.item.value);
       var res = ui.item.value.split("Bus Stop Code: ");
@@ -82,6 +82,8 @@ $(document).ready(function () {
       timeout: 5000,
       maximumAge: 0,
     };
+
+    $("#guides").html("Please provide a nearby road name / street name / bus stop code");
 
     function error(err) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
@@ -115,7 +117,7 @@ $(document).ready(function () {
     var markercoords = [];
     var jobj = new Object();
     for (var i = 0; i < querydata.length; i++) {
-      // to handle empty value passed back to userdestcide 
+      // to handle empty value passed back to userdestcode 
       if (userdestbscode == NaN) {
         e.preventDefault();
       } else if (querydata[i].BusStopCode == userdestbscode) {
@@ -155,7 +157,7 @@ $(document).ready(function () {
       "pk.eyJ1Ijoic2ltcGx5ZWR3aW4iLCJhIjoiY2tpcmUycDI1MDZzczJ3cnh3cGx4NHZoYyJ9.h4T1J2-6QQW7-bRJZuwJrg";
     var map = new mapboxgl.Map({
       container: "map", // container id
-      style: "mapbox://styles/mapbox/streets-v11", // style URL
+      style: "mapbox://styles/simplyedwin/ckjdrlk8o054m19qjmihsxqe7",//"mapbox://styles/mapbox/streets-v11", // style URL
       center: [gculong, gculat], // starting position [lng, lat]
       zoom: mapzoom, // starting zoom
     });
@@ -212,6 +214,25 @@ $(document).ready(function () {
         .setLngLat([markercoordJsarr[i].long, markercoordJsarr[i].lat])
         .addTo(map);
     }
+
+    map.on('click', function(e) {
+      var features = map.queryRenderedFeatures(e.point, {
+        layers: ['fullbuststopcode'] // replace this with the name of the layer (used name of the tiledata)
+      });
+    
+      if (!features.length) {
+        return;
+      }
+    
+      var feature = features[0];
+    
+      var popup = new mapboxgl.Popup({ offset: [0, -15] })
+        .setLngLat(feature.geometry.coordinates)
+        .setHTML('<h3>' + feature.properties.busstopcode + '</h3><p>' + feature.properties.description + '</p>')
+        .addTo(map);
+    });
+
+
   }
 
   // to create a pulsingDot object on the map
