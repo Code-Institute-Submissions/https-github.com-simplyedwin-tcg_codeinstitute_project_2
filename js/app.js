@@ -1,6 +1,7 @@
 $(document).ready(function () {
+  
   var userdestbscode = "waiting for user input...";
-  var queryResult = [];// to only store result as data source for autocomplete
+  var queryResult = []; // to only store result as data source for autocomplete
   var querydata = []; // to store all the busstop info from the api calls
   let clat = 1.3544; // default latitude setting when the map is first loaded
   let clong = 103.82; // default longtitude setting when the map is first loaded
@@ -115,6 +116,11 @@ $(document).ready(function () {
   $("#searchbutton").on("click", (e) => {
     console.log(querydata.length);
     console.log(`gculat: ${gculat} gculong: ${gculong}`);
+    // to reset the bus stop service no everytime a new bus stop is clicked
+    $(".card-body").html(
+      `<p class="card-text overflow-auto" id ="bussvcbtn"></p>`
+    );
+
     var markercoords = [];
     var jobj = new Object();
     for (var i = 0; i < querydata.length; i++) {
@@ -147,6 +153,13 @@ $(document).ready(function () {
         jobj.type = "curr";
         var usercurcoord = JSON.parse(JSON.stringify(jobj));
         markercoords.push(usercurcoord);
+        $(".card-header").html(
+          `<p class="card-text overflow-auto" id ="buscardheader">
+          <h5>Bus Stop Code:<br>${querydata[i].BusStopCode}</h5>
+          <br><h4>${querydata[i].Description} near ${querydata[i].RoadName}</h4></p>`
+        );
+        // to retrieve the bus service number at the bus stop
+        bussvcnos(querydata[i].BusStopCode);
       }
     }
     getmap(1, mapzoom, gculong, gculat, markercoords);
@@ -206,8 +219,6 @@ $(document).ready(function () {
     );
 
     for (var i = 0; i < markercoordJsarr.length; i++) {
-      // var markercoord = JSON.parse(markercoordJsarr[i]);
-      //console.log(`markercoordJsarr[i].long: ${markercoordJsarr[i].long} markercoordJsarr[i].lat: ${markercoordJsarr[i]}`);
       var col = "#00FFF7";
       if (markercoordJsarr[i].type == "dest") {
         col = "#0023FF";
@@ -224,12 +235,11 @@ $(document).ready(function () {
       closeOnClick: true,
     });
 
-    // map.on('mouseenter',"fullbuststopcode", function(e) {
-    map.on("click","fullbuststopcode", function (e) {
-
+    map.on("click", "fullbuststopcode", function (e) {
       // to reset the bus stop service no everytime a new bus stop is clicked
-      $(".card-body").html(`<p class="card-text overflow-auto" id ="bussvcbtn"></p>`);    
-
+      $(".card-body").html(
+        `<p class="card-text overflow-auto" id ="bussvcbtn"></p>`
+      );
 
       var features = map.queryRenderedFeatures(e.point, {
         layers: ["fullbuststopcode"], // replace this with the name of the layer (used name of the tiledata)
@@ -245,47 +255,15 @@ $(document).ready(function () {
       var description = feature.properties.description;
       console.log(`bscode: ${bscode}`);
 
-      //var popup = new mapboxgl.Popup({ offset: [0, -15] })
-      popup
-        .setLngLat(feature.geometry.coordinates)
-        .setHTML(
-          "<h4>Busstop Code:<br>" +
-            feature.properties.busstopcode +
-            "</h4><p>Description<br>" +
-            feature.properties.description +
-            " near " +
-            feature.properties.roadname +
-            "</p>"
-        ).addTo(map);
-
-      // to call api to retrieve bus service no at bus stop based on the provided bus stop code
-      var settings2 = {
-        url:
-          //"https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
-          "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
-          bscode,
-        method: "GET",
-        timeout: 0,
-        headers: {
-          AccountKey: "T+n6csk3Rd6vj7in0YOctw==",
-          Accept: "application/json",
-        },
-      };
-
-      $.ajax(settings2).done(function (response) {
-        var apibscode = response.BusStopCode;
-        var apiservices = response.Services;
-        console.log(apiservices);
-        for (var i = 0; i < apiservices.length; i++) {
-          //buservicenoarray.push(apiservices[i].ServiceNo);
-          var bussvcbtn = `<a href="#" class="btn" style="margin:5px; color: white;
-          background-color: #083864ff;
-          font-weight: bold;" id = "bussvcbtn">${apiservices[i].ServiceNo}</a>`;
-          $("#bussvcbtn").after(bussvcbtn);    
-        }
-        
-      });
-
+      $(".card-header").html(
+        `<p class="card-text overflow-auto" id ="buscardheader">
+        <h5>Bus Stop Code:<br>${bscode}</h5>
+        <br><h4>${description} near ${roadname}</h4></p>`
+      );
+      
+      // to retrieve the bus service number at the bus stop
+      bussvcnos(bscode);
+      
       console.log(
         `Busstop code:${feature.properties.busstopcode} 
   Description:${feature.properties.description} 
@@ -373,5 +351,32 @@ $(document).ready(function () {
       dist = dist * 0.8684;
     }
     return dist;
+  }
+
+  // function to find bus service no at a bus stop using bus stop code
+  function bussvcnos(bscode){
+    var settings = {
+      url:
+        "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
+        bscode,
+      method: "GET",
+      timeout: 0,
+      headers: {
+        AccountKey: "T+n6csk3Rd6vj7in0YOctw==",
+        Accept: "application/json",
+      },
+    };
+
+    $.ajax(settings).done(function (response) {
+      var apibscode = response.BusStopCode;
+      var apiservices = response.Services;
+      console.log(apiservices);
+      for (var i = 0; i < apiservices.length; i++) {
+        var bussvcbtn = `<a href="#" class="btn" style="margin:5px; color: white;
+        background-color: #083864ff;
+        font-weight: bold;" id = "bussvcbtn">${apiservices[i].ServiceNo}</a>`;
+        $("#bussvcbtn").after(bussvcbtn);
+      }
+    });
   }
 });
