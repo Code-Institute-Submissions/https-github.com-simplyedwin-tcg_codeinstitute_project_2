@@ -220,23 +220,17 @@ $(document).ready(function () {
     );
 
     for (var i = 0; i < markercoordJsarr.length; i++) {
-      var col = "#00FFF7";
       if (markercoordJsarr[i].type == "dest") {
-        col = "#0023FF";
+        makedommarker(map, "markerdest", "images/stopsign.svg", "71", "57",markercoordJsarr[i].long,markercoordJsarr[i].lat);
       }
-      var marker = new mapboxgl.Marker({ color: col })
-        .setLngLat([markercoordJsarr[i].long, markercoordJsarr[i].lat])
-        .addTo(map);
+      else{
+        makedommarker(map, "markerstart", "images/startsign.svg", "71", "57",markercoordJsarr[i].long,markercoordJsarr[i].lat);
+      }
     }
 
-    // Create a popup, but don't add it to the map yet.
-    var popup = new mapboxgl.Popup({
-      offset: [0, -15],
-      closeButton: true,
-      closeOnClick: true,
-    });
-
+    // to interact with the bus stop layer "fullbuststopcode" on the map
     map.on("click", "fullbuststopcode", function (e) {
+      
       // to reset the bus stop service no everytime a new bus stop is clicked
       $(".card-body").html(
         `<p class="card-text overflow-auto" id ="bussvcbtn"></p>`
@@ -264,6 +258,8 @@ $(document).ready(function () {
 
       // to retrieve the bus service number at the bus stop
       bussvcnos(bscode);
+
+      // to retrieve lat and long of the selected bus stop
       for (var i = 0; i < querydata.length; i++) {
         if (querydata[i].BusStopCode == bscode) {
           var clickedlat = querydata[i].Latitude;
@@ -403,6 +399,5 @@ $(document).ready(function () {
       el.appendChild(imgsvg);
       var marker = new mapboxgl.Marker(el);
       marker.setLngLat([clickedlong, clickedlat]).addTo(map);
-
   }
 });
