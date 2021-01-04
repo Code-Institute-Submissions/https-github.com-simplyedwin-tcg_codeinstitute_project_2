@@ -1,5 +1,4 @@
 $(document).ready(function () {
-  
   var userdestbscode = "waiting for user input...";
   var queryResult = []; // to only store result as data source for autocomplete
   var querydata = []; // to store all the busstop info from the api calls
@@ -123,6 +122,8 @@ $(document).ready(function () {
 
     var markercoords = [];
     var jobj = new Object();
+    /* to loop through the querydata to find the lng and lat of the nearest stop to 
+    the user current loc and destination and push to an array markercoords to generate markers*/
     for (var i = 0; i < querydata.length; i++) {
       // to handle empty value passed back to userdestcode
       if (userdestbscode == NaN) {
@@ -146,7 +147,7 @@ $(document).ready(function () {
         ) <= 0.12
       ) {
         console.log(
-          `The nearest bus stop to your current location is ${querydata[i].Description} near ${querydata[i].RoadName} (${querydata[i].BusStopCode})`
+          `The nearest bus stop to your current location is ${querydata[i].Description} along ${querydata[i].RoadName} (${querydata[i].BusStopCode})`
         );
         jobj.long = querydata[i].Longitude;
         jobj.lat = querydata[i].Latitude;
@@ -155,8 +156,8 @@ $(document).ready(function () {
         markercoords.push(usercurcoord);
         $(".card-header").html(
           `<p class="card-text overflow-auto" id ="buscardheader">
-          <h5>Bus Stop Code:<br>${querydata[i].BusStopCode}</h5>
-          <br><h4>${querydata[i].Description} near ${querydata[i].RoadName}</h4></p>`
+          <h5>Bus Stop Code:<br>${querydata[i].BusStopCode}</h5><hr/>
+          <h4>${querydata[i].Description} along ${querydata[i].RoadName}</h4></p>`
         );
         // to retrieve the bus service number at the bus stop
         bussvcnos(querydata[i].BusStopCode);
@@ -257,13 +258,22 @@ $(document).ready(function () {
 
       $(".card-header").html(
         `<p class="card-text overflow-auto" id ="buscardheader">
-        <h5>Bus Stop Code:<br>${bscode}</h5>
-        <br><h4>${description} near ${roadname}</h4></p>`
+        <h5>Bus Stop Code:<br>${bscode}</h5><hr/>
+        <h4>${description} along ${roadname}</h4></p>`
       );
-      
+
       // to retrieve the bus service number at the bus stop
       bussvcnos(bscode);
-      
+      for (var i = 0; i < querydata.length; i++) {
+        if (querydata[i].BusStopCode == bscode) {
+          var clickedlat = querydata[i].Latitude;
+          var clickedlong = querydata[i].Longitude;
+        }
+      }
+
+      // to create custom marker when selected a bus stop
+      makedommarker(map, "marker", "images\\clickedmarker.svg", "61", "47",clickedlong,clickedlat);
+
       console.log(
         `Busstop code:${feature.properties.busstopcode} 
   Description:${feature.properties.description} 
@@ -354,7 +364,7 @@ $(document).ready(function () {
   }
 
   // function to find bus service no at a bus stop using bus stop code
-  function bussvcnos(bscode){
+  function bussvcnos(bscode) {
     var settings = {
       url:
         "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
@@ -378,5 +388,21 @@ $(document).ready(function () {
         $("#bussvcbtn").after(bussvcbtn);
       }
     });
+  }
+
+  //function to create a map marker using DOM element
+  function makedommarker(map, markerid, imgsrc, width, height,clickedlong,clickedlat) {
+
+      $(`#${markerid}`).remove();
+      var el = document.createElement("div");
+      el.id = markerid;
+      var imgsvg = document.createElement("img");
+      imgsvg.src = imgsrc;
+      imgsvg.height = height; // do not include the unit
+      imgsvg.width = width; // do not include the unit
+      el.appendChild(imgsvg);
+      var marker = new mapboxgl.Marker(el);
+      marker.setLngLat([clickedlong, clickedlat]).addTo(map);
+
   }
 });
