@@ -451,8 +451,20 @@ $(document).ready(function () {
         var nextbuslong = nextbus.Longitude;
         var nextbuslat = nextbus.Latitude;
         console.log(`${svcbusno} ${busno} ${nextbuslong} ${nextbuslat}`);
-        if (svcbusno === busno && nextbuslong != 0 && nextbuslat != 0) {
-          //to center the focus on the bus when clicked onto the bus svc number
+        //if (svcbusno === busno && nextbuslong != 0 && nextbuslat != 0) {
+        if (svcbusno === busno && nextbuslong == 0 && nextbuslat == 0) {
+          console.log('The bus is not in operation');
+          $("#toast").html(
+            `<h5>The bus may not be in service at this moment. Please try again later.</5>`
+          );
+          $("#toast").addClass("show");
+          setTimeout(function () {
+            $("#toast").removeClass("show").addClass("");
+          }, 4000);
+          $(`#buslocmarker`).remove();
+        } 
+        else {
+          console.log('The bus is in operation');
           map.flyTo({
             center: [nextbuslong, nextbuslat],
           });
@@ -466,19 +478,6 @@ $(document).ready(function () {
             nextbuslat,
             busno
           );
-        }if (
-          (svcbusno === busno) &&
-          (nextbuslong = 0) &&
-          (nextbuslat = 0)
-        ) {
-          console.log(`All Same 0 0`);
-          $("#toast").html(
-            `<h5>The bus may not be in service at this moment. Please try again later.</5>`
-          );
-          $("#toast").addClass("show");
-          setTimeout(function () {
-            $("#toast").removeClass("show").addClass("");
-          }, 3000);
         }
       }
     });
@@ -493,7 +492,7 @@ $(document).ready(function () {
     height,
     clickedlong,
     clickedlat,
-    busno=''
+    busno = ""
   ) {
     $(`#${markerid}`).remove(); // to remove the previous marker when clicked from same bus stop
     var el = document.createElement("div");
