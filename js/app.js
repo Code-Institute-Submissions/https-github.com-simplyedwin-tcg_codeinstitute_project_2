@@ -8,6 +8,8 @@ $(document).ready(function () {
   var mapstart = 0; // to load the map at default page which will show the entire of Singapore land mass
   var gculat;
   var gculong;
+  var map;
+  var bscode;
 
   getmap(mapstart, mapzoom, clong, clat);
 
@@ -166,11 +168,17 @@ $(document).ready(function () {
     getmap(1, mapzoom, gculong, gculat, markercoords);
   });
 
+  // to find the location of the bus when clicked on the service no
+  $(".card-body").on("click", "#bussvcbtn", function () {
+    var busno = $(this).text();
+    busloc(bscode, busno, map);
+  });
+
   // function to generating map using mapbox api
   function getmap(maptype, mapzoom, gculong, gculat, markercoordJsarr = 0) {
     mapboxgl.accessToken =
       "pk.eyJ1Ijoic2ltcGx5ZWR3aW4iLCJhIjoiY2tpcmUycDI1MDZzczJ3cnh3cGx4NHZoYyJ9.h4T1J2-6QQW7-bRJZuwJrg";
-    var map = new mapboxgl.Map({
+    map = new mapboxgl.Map({
       container: "map", // container id
       style: "mapbox://styles/simplyedwin/ckjdrlk8o054m19qjmihsxqe7", //"mapbox://styles/mapbox/streets-v11", // style URL
       center: [gculong, gculat], // starting position [lng, lat]
@@ -221,19 +229,33 @@ $(document).ready(function () {
 
     for (var i = 0; i < markercoordJsarr.length; i++) {
       if (markercoordJsarr[i].type == "dest") {
-        makedommarker(map, "markerdest", "images/stopsign.svg", "71", "57",markercoordJsarr[i].long,markercoordJsarr[i].lat);
-      }
-      else{
-        makedommarker(map, "markerstart", "images/startsign.svg", "71", "57",markercoordJsarr[i].long,markercoordJsarr[i].lat);
+        makedommarker(
+          map,
+          "markerdest",
+          "images/stopsign.svg",
+          "71",
+          "57",
+          markercoordJsarr[i].long,
+          markercoordJsarr[i].lat
+        );
+      } else {
+        makedommarker(
+          map,
+          "markerstart",
+          "images/startsign.svg",
+          "71",
+          "57",
+          markercoordJsarr[i].long,
+          markercoordJsarr[i].lat
+        );
       }
     }
 
     // to interact with the bus stop layer "fullbuststopcode" on the map
     map.on("click", "fullbuststopcode", function (e) {
-      
       // to reset the bus stop service no everytime a new bus stop is clicked
       $(".card-body").html(
-        `<p class="card-text overflow-auto" id ="bussvcbtn"></p>`
+        `<p class="card-text overflow-auto" id ="bussvcbtncard"></p>`
       );
 
       var features = map.queryRenderedFeatures(e.point, {
@@ -245,7 +267,7 @@ $(document).ready(function () {
       }
 
       var feature = features[0];
-      var bscode = feature.properties.busstopcode;
+      bscode = feature.properties.busstopcode;
       var roadname = feature.properties.roadname;
       var description = feature.properties.description;
       console.log(`bscode: ${bscode}`);
@@ -256,7 +278,7 @@ $(document).ready(function () {
         <h4>${description} along ${roadname}</h4></p>`
       );
 
-      // to retrieve the bus service number at the bus stop
+      // to retrieve the bus service number at the bus stop and create clickable bus service number buttons
       bussvcnos(bscode);
 
       // to retrieve lat and long of the selected bus stop
@@ -268,7 +290,15 @@ $(document).ready(function () {
       }
 
       // to create custom marker when selected a bus stop
-      makedommarker(map, "marker", "images\\clickedmarker.svg", "61", "47",clickedlong,clickedlat);
+      makedommarker(
+        map,
+        "marker",
+        "images\\clickedmarker.svg",
+        "61",
+        "47",
+        clickedlong,
+        clickedlat
+      );
 
       console.log(
         `Busstop code:${feature.properties.busstopcode} 
@@ -277,6 +307,10 @@ $(document).ready(function () {
       );
     });
   }
+
+  // $("#bussvcbtn").on("click","button",()=>{
+  //   console.log(`bussvcbtn is triggered`);
+  // });
 
   // to create a pulsingDot object on the map
   function pulsingDot(map, size, r, g, b, a) {
@@ -360,7 +394,7 @@ $(document).ready(function () {
   }
 
   // function to find bus service no at a bus stop using bus stop code
-  function bussvcnos(bscode) {
+  function bussvcnos(bscode, map = "") {
     var settings = {
       url:
         "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
@@ -378,26 +412,71 @@ $(document).ready(function () {
       var apiservices = response.Services;
       console.log(apiservices);
       for (var i = 0; i < apiservices.length; i++) {
-        var bussvcbtn = `<a href="#" class="btn" style="margin:5px; color: white;
+        var bussvcbtn = `<button class="btn" type = "button" style="margin:5px; color: white;
         background-color: #083864ff;
-        font-weight: bold;" id = "bussvcbtn">${apiservices[i].ServiceNo}</a>`;
-        $("#bussvcbtn").after(bussvcbtn);
+        font-weight: bold;" id = "bussvcbtn">${apiservices[i].ServiceNo}</button>`;
+        $("#bussvcbtncard").after(bussvcbtn);
+      }
+    });
+  }
+
+  // function to find bus service no at a bus stop using bus stop code
+  function busloc(bscode, busno, map = "") {
+    var settings = {
+      url:
+        "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
+        bscode,
+      method: "GET",
+      timeout: 0,
+      headers: {
+        AccountKey: "T+n6csk3Rd6vj7in0YOctw==",
+        Accept: "application/json",
+      },
+    };
+
+    $.ajax(settings).done(function (response) {
+      var apiservices = response.Services;
+      console.log(apiservices);
+      for (var i = 0; i < apiservices.length; i++) {
+        var svcbusno = apiservices.ServiceNo;
+        var nextbus = apiservices[i].NextBus;
+        var nextbuslong = nextbus.Longitude;
+        var nextbuslat = nextbus.Latitude;
+        console.log(`${nextbuslong} ${nextbuslat}`);
+        if (svcbusno === busno) {
+          makedommarker(
+            map,
+            "buslocmarker",
+            "images/bus-vehicle.svg",
+            "61",
+            "47",
+            nextbuslong,
+            nextbuslat
+          );
+        }
       }
     });
   }
 
   //function to create a map marker using DOM element
-  function makedommarker(map, markerid, imgsrc, width, height,clickedlong,clickedlat) {
-
-      $(`#${markerid}`).remove();
-      var el = document.createElement("div");
-      el.id = markerid;
-      var imgsvg = document.createElement("img");
-      imgsvg.src = imgsrc;
-      imgsvg.height = height; // do not include the unit
-      imgsvg.width = width; // do not include the unit
-      el.appendChild(imgsvg);
-      var marker = new mapboxgl.Marker(el);
-      marker.setLngLat([clickedlong, clickedlat]).addTo(map);
+  function makedommarker(
+    map,
+    markerid,
+    imgsrc,
+    width,
+    height,
+    clickedlong,
+    clickedlat
+  ) {
+    $(`#${markerid}`).remove();
+    var el = document.createElement("div");
+    el.id = markerid;
+    var imgsvg = document.createElement("img");
+    imgsvg.src = imgsrc;
+    imgsvg.height = height; // do not include the unit
+    imgsvg.width = width; // do not include the unit
+    el.appendChild(imgsvg);
+    var marker = new mapboxgl.Marker(el);
+    marker.setLngLat([clickedlong, clickedlat]).addTo(map);
   }
 });
