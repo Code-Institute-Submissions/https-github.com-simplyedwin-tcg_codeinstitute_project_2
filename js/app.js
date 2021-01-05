@@ -274,7 +274,7 @@ $(document).ready(function () {
 
       $(".card-header").html(
         `<p class="card-text overflow-auto" id ="buscardheader">
-        <h5>Bus Stop Code:<br>${bscode}</h5><hr/>
+        <h5 >Bus Stop Code:<br><button>${bscode}</button></h5><hr/>
         <h4>${description} along ${roadname}</h4></p>`
       );
 
@@ -286,6 +286,16 @@ $(document).ready(function () {
         if (querydata[i].BusStopCode == bscode) {
           var clickedlat = querydata[i].Latitude;
           var clickedlong = querydata[i].Longitude;
+              
+          $(".card-header button").css({"background":"none","border":"none"});
+          $(".card-header").on("click","button",()=>{
+            $(".card-header button:focus").css({"outline":"none"});
+            
+            //to center the focus on the bus stop when clicked onto the bus code number
+            map.flyTo({
+              center: [clickedlong,clickedlat]
+              });
+          })
         }
       }
 
@@ -444,6 +454,7 @@ $(document).ready(function () {
         var nextbuslat = nextbus.Latitude;
         console.log(`${svcbusno} ${nextbuslong} ${nextbuslat}`);
         if (svcbusno === busno) {
+          //to center the focus on the bus when clicked onto the bus svc number
           map.flyTo({
             center: [nextbuslong,nextbuslat]
             });
