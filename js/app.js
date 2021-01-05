@@ -499,6 +499,7 @@ $(document).ready(function () {
     el.id = markerid;
     var imgsvg = document.createElement("img");
     var para = document.createElement("p");
+    para.id = "paramarker";
     var node = document.createTextNode(busno);
     para.appendChild(node);
     imgsvg.src = imgsrc;
@@ -506,6 +507,7 @@ $(document).ready(function () {
     imgsvg.width = width; // do not include the unit
     el.appendChild(imgsvg);
     el.appendChild(para);
+
     var marker = new mapboxgl.Marker(el);
     marker.setLngLat([clickedlong, clickedlat]).addTo(map);
   }
