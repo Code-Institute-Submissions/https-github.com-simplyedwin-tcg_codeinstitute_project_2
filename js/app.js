@@ -258,6 +258,8 @@ $(document).ready(function () {
         `<p class="card-text overflow-auto" id ="bussvcbtncard"></p>`
       );
 
+      $(`#buslocmarker`).remove(); // to remove the previous marker when clicked from different bus stop
+
       var features = map.queryRenderedFeatures(e.point, {
         layers: ["fullbuststopcode"], // replace this with the name of the layer (used name of the tiledata)
       });
@@ -286,16 +288,16 @@ $(document).ready(function () {
         if (querydata[i].BusStopCode == bscode) {
           var clickedlat = querydata[i].Latitude;
           var clickedlong = querydata[i].Longitude;
-              
-          $(".card-header button").css({"background":"none","border":"none"});
-          $(".card-header").on("click","button",()=>{
-            $(".card-header button:focus").css({"outline":"none"});
-            
+
+          $(".card-header button").css({ background: "none", border: "none" });
+          $(".card-header").on("click", "button", () => {
+            $(".card-header button:focus").css({ outline: "none" });
+
             //to center the focus on the bus stop when clicked onto the bus code number
             map.flyTo({
-              center: [clickedlong,clickedlat]
-              });
-          })
+              center: [clickedlong, clickedlat],
+            });
+          });
         }
       }
 
@@ -317,10 +319,6 @@ $(document).ready(function () {
       );
     });
   }
-
-  // $("#bussvcbtn").on("click","button",()=>{
-  //   console.log(`bussvcbtn is triggered`);
-  // });
 
   // to create a pulsingDot object on the map
   function pulsingDot(map, size, r, g, b, a) {
@@ -452,12 +450,12 @@ $(document).ready(function () {
         var nextbus = apiservices[i].NextBus;
         var nextbuslong = nextbus.Longitude;
         var nextbuslat = nextbus.Latitude;
-        console.log(`${svcbusno} ${nextbuslong} ${nextbuslat}`);
-        if (svcbusno === busno) {
+        console.log(`${svcbusno} ${busno} ${nextbuslong} ${nextbuslat}`);
+        if (svcbusno === busno && nextbuslong != 0 && nextbuslat != 0) {
           //to center the focus on the bus when clicked onto the bus svc number
           map.flyTo({
-            center: [nextbuslong,nextbuslat]
-            });
+            center: [nextbuslong, nextbuslat],
+          });
           makedommarker(
             map,
             "buslocmarker",
@@ -465,8 +463,22 @@ $(document).ready(function () {
             "41",
             "27",
             nextbuslong,
-            nextbuslat
+            nextbuslat,
+            busno
           );
+        }if (
+          (svcbusno === busno) &&
+          (nextbuslong = 0) &&
+          (nextbuslat = 0)
+        ) {
+          console.log(`All Same 0 0`);
+          $("#toast").html(
+            `<h5>The bus may not be in service at this moment. Please try again later.</5>`
+          );
+          $("#toast").addClass("show");
+          setTimeout(function () {
+            $("#toast").removeClass("show").addClass("");
+          }, 3000);
         }
       }
     });
@@ -480,16 +492,21 @@ $(document).ready(function () {
     width,
     height,
     clickedlong,
-    clickedlat
+    clickedlat,
+    busno=''
   ) {
-    $(`#${markerid}`).remove();
+    $(`#${markerid}`).remove(); // to remove the previous marker when clicked from same bus stop
     var el = document.createElement("div");
     el.id = markerid;
     var imgsvg = document.createElement("img");
+    var para = document.createElement("p");
+    var node = document.createTextNode(busno);
+    para.appendChild(node);
     imgsvg.src = imgsrc;
     imgsvg.height = height; // do not include the unit
     imgsvg.width = width; // do not include the unit
     el.appendChild(imgsvg);
+    el.appendChild(para);
     var marker = new mapboxgl.Marker(el);
     marker.setLngLat([clickedlong, clickedlat]).addTo(map);
   }

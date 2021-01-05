@@ -62,3 +62,5 @@ Geodatasource on the sample code for the calculation of distance between 2 coord
 Trent colleage staff and classmates for feedbacks on website design
 
 Design of logo are sourced from [Freepik](https://www.flaticon.com/authors/freepik)
+
+Reference script for [toast]https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_snackbar
