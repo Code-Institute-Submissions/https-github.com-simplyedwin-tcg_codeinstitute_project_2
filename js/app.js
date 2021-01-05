@@ -438,18 +438,21 @@ $(document).ready(function () {
       var apiservices = response.Services;
       console.log(apiservices);
       for (var i = 0; i < apiservices.length; i++) {
-        var svcbusno = apiservices.ServiceNo;
+        var svcbusno = apiservices[i].ServiceNo;
         var nextbus = apiservices[i].NextBus;
         var nextbuslong = nextbus.Longitude;
         var nextbuslat = nextbus.Latitude;
-        console.log(`${nextbuslong} ${nextbuslat}`);
+        console.log(`${svcbusno} ${nextbuslong} ${nextbuslat}`);
         if (svcbusno === busno) {
+          map.flyTo({
+            center: [nextbuslong,nextbuslat]
+            });
           makedommarker(
             map,
             "buslocmarker",
             "images/bus-vehicle.svg",
-            "61",
-            "47",
+            "41",
+            "27",
             nextbuslong,
             nextbuslat
           );
