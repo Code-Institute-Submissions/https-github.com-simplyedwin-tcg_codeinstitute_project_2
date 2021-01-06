@@ -10,6 +10,8 @@ $(document).ready(function () {
   var gculong;
   var map;
   var bscode;
+  var busclickedlat;
+  var busclickedlong;
 
   getmap(mapstart, mapzoom, clong, clat);
 
@@ -276,7 +278,8 @@ $(document).ready(function () {
 
       $(".card-header").html(
         `<p class="card-text overflow-auto" id ="buscardheader">
-        <h5 >Bus Stop Code:<br><button>${bscode}</button></h5><hr/>
+        <h5 >Bus Stop Code:<br><button>${bscode}</button></h5>
+        <img src="images/AlightLiaoLah_Busstop.svg" alt="busstop log" width="94px" height="82px"><hr/>
         <h4>${description} along ${roadname}</h4></p>`
       );
 
@@ -286,8 +289,8 @@ $(document).ready(function () {
       // to retrieve lat and long of the selected bus stop
       for (var i = 0; i < querydata.length; i++) {
         if (querydata[i].BusStopCode == bscode) {
-          var clickedlat = querydata[i].Latitude;
-          var clickedlong = querydata[i].Longitude;
+          busclickedlat = querydata[i].Latitude;
+          busclickedlong = querydata[i].Longitude;
 
           $(".card-header button").css({ background: "none", border: "none" });
           $(".card-header").on("click", "button", () => {
@@ -295,7 +298,7 @@ $(document).ready(function () {
 
             //to center the focus on the bus stop when clicked onto the bus code number
             map.flyTo({
-              center: [clickedlong, clickedlat],
+              center: [busclickedlong, busclickedlat],
             });
           });
         }
@@ -308,8 +311,8 @@ $(document).ready(function () {
         "images\\clickedmarker.svg",
         "61",
         "47",
-        clickedlong,
-        clickedlat
+        busclickedlong,
+        busclickedlat
       );
 
       console.log(
@@ -450,9 +453,10 @@ $(document).ready(function () {
         var nextbus = apiservices[i].NextBus;
         var nextbuslong = nextbus.Longitude;
         var nextbuslat = nextbus.Latitude;
-        console.log(`${svcbusno} ${busno} ${nextbuslong} ${nextbuslat}`);
-        //if (svcbusno === busno && nextbuslong != 0 && nextbuslat != 0) {
-        if (svcbusno === busno && nextbuslong == 0 && nextbuslat == 0) {
+        console.log(`Bus in service: ${svcbusno} Bus clicked: ${busno} Current loc (long,lat): ${nextbuslong} ${nextbuslat}
+        Busstop loc (long,lat): ${busclickedlong} ${busclickedlat}`);
+        //to inform the user if the bus location cannot be determined
+        if ((svcbusno === busno) && (nextbuslong == 0) && (nextbuslat == 0)) {
           console.log('The bus is not in operation');
           $("#toast").html(
             `<h5>The bus may not be in service at this moment. Please try again later.</5>`
@@ -461,9 +465,12 @@ $(document).ready(function () {
           setTimeout(function () {
             $("#toast").removeClass("show").addClass("");
           }, 4000);
-          $(`#buslocmarker`).remove();
+          //to prevent the bus to appear at long and lat of (0,0)
+          map.flyTo({
+            center: [busclickedlong, busclickedlat],
+          });
         } 
-        else {
+        else if (svcbusno === busno) {
           console.log('The bus is in operation');
           map.flyTo({
             center: [nextbuslong, nextbuslat],
@@ -483,7 +490,7 @@ $(document).ready(function () {
     });
   }
 
-  //function to create a map marker using DOM element
+  //function to create a custom map marker using DOM element
   function makedommarker(
     map,
     markerid,
@@ -498,16 +505,22 @@ $(document).ready(function () {
     var el = document.createElement("div");
     el.id = markerid;
     var imgsvg = document.createElement("img");
-    var para = document.createElement("p");
-    para.id = "paramarker";
-    var node = document.createTextNode(busno);
-    para.appendChild(node);
     imgsvg.src = imgsrc;
-    imgsvg.height = height; // do not include the unit
-    imgsvg.width = width; // do not include the unit
-    el.appendChild(imgsvg);
-    el.appendChild(para);
-
+    // do not include any unit for height and width
+    imgsvg.height = height; 
+    imgsvg.width = width; 
+    // to make sure the p element only appear for bus location marker
+    if(markerid ==="buslocmarker"){
+      var para = document.createElement("p");
+      para.id = "paramarker";
+      var node = document.createTextNode(busno);
+      para.appendChild(node);
+      el.appendChild(imgsvg);
+      el.appendChild(para);
+    }
+    else{
+      el.appendChild(imgsvg);
+    }
     var marker = new mapboxgl.Marker(el);
     marker.setLngLat([clickedlong, clickedlat]).addTo(map);
   }

@@ -31,13 +31,15 @@ Click [here]() for the wireframe
 1. HTML/CSS 
 2. Javascript
 3. Bootstrap (4.5.3)
-4. Google Fonts API
-5. SVG
-6. Inkscape
-7. mapbox API
+4. SVG Animation
+5. Inkscape
+6. Mapbox GL JS
+7. Mapbox Studio
+8. JQueryUI
+9. JQuery
    
 ### Engineering
-1. Juypter Notebook 
+1. Jupyter Notebook 
 
 ## Features
 ### Existing Feature
