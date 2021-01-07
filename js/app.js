@@ -300,6 +300,10 @@ $(document).ready(function () {
         busclickedlong,
         busclickedlat
       );
+      map.flyTo({
+        center: [busclickedlong, busclickedlat],
+        zoom: 16,
+      });
 
       console.log(
         `Busstop code:${feature.properties.busstopcode} 
@@ -376,6 +380,7 @@ $(document).ready(function () {
           console.log("The bus is in operation");
           map.flyTo({
             center: [nextbuslong, nextbuslat],
+            zoom: 16,
           });
           makedommarker(
             map,
