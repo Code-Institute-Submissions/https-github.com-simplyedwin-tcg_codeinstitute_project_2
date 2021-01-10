@@ -31,10 +31,11 @@ $(document).ready(function () {
   ];
 
   // to get the next 500 api calls using loop
-  busstopnoapicalls.forEach(function (apicalls) {
+  busstopnoapicalls.forEach(
+    function (apicalls) {
     var settings = {
       url:
-        //"https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
+        // "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
         "http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
         apicalls,
       method: "GET",
@@ -45,41 +46,41 @@ $(document).ready(function () {
       },
     };
 
-    $.ajax(settings)
-      .done(function (response) {
-        var roadname;
-        var landmark;
-        var busstopcode;
-        // var lat;
-        // var long;
-        for (var i = 0; i < response.value.length; i++) {
-          roadname = response.value[i].RoadName;
-          landmark = response.value[i].Description;
-          busstopcode = response.value[i].BusStopCode;
-          lat = response.value[i].Latitude;
-          long = response.value[i].Longitude;
-          queryResult.push(
-            // `${landmark} near ${roadname} (Bus Stop Code: ${busstopcode}) - [${lat},${long}])`
-            `${landmark} near ${roadname} (Bus Stop Code: ${busstopcode})`
+      $.ajax(settings)
+        .done(function (response) {
+          var roadname;
+          var landmark;
+          var busstopcode;
+          // var lat;
+          // var long;
+          for (var i = 0; i < response.value.length; i++) {
+            roadname = response.value[i].RoadName;
+            landmark = response.value[i].Description;
+            busstopcode = response.value[i].BusStopCode;
+            lat = response.value[i].Latitude;
+            long = response.value[i].Longitude;
+            queryResult.push(
+              // `${landmark} near ${roadname} (Bus Stop Code: ${busstopcode}) - [${lat},${long}])`
+              `${landmark} near ${roadname} (Bus Stop Code: ${busstopcode})`
+            );
+            querydata.push(response.value[i]);
+          }
+        })
+        .fail(function (xhr, status, error) {
+          //to give prompt if api server fail
+          var errorMessage = xhr.status + ": " + xhr.statusText;
+          console.log("Error - " + errorMessage);
+          $("#toast").html(
+            `<h5>Api server error! The page will auto refresh in 5 sec or you can force refresh now.</5>`
           );
-          querydata.push(response.value[i]);
-        }
-      })
-      .fail(function (xhr, status, error) {
-        //to give prompt if api server fail
-        var errorMessage = xhr.status + ": " + xhr.statusText;
-        console.log("Error - " + errorMessage);
-        $("#toast").html(
-          `<h5>Api server error! The page will auto refresh in 5 sec or you can force refresh now.</5>`
-        );
-        $("#toast").addClass("show");
-        setTimeout(function () {
-          $("#toast").removeClass("show").addClass("");
-        }, 5000);
-        window.setTimeout(function () {
-          window.location.reload();
-        }, 5000);
-      });
+          $("#toast").addClass("show");
+          setTimeout(function () {
+            $("#toast").removeClass("show").addClass("");
+          }, 5000);
+          window.setTimeout(function () {
+            window.location.reload();
+          }, 5000);
+        });
   });
 
   // to provide autocomplete of address when user starts to type more than 1 character
@@ -96,7 +97,6 @@ $(document).ready(function () {
 
   // to retrieve user location using geolocation when clicked onto the form query and update onto the map
   $("#txtQuery").click(function () {
-    
     // clear all previous markers
     $(`#markerdest`).remove();
     $(`#markerstart`).remove();
@@ -108,7 +108,7 @@ $(document).ready(function () {
     };
 
     $("#guides").html(
-      "Please provide a nearby road name / street name / bus stop code"
+      "<p>Please provide a nearby road name / street name / bus stop code</p>"
     );
 
     function error(err) {
@@ -116,7 +116,6 @@ $(document).ready(function () {
     }
 
     if (navigator.geolocation) {
-
       //check geolocation available
       //try to get user current location using getCurrentPosition() method
       navigator.geolocation.getCurrentPosition(
@@ -138,7 +137,6 @@ $(document).ready(function () {
             zoom: mapzoom,
           });
 
-          // mapinteraction(mapgcu, gcupulsingDot);
           console.log(`gculat: ${gculat} gculong: ${gculong}`);
         },
         error,
@@ -170,7 +168,6 @@ $(document).ready(function () {
     /* to loop through the querydata to find the lng and lat of the nearest stop to 
     the user current loc and destination and push to an array markercoords to generate markers*/
     for (var i = 0; i < querydata.length; i++) {
-
       // to handle empty value passed back to userdestcode
       if (userdestbscode == NaN) {
         e.preventDefault();
@@ -214,7 +211,7 @@ $(document).ready(function () {
         var roadname = querydata[i].RoadName;
 
         // to update the card component with closest bus stop info
-        busstopcardinfo(bscode, description, roadname,querydata);
+        busstopcardinfo(bscode, description, roadname, querydata);
 
         // to create custom marker when selected a bus stop
         makedommarker(
@@ -241,6 +238,7 @@ $(document).ready(function () {
 
   // to find the location of the bus when clicked on the service no
   $(".card-body").on("click", "#bussvcbtn", function () {
+    console.log(`cardbody is running`);
     var busno = $(this).text();
     busloc(bscode, busno, map);
   });
@@ -265,10 +263,9 @@ $(document).ready(function () {
         trackUserLocation: true,
       })
     );
-   
+
     // to interact with the bus stop layer "fullbuststopcode" on the map
     map.on("click", "fullbuststopcode", function (e) {
-
       // to reset the bus stop service no everytime a new bus stop is clicked and to append the bus svc no to show onto the card
       $(".card-body").html(
         `<p class="card-text overflow-auto" id ="bussvcbtncard"></p>`
@@ -342,6 +339,7 @@ $(document).ready(function () {
     console.log(`busloc func is called with ${bscode}`);
     var settings = {
       url:
+        // "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +    
         "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
         bscode,
       method: "GET",
@@ -433,10 +431,26 @@ $(document).ready(function () {
 
   function busstopcardinfo(bscode, description, roadname, querydata = "") {
     $(".card-header").html(
-      `<p class="card-text overflow-auto" id ="buscardheader">
-    <h5 >Bus Stop Code:<br><button>${bscode}</button></h5>
-    <img src="images/AlightLiaoLah_Busstop.svg" alt="busstop log" width="94px" height="82px"><hr/>
-    <h4>${description} along ${roadname}</h4></p>`
+      `
+      <p class="card-text overflow-auto" id ="buscardheader">
+      <div class="row justify-content-around">
+            <div class="col-sm-2">
+            <img src="images/AlightLiaoLah_Busstop.svg" alt="busstop log" width="54px" height="42px">
+            </div>
+            <div class="col-sm-6 text-center ">
+            <h5 >Bus Stop Code:</h5>
+            <h5 ><button style="font-weight:bold; color:blue;" >${bscode}</button></h5>
+            </div>
+
+            <div class="col">            
+            <hr/><h5>${description} along ${roadname}</h5>
+            </div>
+            </p>
+        </div>`
+
+      //   `<p class="card-text overflow-auto" id ="buscardheader">
+      // <h5 ><img src="images/AlightLiaoLah_Busstop.svg" alt="busstop log" width="54px" height="42px">Bus Stop Code:<button>${bscode}</button></h5><hr/>
+      // <h5>${description} along ${roadname}</h5></p>`
     );
 
     // to retrieve the bus service number at the bus stop and create clickable bus service number buttons
@@ -472,7 +486,8 @@ $(document).ready(function () {
   function bussvcnos(bscode) {
     var settings = {
       url:
-        "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
+        // "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
+        "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +       
         bscode,
       method: "GET",
       timeout: 0,

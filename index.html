@@ -15,12 +15,13 @@
 </head>
 
 <body> 
+    
     <div class="container-fluid">
         <div class="row ">
             <div class="col">
                 <form id="frmSearch" action="">
-                    <label for="txtQuery" style="font-size: 30px;">Where are you heading to ? <br><span id="guides"
-                            style="font-size: 12px; font-weight: bold;"></span></label>
+                    <h4 for="txtQuery" style="font-size: 30px;">Where are you heading to ? <br><span id="guides"
+                            style="font-size: 12px; font-weight: bold; margin-bottom:0px;"></span></h4>
                     <br>
                     <div class="input-group mb-3 w-100" id="searchbox">
                         <input type="text" class="form-control" placeholder="road name / street name / nearby bus stop"
@@ -34,10 +35,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12 col-lg-10 vw-100 vh-100">
+            <div class="col vw-100 vh-100">
                 <div id="map"></div>
             </div>
-            <div class="col-md-12 col-lg-2">
+            <div class="col-md-4">
                 <div class="card text-dark bg-light mb-3" style="max-width: 100rem;">
                     <div class="card-header">Please click onto any of the bus stop on the map to display the bus stop
                         code no and nearby building/amenties.</div>
@@ -48,10 +49,11 @@
                 </div>
             </div>
         </div>
+        </div>
     </div>
 
     <div id="toast"></div>
-
+    
     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
     <script src="lib/jquery-ui-1.12.1.custom/jquery-ui.js"></script>
