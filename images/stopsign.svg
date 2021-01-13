@@ -1,89 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="300"
-   height="500"
-   version="1.1"
-   viewBox="0 0 300 500"
-   id="svg14"
-   sodipodi:docname="stopsign.svg"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)">
-  <metadata
-     id="metadata20">
-    <rdf:RDF>
-      <cc:Work
-         rdf:about="">
-        <dc:format>image/svg+xml</dc:format>
-        <dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
-      </cc:Work>
-    </rdf:RDF>
-  </metadata>
-  <defs
-     id="defs18" />
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1013"
-     id="namedview16"
-     showgrid="false"
-     inkscape:zoom="1.5733333"
-     inkscape:cx="231.08194"
-     inkscape:cy="309.52412"
-     inkscape:window-x="-9"
-     inkscape:window-y="-9"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="g10" />
-  <g
-     transform="translate(0,-106.0016)"
-     id="g12">
-    <g
-       transform="translate(18.369,5.4841)"
-       id="g10">
-      <path
-         d="m 131.631,218.84309 v 97.02218"
-         id="path2"
-         inkscape:connector-curvature="0"
-         style="fill:#b22222;stroke:#717171;stroke-width:15;stroke-miterlimit:4;stroke-dasharray:none" />
-      <rect
-         x="81.630997"
-         y="120.79999"
-         width="100"
-         height="100"
-         style="fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers fill stroke"
-         id="rect4"
-         ry="19.974417" />
-      <text
-         x="103.70912"
-         y="194.06561"
-         dominant-baseline="auto"
-         font-size="43.868px"
-         font-weight="bold"
-         letter-spacing="0px"
-         word-spacing="0px"
-         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:64px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;text-transform:none;writing-mode:lr-tb;text-orientation:mixed;dominant-baseline:auto;text-anchor:start;white-space:normal;shape-padding:0;opacity:0.97000002;fill:#ffffff;fill-opacity:0.99607999;stroke-width:2.86129999;"
-         xml:space="preserve"
-         id="text8"><tspan
-           x="103.70912"
-           y="194.06561"
-           id="tspan6"
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:64px;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:start;writing-mode:lr-tb;text-anchor:start;fill:#ffffff;">D</tspan></text>
-    </g>
-  </g>
+<svg width="300" height="600" version="1.1" viewBox="0 0 300 600" xmlns="http://www.w3.org/2000/svg">
+ <g>
+  <path d="m48.571 17.41v97.857h-13.264l42.346 31.326 42.346 31.328 42.348-31.328 42.346-31.326h-13.264v-97.857z" fill="#f00" stroke="#ff0002" stroke-linecap="round" stroke-width="20" style="paint-order:markers fill stroke">
+   <animateTransform attributeName="transform" begin="0s" dur="0.5s" from="0 0" repeatCount="indefinite" to="0 65" type="translate"/>
+  </path>
+  <text x="86.025391" y="132.81406" dominant-baseline="auto" fill="#ffffff" fill-opacity=".99608" font-family="sans-serif" font-size="93.333px" font-weight="bold" letter-spacing="0px" opacity=".97" stroke-width="2.8613" word-spacing="0px" writing-mode="lr" style="font-feature-settings:normal;font-variant-alternates:normal;font-variant-caps:normal;font-variant-ligatures:normal;font-variant-numeric:normal;font-variant-position:normal;line-height:1.25;shape-padding:0;text-decoration-color:#000000;text-decoration-line:none;text-decoration-style:solid;text-indent:0;text-orientation:mixed;text-transform:none;white-space:normal" xml:space="preserve"><tspan>D</tspan><animateTransform attributeName="transform" begin="0s" dur="0.5s" from="0 0" repeatCount="indefinite" to="0 65" type="translate"/></text>
+ </g>
 </svg>

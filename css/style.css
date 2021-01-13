@@ -82,3 +82,17 @@ body {
   background-color:red;
   text-align: center;
 }
+
+#searchbutton{
+  height: 38px;
+  width:42px;
+}
+
+#usercurrentloc{
+  height: 80x;
+  width:40px;
+}
+
+.botcolor{
+  color: #083864fe;
+}

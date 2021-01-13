@@ -10,9 +10,9 @@
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="300"
-   height="500"
+   height="600"
    version="1.1"
-   viewBox="0 0 300 500"
+   viewBox="0 0 300 600"
    id="svg6"
    sodipodi:docname="clickedmarker.svg"
    inkscape:version="0.92.3 (2405546, 2018-03-11)">
@@ -24,6 +24,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -43,25 +44,21 @@
      id="namedview8"
      showgrid="false"
      inkscape:zoom="0.472"
-     inkscape:cx="150"
+     inkscape:cx="-341.52542"
      inkscape:cy="250"
-     inkscape:window-x="-9"
+     inkscape:window-x="1911"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg6" />
   <g
-     transform="translate(0 -245.62)"
-     stroke="#083864"
-     stroke-width="20"
-     id="g4">
+     transform="translate(-30,-269.62)"
+     id="g4"
+     style="stroke:#083864;stroke-width:20">
     <path
-       d="m78.571 287.03v97.857h-13.264l42.346 31.326 42.346 31.328 42.348-31.328 42.346-31.326h-13.264v-97.857z"
-       fill="#fff"
-       stroke="#083864"
-       stroke-linecap="round"
-       stroke-width="20"
-       style="paint-order:markers fill stroke"
-       id="path2">
+       d="m 78.571,287.03 v 97.857 H 65.307 l 42.346,31.326 42.346,31.328 42.348,-31.328 42.346,-31.326 H 221.429 V 287.03 Z"
+       style="fill:#ffffff;stroke:#083864;stroke-width:20;stroke-linecap:round;paint-order:markers fill stroke"
+       id="path2"
+       inkscape:connector-curvature="0">
       <animateTransform
          attributeName="transform"
          begin="0s"

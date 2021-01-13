@@ -31,60 +31,60 @@ $(document).ready(function () {
   ];
 
   // to get the next 500 api calls using loop
-  busstopnoapicalls.forEach(
-    function (apicalls) {
+  busstopnoapicalls.forEach(function (apicalls) {
     var settings = {
       url:
-        // "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
         "http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
         apicalls,
+      // "https://tcg-cors-proxy.herokuapp.com",
       method: "GET",
       timeout: 0,
       headers: {
         AccountKey: "T+n6csk3Rd6vj7in0YOctw==",
         Accept: "application/json",
+        // 'Target-Url':'http://datamall2.mytransport.sg/ltaodataservice/BusStops',
       },
     };
 
-      $.ajax(settings)
-        .done(function (response) {
-          var roadname;
-          var landmark;
-          var busstopcode;
-          // var lat;
-          // var long;
-          for (var i = 0; i < response.value.length; i++) {
-            roadname = response.value[i].RoadName;
-            landmark = response.value[i].Description;
-            busstopcode = response.value[i].BusStopCode;
-            lat = response.value[i].Latitude;
-            long = response.value[i].Longitude;
-            queryResult.push(
-              // `${landmark} near ${roadname} (Bus Stop Code: ${busstopcode}) - [${lat},${long}])`
-              `${landmark} near ${roadname} (Bus Stop Code: ${busstopcode})`
-            );
-            querydata.push(response.value[i]);
-          }
-        })
-        .fail(function (xhr, status, error) {
-          //to give prompt if api server fail
-          var errorMessage = xhr.status + ": " + xhr.statusText;
-          console.log("Error - " + errorMessage);
-          $("#toast").html(
-            `<h5>Api server error! The page will auto refresh in 5 sec or you can force refresh now.</5>`
+    $.ajax(settings)
+      .done(function (response) {
+        var roadname;
+        var landmark;
+        var busstopcode;
+        // var lat;
+        // var long;
+        for (var i = 0; i < response.value.length; i++) {
+          roadname = response.value[i].RoadName;
+          landmark = response.value[i].Description;
+          busstopcode = response.value[i].BusStopCode;
+          lat = response.value[i].Latitude;
+          long = response.value[i].Longitude;
+          queryResult.push(
+            // `${landmark} near ${roadname} (Bus Stop Code: ${busstopcode}) - [${lat},${long}])`
+            `${landmark} near ${roadname} (Bus Stop Code: ${busstopcode})`
           );
-          $("#toast").addClass("show");
-          setTimeout(function () {
-            $("#toast").removeClass("show").addClass("");
-          }, 5000);
-          window.setTimeout(function () {
-            window.location.reload();
-          }, 5000);
-        });
+          querydata.push(response.value[i]);
+        }
+      })
+      .fail(function (xhr, status, error) {
+        //to give prompt if api server fail
+        var errorMessage = xhr.status + ": " + xhr.statusText;
+        console.log("Error - " + errorMessage);
+        $("#toast").html(
+          `<h5>Api server error! The page will auto refresh in 5 sec or you can force refresh now.</5>`
+        );
+        $("#toast").addClass("show");
+        setTimeout(function () {
+          $("#toast").removeClass("show").addClass("");
+        }, 5000);
+        window.setTimeout(function () {
+          window.location.reload();
+        }, 5000);
+      });
   });
 
   // to provide autocomplete of address when user starts to type more than 1 character
-  $("#txtQuery").autocomplete({
+  $("#FromQuery").autocomplete({
     source: queryResult,
     minLength: 4,
     select: function (event, ui) {
@@ -95,11 +95,31 @@ $(document).ready(function () {
     },
   });
 
-  // to retrieve user location using geolocation when clicked onto the form query and update onto the map
-  $("#txtQuery").click(function () {
-    // clear all previous markers
-    $(`#markerdest`).remove();
-    $(`#markerstart`).remove();
+  $("#ToQuery").autocomplete({
+    source: queryResult,
+    minLength: 4,
+    select: function (event, ui) {
+      console.log(ui.item.value);
+      var res = ui.item.value.split("Bus Stop Code: ");
+      userdestbscode = res[1].slice(0, -1);
+      console.log(userdestbscode);
+    },
+  });
+
+  $("#usercurrentloc").click(function () {
+    function error(err) {
+      console.warn(`ERROR(${err.code}): ${err.message}`);
+      $("#toast").html(
+        `<h5>Api server error! The page will auto refresh in 5 sec or you can force refresh now.</5>`
+      );
+      $("#toast").addClass("show");
+      setTimeout(function () {
+        $("#toast").removeClass("show").addClass("");
+      }, 5000);
+      window.setTimeout(function () {
+        window.location.reload();
+      }, 5000);
+    }
 
     var options = {
       enableHighAccuracy: true,
@@ -107,13 +127,8 @@ $(document).ready(function () {
       maximumAge: 0,
     };
 
-    $("#guides").html(
-      "<p>Please provide a nearby road name / street name / bus stop code</p>"
-    );
-
-    function error(err) {
-      console.warn(`ERROR(${err.code}): ${err.message}`);
-    }
+    $(`#markerdest`).remove();
+    $(`#markerstart`).remove();
 
     if (navigator.geolocation) {
       //check geolocation available
@@ -144,7 +159,45 @@ $(document).ready(function () {
       );
     } else {
       console.log("Browser doesn't support geolocation!");
-    }
+    }  
+
+  });
+
+  // to retrieve user location using geolocation when clicked onto the form query and update onto the map
+  $("#FromQuery").click(function () {
+    console.log(`FromQuery is working`);
+    // clear all previous markers
+    $(`#markerdest`).remove();
+    $(`#markerstart`).remove();
+    $(`#markerhere`).remove();
+
+    $("#guides").html(
+      "<p>Please provide a nearby road name / street name / bus stop code</p>"
+    );
+
+    map.flyTo({
+      center: [clong, clat],
+      zoom: 11,
+    });
+
+  });
+
+  $("#ToQuery").click(function () {
+    console.log(`ToQuery is working`);
+    // clear all previous markers
+    $(`#markerdest`).remove();
+    $(`#markerstart`).remove();
+    $(`#markerhere`).remove();
+    
+    $("#guides").html(
+      "<p>Please provide a nearby road name / street name / bus stop code</p>"
+    );
+
+    map.flyTo({
+      center: [clong, clat],
+      zoom: 11,
+    });
+
   });
 
   $("#searchbutton").on("click", (e) => {
@@ -152,9 +205,9 @@ $(document).ready(function () {
     console.log(`gculat: ${gculat} gculong: ${gculong}`);
 
     // to reset the bus stop service no everytime a new bus stop is clicked
-    $(".card-body").html(
-      `<p class="card-text overflow-auto" id ="bussvcbtncard"></p>`
-    );
+    // $(".card-body").html(
+    //   `<p class="card-text overflow-auto" id ="bussvcbtncard"></p>`
+    // );
     makedommarker(
       map,
       "markerhere",
@@ -223,15 +276,15 @@ $(document).ready(function () {
           loclong,
           loclat
         );
-        makedommarker(
-          map,
-          "marker",
-          "images/clickedmarker.svg",
-          "61",
-          "47",
-          loclong,
-          loclat
-        );
+        // makedommarker(
+        //   map,
+        //   "marker",
+        //   "images/clickedmarker.svg",
+        //   "61",
+        //   "47",
+        //   loclong,
+        //   loclat
+        // );
       }
     }
   });
@@ -339,7 +392,7 @@ $(document).ready(function () {
     console.log(`busloc func is called with ${bscode}`);
     var settings = {
       url:
-        // "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +    
+        // "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
         "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
         bscode,
       method: "GET",
@@ -434,16 +487,19 @@ $(document).ready(function () {
       `
       <p class="card-text overflow-auto" id ="buscardheader">
       <div class="row justify-content-around">
-            <div class="col-sm-2">
-            <img src="images/AlightLiaoLah_Busstop.svg" alt="busstop log" width="54px" height="42px">
+            <div class="col-sm-12">
+            <h5 >Bus Stop Code: 
+            <button style="font-weight:bold; color:blue;" >${bscode}
+            <img src="images/AlightLiaoLah_Busstop.svg" class="img-fluid" alt="busstop log" width="54px" height="42px" style="margin-left:10px;">
+            </button> 
+            </h5> 
             </div>
-            <div class="col-sm-6 text-center ">
-            <h5 >Bus Stop Code:</h5>
-            <h5 ><button style="font-weight:bold; color:blue;" >${bscode}</button></h5>
             </div>
 
+      <div class="row justify-content-around">
+
             <div class="col">            
-            <hr/><h5>${description} along ${roadname}</h5>
+            <h5>${description} along ${roadname}</h5>
             </div>
             </p>
         </div>`
@@ -487,7 +543,7 @@ $(document).ready(function () {
     var settings = {
       url:
         // "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
-        "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +       
+        "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
         bscode,
       method: "GET",
       timeout: 0,
@@ -571,4 +627,31 @@ $(document).ready(function () {
       return true;
     };
   }
+
+  (function () {
+    'use strict'
+  
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+  
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+      .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+          if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+  
+          form.classList.add('was-validated')
+        }, false)
+      })
+  })()
+
+
+
+
+
+
+
 });
