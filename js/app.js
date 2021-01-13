@@ -153,14 +153,68 @@ $(document).ready(function () {
           });
 
           console.log(`gculat: ${gculat} gculong: ${gculong}`);
+          
+          for (var i = 0; i < querydata.length; i++) {
+            // if this location is within 0.1KM of the user, add it to the list
+            if (
+              distance(
+                gculat,
+                gculong,
+                querydata[i].Latitude,
+                querydata[i].Longitude,
+                "K"
+              ) <= 0.12
+            ) {
+              console.log(
+                `The nearest bus stop to your current location is ${querydata[i].Description} along ${querydata[i].RoadName} (${querydata[i].BusStopCode})`
+              );
+              var loclong = querydata[i].Longitude;
+              var loclat = querydata[i].Latitude;
+              
+              $(".card-header").html(
+                `<p class="card-text overflow-auto" id ="buscardheader">
+              <h5>Bus Stop Code:<br>${querydata[i].BusStopCode}</h5><hr/>
+              <h4>${querydata[i].Description} along ${querydata[i].RoadName}</h4></p>`
+              );
+              console.log(querydata[i].BusStopCode);
+              bscode = querydata[i].BusStopCode;
+              var description = querydata[i].Description;
+              var roadname = querydata[i].RoadName;
+      
+              $(`#FromQuery`).val(`${description} near ${roadname} (Bus Stop Code: ${bscode})`);
+      
+              // to update the card component with closest bus stop info
+              busstopcardinfo(bscode, description, roadname, querydata);
+      
+              // to create custom marker when selected a bus stop
+              makedommarker(
+                map,
+                "markerstart",
+                "images/startsign.svg",
+                "71",
+                "57",
+                loclong,
+                loclat
+              );
+            }
+            else
+            {
+              $("#toast").html(
+                `<h5>There is no bus stop within 120m from you.</5>`
+              );
+              $("#toast").addClass("show");
+              setTimeout(function () {
+                $("#toast").removeClass("show").addClass("");
+              }, 4000);
+            }
+          }
         },
         error,
         options
       );
     } else {
       console.log("Browser doesn't support geolocation!");
-    }  
-
+    }
   });
 
   // to retrieve user location using geolocation when clicked onto the form query and update onto the map
@@ -170,6 +224,8 @@ $(document).ready(function () {
     $(`#markerdest`).remove();
     $(`#markerstart`).remove();
     $(`#markerhere`).remove();
+    $(`#FromQuery`).val(``);
+
 
     $("#guides").html(
       "<p>Please provide a nearby road name / street name / bus stop code</p>"
@@ -179,7 +235,6 @@ $(document).ready(function () {
       center: [clong, clat],
       zoom: 11,
     });
-
   });
 
   $("#ToQuery").click(function () {
@@ -188,7 +243,7 @@ $(document).ready(function () {
     $(`#markerdest`).remove();
     $(`#markerstart`).remove();
     $(`#markerhere`).remove();
-    
+
     $("#guides").html(
       "<p>Please provide a nearby road name / street name / bus stop code</p>"
     );
@@ -197,7 +252,6 @@ $(document).ready(function () {
       center: [clong, clat],
       zoom: 11,
     });
-
   });
 
   $("#searchbutton").on("click", (e) => {
@@ -236,55 +290,6 @@ $(document).ready(function () {
           destlong,
           destlat
         );
-      }
-
-      // if this location is within 0.1KM of the user, add it to the list
-      if (
-        distance(
-          gculat,
-          gculong,
-          querydata[i].Latitude,
-          querydata[i].Longitude,
-          "K"
-        ) <= 0.12
-      ) {
-        console.log(
-          `The nearest bus stop to your current location is ${querydata[i].Description} along ${querydata[i].RoadName} (${querydata[i].BusStopCode})`
-        );
-        var loclong = querydata[i].Longitude;
-        var loclat = querydata[i].Latitude;
-        $(".card-header").html(
-          `<p class="card-text overflow-auto" id ="buscardheader">
-          <h5>Bus Stop Code:<br>${querydata[i].BusStopCode}</h5><hr/>
-          <h4>${querydata[i].Description} along ${querydata[i].RoadName}</h4></p>`
-        );
-        console.log(querydata[i].BusStopCode);
-        bscode = querydata[i].BusStopCode;
-        var description = querydata[i].Description;
-        var roadname = querydata[i].RoadName;
-
-        // to update the card component with closest bus stop info
-        busstopcardinfo(bscode, description, roadname, querydata);
-
-        // to create custom marker when selected a bus stop
-        makedommarker(
-          map,
-          "markerstart",
-          "images/startsign.svg",
-          "71",
-          "57",
-          loclong,
-          loclat
-        );
-        // makedommarker(
-        //   map,
-        //   "marker",
-        //   "images/clickedmarker.svg",
-        //   "61",
-        //   "47",
-        //   loclong,
-        //   loclat
-        // );
       }
     }
   });
@@ -627,31 +632,4 @@ $(document).ready(function () {
       return true;
     };
   }
-
-  (function () {
-    'use strict'
-  
-    // Fetch all the forms we want to apply custom Bootstrap validation styles to
-    var forms = document.querySelectorAll('.needs-validation')
-  
-    // Loop over them and prevent submission
-    Array.prototype.slice.call(forms)
-      .forEach(function (form) {
-        form.addEventListener('submit', function (event) {
-          if (!form.checkValidity()) {
-            event.preventDefault()
-            event.stopPropagation()
-          }
-  
-          form.classList.add('was-validated')
-        }, false)
-      })
-  })()
-
-
-
-
-
-
-
 });
