@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  var userstartbscode = "waiting for user input...";
   var userdestbscode = "waiting for user input...";
   var queryResult = []; // to only store result as data source for autocomplete
   var querydata = []; // to store all the busstop info from the api calls
@@ -90,7 +91,7 @@ $(document).ready(function () {
     select: function (event, ui) {
       console.log(ui.item.value);
       var res = ui.item.value.split("Bus Stop Code: ");
-      userdestbscode = res[1].slice(0, -1);
+      userstartbscode = res[1].slice(0, -1);
       console.log(userdestbscode);
     },
   });
@@ -129,6 +130,7 @@ $(document).ready(function () {
 
     $(`#markerdest`).remove();
     $(`#markerstart`).remove();
+    $(`#marker`).remove();
 
     if (navigator.geolocation) {
       //check geolocation available
@@ -153,7 +155,7 @@ $(document).ready(function () {
           });
 
           console.log(`gculat: ${gculat} gculong: ${gculong}`);
-          
+
           for (var i = 0; i < querydata.length; i++) {
             // if this location is within 0.1KM of the user, add it to the list
             if (
@@ -170,22 +172,25 @@ $(document).ready(function () {
               );
               var loclong = querydata[i].Longitude;
               var loclat = querydata[i].Latitude;
-              
-              $(".card-header").html(
-                `<p class="card-text overflow-auto" id ="buscardheader">
-              <h5>Bus Stop Code:<br>${querydata[i].BusStopCode}</h5><hr/>
-              <h4>${querydata[i].Description} along ${querydata[i].RoadName}</h4></p>`
-              );
+
+              // $(".card-header").html(
+              //   `<p class="card-text overflow-auto" id ="buscardheader">
+              // <h5>Bus Stop Code:<br>${querydata[i].BusStopCode}</h5><hr/>
+              // <h4>${querydata[i].Description} along ${querydata[i].RoadName}</h4></p>`
+              // );
+
               console.log(querydata[i].BusStopCode);
               bscode = querydata[i].BusStopCode;
               var description = querydata[i].Description;
               var roadname = querydata[i].RoadName;
-      
-              $(`#FromQuery`).val(`${description} near ${roadname} (Bus Stop Code: ${bscode})`);
-      
+
+              $(`#FromQuery`).val(
+                `${description} near ${roadname} (Bus Stop Code: ${bscode})`
+              );
+
               // to update the card component with closest bus stop info
               busstopcardinfo(bscode, description, roadname, querydata);
-      
+
               // to create custom marker when selected a bus stop
               makedommarker(
                 map,
@@ -196,16 +201,6 @@ $(document).ready(function () {
                 loclong,
                 loclat
               );
-            }
-            else
-            {
-              $("#toast").html(
-                `<h5>There is no bus stop within 120m from you.</5>`
-              );
-              $("#toast").addClass("show");
-              setTimeout(function () {
-                $("#toast").removeClass("show").addClass("");
-              }, 4000);
             }
           }
         },
@@ -224,9 +219,18 @@ $(document).ready(function () {
     $(`#markerdest`).remove();
     $(`#markerstart`).remove();
     $(`#markerhere`).remove();
+    $(`#marker`).remove();
+    $(`#buslocmarker`).remove();
     $(`#FromQuery`).val(``);
-
-
+    $(
+      ".card"
+    ).html(`<div class="botcolor card-header">Please click onto any of the bus stop on the map to display the
+    bus stop
+    code no and nearby building/amenties.</div>
+<div class="botcolor card-body">
+    <p>Please click onto any of the bus stop on the map to display the bus service no. at the bus
+        stop.</p>
+</div>`);
     $("#guides").html(
       "<p>Please provide a nearby road name / street name / bus stop code</p>"
     );
@@ -243,6 +247,18 @@ $(document).ready(function () {
     $(`#markerdest`).remove();
     $(`#markerstart`).remove();
     $(`#markerhere`).remove();
+    $(`#marker`).remove();
+    $(`#buslocmarker`).remove();
+
+    $(
+      ".card"
+    ).html(`<div class="botcolor card-header">Please click onto any of the bus stop on the map to display the
+    bus stop
+    code no and nearby building/amenties.</div>
+<div class="botcolor card-body">
+    <p>Please click onto any of the bus stop on the map to display the bus service no. at the bus
+        stop.</p>
+</div>`);
 
     $("#guides").html(
       "<p>Please provide a nearby road name / street name / bus stop code</p>"
@@ -258,19 +274,15 @@ $(document).ready(function () {
     console.log(querydata.length);
     console.log(`gculat: ${gculat} gculong: ${gculong}`);
 
-    // to reset the bus stop service no everytime a new bus stop is clicked
-    // $(".card-body").html(
-    //   `<p class="card-text overflow-auto" id ="bussvcbtncard"></p>`
+    // makedommarker(
+    //   map,
+    //   "markerhere",
+    //   "images/uarehere.svg",
+    //   "40",
+    //   "40",
+    //   gculong,
+    //   gculat
     // );
-    makedommarker(
-      map,
-      "markerhere",
-      "images/uarehere.svg",
-      "40",
-      "40",
-      gculong,
-      gculat
-    );
 
     /* to loop through the querydata to find the lng and lat of the nearest stop to 
     the user current loc and destination and push to an array markercoords to generate markers*/
@@ -295,8 +307,8 @@ $(document).ready(function () {
   });
 
   // to find the location of the bus when clicked on the service no
-  $(".card-body").on("click", "#bussvcbtn", function () {
-    console.log(`cardbody is running`);
+  $(".card").on("click", "#bussvcbtn", function () {
+    console.log(`.card-body is clicked`);
     var busno = $(this).text();
     busloc(bscode, busno, map);
   });
@@ -325,9 +337,9 @@ $(document).ready(function () {
     // to interact with the bus stop layer "fullbuststopcode" on the map
     map.on("click", "fullbuststopcode", function (e) {
       // to reset the bus stop service no everytime a new bus stop is clicked and to append the bus svc no to show onto the card
-      $(".card-body").html(
-        `<p class="card-text overflow-auto" id ="bussvcbtncard"></p>`
-      );
+      // $(".card-body").html(
+      //   `<p class="card-text overflow-auto" id ="bussvcbtncard"></p>`
+      // );
 
       $(`#buslocmarker`).remove(); // to remove the previous bus location marker when clicked from different bus stop
 
@@ -508,10 +520,13 @@ $(document).ready(function () {
             </div>
             </p>
         </div>`
-
       //   `<p class="card-text overflow-auto" id ="buscardheader">
       // <h5 ><img src="images/AlightLiaoLah_Busstop.svg" alt="busstop log" width="54px" height="42px">Bus Stop Code:<button>${bscode}</button></h5><hr/>
       // <h5>${description} along ${roadname}</h5></p>`
+    );
+
+    $(".card-body").html(
+      `<p class="card-text overflow-auto" id ="bussvcbtncard"></p>`
     );
 
     // to retrieve the bus service number at the bus stop and create clickable bus service number buttons
