@@ -3,18 +3,20 @@ $(document).ready(function () {
   var userdestbscode = "waiting for user input...";
   var queryResult = []; // to only store result as data source for autocomplete
   var querydata = []; // to store all the busstop info from the api calls
-  let clat = 1.3544; // default latitude setting when the map is first loaded
-  let clong = 103.82; // default longtitude setting when the map is first loaded
+  let centerlat = 1.3544; // default latitude setting when the map is first loaded
+  let centerlong = 103.82; // default longtitude setting when the map is first loaded
   var mapzoom = 11; // default zoom setting when the map is first loaded
   var mapstart = 0; // to load the map at default page which will show the entire of Singapore land mass
-  var gculat;
-  var gculong;
+  var gculat = 0;
+  var gculong = 0;
   var map;
   var bscode;
   var busclickedlat;
   var busclickedlong;
+  let fromlat = 0;
+  let fromlong = 0;
 
-  getmap(mapzoom, clong, clat);
+  getmap(mapzoom, centerlong, centerlat);
 
   // this array is declared due to pagination of the api, which will only publish the first 500 apis by default
   var busstopnoapicalls = [
@@ -121,7 +123,7 @@ $(document).ready(function () {
         window.location.reload();
       }, 5000);
     }
-
+    
     var options = {
       enableHighAccuracy: true,
       timeout: 5000,
@@ -155,6 +157,8 @@ $(document).ready(function () {
           });
 
           console.log(`gculat: ${gculat} gculong: ${gculong}`);
+          fromlong = gculong;
+          fromlat = gculat;
 
           for (var i = 0; i < querydata.length; i++) {
             // if this location is within 0.1KM of the user, add it to the list
@@ -172,12 +176,6 @@ $(document).ready(function () {
               );
               var loclong = querydata[i].Longitude;
               var loclat = querydata[i].Latitude;
-
-              // $(".card-header").html(
-              //   `<p class="card-text overflow-auto" id ="buscardheader">
-              // <h5>Bus Stop Code:<br>${querydata[i].BusStopCode}</h5><hr/>
-              // <h4>${querydata[i].Description} along ${querydata[i].RoadName}</h4></p>`
-              // );
 
               console.log(querydata[i].BusStopCode);
               bscode = querydata[i].BusStopCode;
@@ -215,6 +213,8 @@ $(document).ready(function () {
   // to retrieve user location using geolocation when clicked onto the form query and update onto the map
   $("#FromQuery").click(function () {
     console.log(`FromQuery is working`);
+    fromlat = centerlat;
+    fromlong = centerlong;
     // clear all previous markers
     $(`#markerdest`).remove();
     $(`#markerstart`).remove();
@@ -236,53 +236,40 @@ $(document).ready(function () {
     );
 
     map.flyTo({
-      center: [clong, clat],
+      center: [centerlong, centerlat],
       zoom: 11,
     });
   });
 
   $("#ToQuery").click(function () {
     console.log(`ToQuery is working`);
+    console.log(`fromlat:${fromlat} fromlong:${fromlong}`);
+    var toqzoom = 11;
+    fromlong = centerlong;
+    fromlat = centerlat;
+
     // clear all previous markers
     $(`#markerdest`).remove();
-    $(`#markerstart`).remove();
-    $(`#markerhere`).remove();
     $(`#marker`).remove();
     $(`#buslocmarker`).remove();
-
-    $(
-      ".card"
-    ).html(`<div class="botcolor card-header">Please click onto any of the bus stop on the map to display the
-    bus stop
-    code no and nearby building/amenties.</div>
-<div class="botcolor card-body">
-    <p>Please click onto any of the bus stop on the map to display the bus service no. at the bus
-        stop.</p>
-</div>`);
-
     $("#guides").html(
       "<p>Please provide a nearby road name / street name / bus stop code</p>"
     );
 
+    if (gculat != 0 && gculong != 0) {
+      fromlong = gculong;
+      fromlat = gculat;
+      toqzoom = 16;
+    }
     map.flyTo({
-      center: [clong, clat],
-      zoom: 11,
+      center: [fromlong, fromlat],
+      zoom: toqzoom,
     });
   });
 
   $("#searchbutton").on("click", (e) => {
     console.log(querydata.length);
     console.log(`gculat: ${gculat} gculong: ${gculong}`);
-
-    // makedommarker(
-    //   map,
-    //   "markerhere",
-    //   "images/uarehere.svg",
-    //   "40",
-    //   "40",
-    //   gculong,
-    //   gculat
-    // );
 
     /* to loop through the querydata to find the lng and lat of the nearest stop to 
     the user current loc and destination and push to an array markercoords to generate markers*/
@@ -302,6 +289,10 @@ $(document).ready(function () {
           destlong,
           destlat
         );
+        map.flyTo({
+          center: [destlong, destlat],
+          zoom: 16,
+        });
       }
     }
   });
@@ -336,13 +327,7 @@ $(document).ready(function () {
 
     // to interact with the bus stop layer "fullbuststopcode" on the map
     map.on("click", "fullbuststopcode", function (e) {
-      // to reset the bus stop service no everytime a new bus stop is clicked and to append the bus svc no to show onto the card
-      // $(".card-body").html(
-      //   `<p class="card-text overflow-auto" id ="bussvcbtncard"></p>`
-      // );
-
       $(`#buslocmarker`).remove(); // to remove the previous bus location marker when clicked from different bus stop
-
       var features = map.queryRenderedFeatures(e.point, {
         layers: ["fullbuststopcode"], // replace this with the name of the layer (used name of the tiledata in mapbox studio)
       });
@@ -520,9 +505,6 @@ $(document).ready(function () {
             </div>
             </p>
         </div>`
-      //   `<p class="card-text overflow-auto" id ="buscardheader">
-      // <h5 ><img src="images/AlightLiaoLah_Busstop.svg" alt="busstop log" width="54px" height="42px">Bus Stop Code:<button>${bscode}</button></h5><hr/>
-      // <h5>${description} along ${roadname}</h5></p>`
     );
 
     $(".card-body").html(
