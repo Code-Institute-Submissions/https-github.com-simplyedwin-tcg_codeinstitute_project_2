@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="icon" href="images\AlightLiaoLahCompleted.svg">
+    <link rel="icon" href="images/AlightLiaoLahCompleted.svg">
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link href="css/bootstrap-float-label.min.css" rel="stylesheet">
     <link href="lib/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" href="lib/jquery-ui-1.12.1.custom/jquery-ui.css">
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.0.0/mapbox-gl.css" rel="stylesheet" />
@@ -20,8 +21,8 @@
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light nav-fill">
 
-            <a class="navbar-brand" href="#">
-                <img src="images\AlightLiaoLahBrandLogo.svg" alt="" loading="logo">
+            <a class="navbar-brand">
+                <img src="images/AlightLiaoLahBrandLogo.svg" alt="" loading="logo">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
                 aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
@@ -38,18 +39,28 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="prependfrom">FROM</span>
                             </div>
-                            <input type="text" class="form-control"
-                                placeholder="road name / street name / nearby bus stop" aria-label="From"
-                                aria-describedby="button-addon2" id="FromQuery">
+                            <span class="has-float-label">
+                                <input type="text" class="form-control"
+                                    placeholder="road name / street name / nearby bus stop" aria-label="From"
+                                    aria-describedby="button-addon2" id="FromQuery">
+                                <label class="bg-light" for="FromQuery" style="font-size: 15px; 
+                                font-weight:bold;">Type
+                                    a nearby road name / street
+                                    name / bus stop code</label>
+                            </span>
                         </div>
 
                         <div class="input-group mb-3 form-group" id="searchbox2">
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="prependto">TO</span>
                             </div>
-                            <input type="text" class="form-control"
-                                placeholder="road name / street name / nearby bus stop" aria-label="To"
-                                aria-describedby="button-addon2" id="ToQuery">
+                            <span class="has-float-label">
+                                <input type="text" class="form-control"
+                                    placeholder="road name / street name / nearby bus stop" aria-label="To"
+                                    aria-describedby="button-addon2" id="ToQuery">
+                                <label class="bg-light" for="ToQuery" style="font-size: 15px; font-weight:bold;">Type a
+                                    nearby road name / street name / bus stop code</label>
+                            </span>
                         </div>
 
                         <div class="input-group mb-3 form-group" id="searchbox2">
@@ -58,9 +69,12 @@
                                 <span class="botcolor oi oi-magnifying-glass" title="icon name"
                                     aria-hidden="true"></span>
                             </button>
-                            <img src="images\uarehere.svg" alt="uarehereicon" type="button" id="usercurrentloc">
-                            <img src="images\information.svg" alt="helpmeicon" type="button" id="helpmebtn"
-                                data-toggle="modal" data-target="#helpmeModal">
+                            <img src="images/uarehere.svg" alt="uarehereicon" type="button" id="usercurrentloc"
+                                data-toggle="tooltip" data-target="#helpmeModal" data-placement="bottom"
+                                title="Your current location">
+                            <img src="images/information.svg" alt="helpmeicon" type="button" id="helpmebtn"
+                                data-toggle="modal tooltip" data-target="#helpmeModal" data-placement="bottom"
+                                title="How to use">
                         </div>
 
                     </form>
