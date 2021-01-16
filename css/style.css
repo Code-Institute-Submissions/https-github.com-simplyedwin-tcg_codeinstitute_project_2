@@ -96,3 +96,22 @@ body {
 .botcolor{
   color: #083864fe;
 }
+
+#prependfrom{
+  background-color:#083864fe;
+  color: white;
+}
+
+#prependto{
+  background-color:#083864fe;
+  color: white;
+}
+
+@media screen and (min-width: 450px) {  
+  #FromQuery {
+    width: 450px;
+  }
+  #ToQuery{
+    width: 450px;
+  }
+}

@@ -240,9 +240,9 @@ $(document).ready(function () {
     <p>Please click onto any of the bus stop on the map to display the bus service no. at the bus
         stop.</p>
 </div>`);
-    $("#guides").html(
-      "<p>Please provide a nearby road name / street name / bus stop code</p>"
-    );
+    // $("#guides").html(
+    //   "<p>Please provide a nearby road name / street name / bus stop code</p>"
+    // );
 
     map.flyTo({
       center: [centerlong, centerlat],
@@ -261,9 +261,9 @@ $(document).ready(function () {
     $(`#buslocmarker`).remove();
 
     $("#destcard").remove();
-    $("#guides").html(
-      "<p>Please provide a nearby road name / street name / bus stop code</p>"
-    );
+    // $("#guides").html(
+    //   "<p>Please provide a nearby road name / street name / bus stop code</p>"
+    // );
     $(`#ToQuery`).val(``);
 
     if (gculat != 0 && gculong != 0) {
@@ -358,18 +358,21 @@ $(document).ready(function () {
   $("div").on("click", "#bussvcbtn", function () {
     console.log(`.card-body is clicked`);
     var busno = $(this).text();
-    if (gculat != 0 && gculong != 0) {
-      busloc(bscode, busno, map);
-    } else {
-      busloc(userstartbscode, busno, map);
-    }
+    bscode = $(`#bscodebtn`).text();
+    busloc(bscode, busno, map);
+    // if (gculat != 0 && gculong != 0) {
+    //   busloc(bscode, busno, map);
+    // } else {
+    //   busloc(userstartbscode, busno, map);
+    // }
   });
 
   // to find the location of the bus when clicked on the service no
   $("div").on("click", "#destbussvcbtn", function () {
     console.log(`destcardbody is clicked`);
+    bscode = $(`#destbscodebtn`).text();
     var busno = $(this).text();
-    busloc(userdestbscode, busno, map);
+    busloc(bscode, busno, map);
   });
 
   // function to generating map using mapbox api
@@ -575,7 +578,7 @@ $(document).ready(function () {
       <div class="row justify-content-around">
       <div class="col-sm-12">
             <h5 >Bus Stop Code: 
-            <button style="font-weight:bold; color:blue;" >${bscode}
+            <button style="font-weight:bold; color:blue;" id="bscodebtn" >${bscode}
             <img src="images/AlightLiaoLah_Busstop.svg" class="img-fluid" alt="busstop log" width="54px" height="42px" style="margin-left:10px;">
             </button> 
             </h5> 
@@ -638,7 +641,7 @@ $(document).ready(function () {
               <div class="row justify-content-around">
                   <div class="col-sm-12" id="destbscbody">
                       <h5>Bus Stop Code:
-                          <button style="font-weight:bold; color:blue;">${bscode}
+                          <button style="font-weight:bold; color:blue;"id="destbscodebtn" >${bscode}
                               <img src="images/AlightLiaoLah_Busstop.svg" class="img-fluid" alt="busstop log" width="54px"
                                   height="42px" style="margin-left:10px;">
                           </button>
