@@ -22,7 +22,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -58,10 +58,10 @@
      inkscape:window-height="1013"
      id="namedview42"
      showgrid="false"
-     inkscape:zoom="5.12"
-     inkscape:cx="91.093166"
-     inkscape:cy="25.62498"
-     inkscape:window-x="-9"
+     inkscape:zoom="3.6203867"
+     inkscape:cx="49.673307"
+     inkscape:cy="32.117015"
+     inkscape:window-x="1911"
      inkscape:window-y="-9"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg40"
@@ -202,7 +202,7 @@
      r="0" />
   <g
      id="g9924"
-     transform="matrix(1.2432079,0,0,1.2432079,-290.69368,798.3824)">
+     transform="matrix(1.2432079,0,0,1.2432079,-294.69368,798.3824)">
     <g
        transform="matrix(0.10303502,0,0,0.10303502,395.23182,-631.14365)"
        id="g9686">
@@ -496,9 +496,9 @@
        y="23.808958"
        x="-1.9390209"
        id="tspan9796"
-       sodipodi:role="line">BUSSTOP&amp;BUS</tspan></text>
+       sodipodi:role="line">&amp;BUSFINDER</tspan></text>
   <g
-     transform="matrix(0.68307109,0,0,0.68307109,47.590877,-15)"
+     transform="matrix(0.68307109,0,0,0.68307109,47.590877,-15.000009)"
      id="g9848">
     <rect
        y="0"
@@ -517,102 +517,92 @@
     <g
        id="g9816"
        transform="matrix(0.07254592,0,0,0.07254592,0,-6.1908509)">
-	<path
-   style="fill:#f0f0f0"
-   d="m 83.478,170.666 c 0,-24.865 17.476,-45.637 40.812,-50.734 -3.587,-0.784 -7.308,-1.208 -11.13,-1.208 -28.688,0 -51.942,23.254 -51.942,51.941 0,28.687 23.255,51.942 51.942,51.942 3.822,0 7.543,-0.425 11.13,-1.208 -23.336,-5.095 -40.812,-25.867 -40.812,-50.733 z"
-   id="path9804"
-   inkscape:connector-curvature="0" />
-
-	<polygon
-   style="fill:#f0f0f0"
-   points="156.221,140.779 159.905,152.116 150.261,145.11 140.616,152.116 144.301,140.779 134.656,133.772 146.577,133.772 150.261,122.435 153.945,133.772 165.866,133.772 "
-   id="polygon9806" />
-
-	<polygon
-   style="fill:#f0f0f0"
-   points="127.303,163.04 130.987,174.377 121.344,167.371 111.699,174.377 115.384,163.04 105.739,156.033 117.66,156.033 121.344,144.696 125.027,156.033 136.948,156.033 "
-   id="polygon9808" />
-
-	<polygon
-   style="fill:#f0f0f0"
-   points="185.138,163.04 188.822,174.377 179.178,167.371 169.534,174.377 173.219,163.04 163.574,156.033 175.495,156.033 179.178,144.696 182.862,156.033 194.783,156.033 "
-   id="polygon9810" />
-
-	<polygon
-   style="fill:#f0f0f0"
-   points="174.008,196.431 177.692,207.768 168.047,200.762 158.404,207.768 162.088,196.431 152.444,189.424 164.364,189.424 168.047,178.087 171.731,189.424 183.652,189.424 "
-   id="polygon9812" />
-
-	<polygon
-   style="fill:#f0f0f0"
-   points="138.434,196.431 142.118,207.768 132.474,200.762 122.83,207.768 126.514,196.431 116.87,189.424 128.79,189.424 132.474,178.087 136.157,189.424 148.078,189.424 "
-   id="polygon9814" />
-
-</g>
+      <path
+         style="fill:#f0f0f0"
+         d="m 83.478,170.666 c 0,-24.865 17.476,-45.637 40.812,-50.734 -3.587,-0.784 -7.308,-1.208 -11.13,-1.208 -28.688,0 -51.942,23.254 -51.942,51.941 0,28.687 23.255,51.942 51.942,51.942 3.822,0 7.543,-0.425 11.13,-1.208 -23.336,-5.095 -40.812,-25.867 -40.812,-50.733 z"
+         id="path9804"
+         inkscape:connector-curvature="0" />
+      <polygon
+         style="fill:#f0f0f0"
+         points="159.905,152.116 150.261,145.11 140.616,152.116 144.301,140.779 134.656,133.772 146.577,133.772 150.261,122.435 153.945,133.772 165.866,133.772 156.221,140.779 "
+         id="polygon9806" />
+      <polygon
+         style="fill:#f0f0f0"
+         points="130.987,174.377 121.344,167.371 111.699,174.377 115.384,163.04 105.739,156.033 117.66,156.033 121.344,144.696 125.027,156.033 136.948,156.033 127.303,163.04 "
+         id="polygon9808" />
+      <polygon
+         style="fill:#f0f0f0"
+         points="188.822,174.377 179.178,167.371 169.534,174.377 173.219,163.04 163.574,156.033 175.495,156.033 179.178,144.696 182.862,156.033 194.783,156.033 185.138,163.04 "
+         id="polygon9810" />
+      <polygon
+         style="fill:#f0f0f0"
+         points="177.692,207.768 168.047,200.762 158.404,207.768 162.088,196.431 152.444,189.424 164.364,189.424 168.047,178.087 171.731,189.424 183.652,189.424 174.008,196.431 "
+         id="polygon9812" />
+      <polygon
+         style="fill:#f0f0f0"
+         points="142.118,207.768 132.474,200.762 122.83,207.768 126.514,196.431 116.87,189.424 128.79,189.424 132.474,178.087 136.157,189.424 148.078,189.424 138.434,196.431 "
+         id="polygon9814" />
+    </g>
     <g
        id="g9818"
-       transform="translate(0,-85.336998)">
-</g>
+       transform="translate(0,-85.336998)" />
     <g
        id="g9820"
-       transform="translate(0,-85.336998)">
-</g>
+       transform="translate(0,-85.336998)" />
     <g
        id="g9822"
-       transform="translate(0,-85.336998)">
-</g>
+       transform="translate(0,-85.336998)" />
     <g
        id="g9824"
-       transform="translate(0,-85.336998)">
-</g>
+       transform="translate(0,-85.336998)" />
     <g
        id="g9826"
-       transform="translate(0,-85.336998)">
-</g>
+       transform="translate(0,-85.336998)" />
     <g
        id="g9828"
-       transform="translate(0,-85.336998)">
-</g>
+       transform="translate(0,-85.336998)" />
     <g
        id="g9830"
-       transform="translate(0,-85.336998)">
-</g>
+       transform="translate(0,-85.336998)" />
     <g
        id="g9832"
-       transform="translate(0,-85.336998)">
-</g>
+       transform="translate(0,-85.336998)" />
     <g
        id="g9834"
-       transform="translate(0,-85.336998)">
-</g>
+       transform="translate(0,-85.336998)" />
     <g
        id="g9836"
-       transform="translate(0,-85.336998)">
-</g>
+       transform="translate(0,-85.336998)" />
     <g
        id="g9838"
-       transform="translate(0,-85.336998)">
-</g>
+       transform="translate(0,-85.336998)" />
     <g
        id="g9840"
-       transform="translate(0,-85.336998)">
-</g>
+       transform="translate(0,-85.336998)" />
     <g
        id="g9842"
-       transform="translate(0,-85.336998)">
-</g>
+       transform="translate(0,-85.336998)" />
     <g
        id="g9844"
-       transform="translate(0,-85.336998)">
-</g>
+       transform="translate(0,-85.336998)" />
     <g
        id="g9846"
-       transform="translate(0,-85.336998)">
-</g>
+       transform="translate(0,-85.336998)" />
   </g>
   <path
      id="path9864"
-     d="m 192.75512,-3.09788 c 9.20913,0 16.70052,7.14655 16.70052,15.93181 0,8.78524 -7.49139,15.93179 -16.70052,15.93179 -2.81522,0 -5.58273,-0.63726 -7.92081,-1.8663 a 4.7715761,4.5519447 0 0 1 -0.62031,0.59176 l -4.77157,4.55195 a 4.8670077,4.6429837 0 1 1 -6.87109,-6.55481 l 4.7716,-4.55193 a 4.7715761,4.5519447 0 0 1 0.76343,-0.59176 c -1.28831,-2.23046 -2.09948,-4.82507 -2.09948,-7.55623 0,-8.78524 7.49136,-15.9318 16.7005,-15.9318 z m 0,4.55195 c -6.63249,0 -11.92893,5.05264 -11.92893,11.37986 0,3.00425 1.14517,5.78096 3.14921,7.82931 0.0447,0.0426 0.0954,0.091 0.14318,0.13663 a 4.7715761,4.5519447 0 0 1 0.62032,0.59175 c 2.0995,1.82078 4.96244,2.86774 8.06395,2.86774 6.6325,0 11.92895,-5.05266 11.92895,-11.37988 0,-6.32717 -5.29645,-11.37987 -11.92895,-11.37987 z"
+     d="m 188.75512,-3.09788 c 9.20913,0 16.70052,7.14655 16.70052,15.93181 0,8.78524 -7.49139,15.93179 -16.70052,15.93179 -2.81522,0 -5.58273,-0.63726 -7.92081,-1.8663 a 4.7715761,4.5519447 0 0 1 -0.62031,0.59176 l -4.77157,4.55195 a 4.8670077,4.6429837 0 1 1 -6.87109,-6.55481 l 4.7716,-4.55193 a 4.7715761,4.5519447 0 0 1 0.76343,-0.59176 c -1.28831,-2.23046 -2.09948,-4.82507 -2.09948,-7.55623 0,-8.78524 7.49136,-15.9318 16.7005,-15.9318 z m 0,4.55195 c -6.63249,0 -11.92893,5.05264 -11.92893,11.37986 0,3.00425 1.14517,5.78096 3.14921,7.82931 0.0447,0.0426 0.0954,0.091 0.14318,0.13663 a 4.7715761,4.5519447 0 0 1 0.62032,0.59175 c 2.0995,1.82078 4.96244,2.86774 8.06395,2.86774 6.6325,0 11.92895,-5.05266 11.92895,-11.37988 0,-6.32717 -5.29645,-11.37987 -11.92895,-11.37987 z"
      inkscape:connector-curvature="0"
      style="fill:#083864;fill-opacity:0.99607843;stroke:none;stroke-width:1.5;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.99607843" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:20.90060997px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Bold';font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:0px;word-spacing:0px;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;opacity:0.97000002;vector-effect:none;fill:#083864;fill-opacity:0.99607843;stroke:none;stroke-width:1.36325562;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+     x="75.953209"
+     y="1.0549307"
+     id="text940"><tspan
+       sodipodi:role="line"
+       id="tspan938"
+       x="75.953209"
+       y="1.0549307"
+       style="stroke-width:1.36325562">BUSSTOP</tspan></text>
 </svg>

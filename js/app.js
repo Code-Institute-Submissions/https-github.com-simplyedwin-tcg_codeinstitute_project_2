@@ -5,7 +5,7 @@ $(document).ready(function () {
   var querydata = []; // to store all the busstop info (roadname,description,bscode) from the api calls
   let centerlat = 1.3544; // default latitude setting when the map is first loaded
   let centerlong = 103.82; // default longtitude setting when the map is first loaded
-  var mapzoom = 11; // default zoom setting when the map is first loaded
+  var mapzoom = 10; // default zoom setting when the map is first loaded
   var mapstart = 0; // to load the map at default page which will show the entire of Singapore land mass
   var gculat = 0;
   var gculong = 0;
@@ -142,6 +142,7 @@ $(document).ready(function () {
         function (position) {
           gculat = position.coords.latitude;
           gculong = position.coords.longitude;
+          var nearby = false;
           mapzoom = 16;
           makedommarker(
             map,
@@ -206,8 +207,21 @@ $(document).ready(function () {
                 loclong,
                 loclat
               );
-            }
+              nearby = true;
+              break;
+            } 
           }
+
+          if(nearby===false){
+            $("#toast").html(
+              `<h5>There are no bus stop within 120 m of your location. Please go to somewhere else.</5>`
+            );
+            $("#toast").addClass("show");
+            setTimeout(function () {
+              $("#toast").removeClass("show").addClass("");
+            }, 5000);
+          }
+
         },
         error,
         options
@@ -373,6 +387,12 @@ $(document).ready(function () {
     bscode = $(`#destbscodebtn`).text();
     var busno = $(this).text();
     busloc(bscode, busno, map);
+  });
+
+  // to show the help modal
+  $(`#helpmebtn`).on("click",()=>{
+    console.log(`helpmebtn is clicked!`)
+    helpmodal()
   });
 
   // function to generating map using mapbox api
@@ -726,6 +746,33 @@ $(document).ready(function () {
         }
       }
     });
+  }
+
+  //function for the help modal
+  function helpmodal(){
+    $(`#helpme`).html(
+      `<!-- Modal -->
+      <div class="modal fade" id="helpmeModal" tabindex="-1" role="dialog" aria-labelledby="helpmeModalTitle"
+          aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                  </div>
+                  <div class="modal-body">
+                      ...
+                  </div>
+                  <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary">Save changes</button>
+                  </div>
+              </div>
+          </div>
+      </div>`
+    );
   }
 
   // function to create a pulsing dot object on the map
