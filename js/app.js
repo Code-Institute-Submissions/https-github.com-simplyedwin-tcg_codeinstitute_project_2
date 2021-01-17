@@ -761,7 +761,7 @@ $(document).ready(function () {
                           right: 10px;">&times;</span>
                       </button>
                   <div class="modal-header">
-                      <h6 class="modal-title botcolor" id="exampleModalLongTitle">About AlightLiaoLah(ALL) 
+                      <h6 class="modal-title botcolor" id="helpmemodalabout">About AlightLiaoLah(ALL) 
                       Busstop and Bus Finder</h6><br>
                       
                   </div>
@@ -778,10 +778,42 @@ $(document).ready(function () {
                       </p>
                   </div>
                   <div class="modal-header">
-                      <h6 class="modal-title botcolor" id="exampleModalLongTitle">How To Use</h6><br>
+                      <h6 class="modal-title botcolor" id="helpmemodalhow">How To Use</h6><br>
                   </div>
                   <div class="modal-body botcolor">
-                      ...
+                      <ul>
+                          <li><p>
+                          Click onto any of the bus stop icon <span><img 
+                          src="images/AlightLiaoLah_Busstop.svg" alt="busstopicon"/>
+                          </span> on the map which will display information about the bus stop onto the bus stop info card and<span><img 
+                          class="modeliconsize" src="images/clickedmarker.svg" alt="clickedbusstopmarker"/>will appear to indicated selected bus stop.
+                          </p></li>
+
+                          <li><p>
+                          Click onto any of the bus no in the bus stop card information and the map will show you 
+                          the current and real-time location of the selected bus no.
+                          </p></li>
+
+                          <li><p>
+                          You can query for a start point and destination by providing the address/road name/bus stop codes in the
+                          FROM and TO query boxes. These boxes will autocomplete your address if more than 4 characters are typed in.
+                          You will see<span><img class="modeliconsize" src="images/startsign.svg" alt="startmarker"/>and<span><img 
+                          class="modeliconsize" src="images/stopsign.svg" alt="stopmarker"/> appeared on the marked bus stop in the map
+                          to indicate start point and destination after you clicked<span><img class="modeliconsize" src="images/search.svg" alt="searchbtn"/>.Do note
+                          that the <span><img class="modeliconsize" src="images/clickedmarker.svg" alt="clickedbusstopmarker"/>will not appear if there is a start 
+                          marker (unless you click onto the bus stop)
+                          </p></li>
+
+                          <li><p>
+                          You can also retrieve your current location by clicking onto <span><img class="modeliconsize" src="images/uarehere.svg"
+                           alt="culbtn"/>and one of the nearest bus stop that is 120m away from you will be marked as start point onto the map.
+                           </p></li>
+
+                           <li><p>
+                          Toast message popout will appear if there a network errors or missing information.
+                           </p></li>
+
+                      </ul>
                   </div>
                   <div class="modal-footer">
 
