@@ -65,6 +65,6 @@ Trent colleage staff and classmates for feedbacks on website design
 
 Design of logo are sourced from [Freepik](https://www.flaticon.com/authors/freepik)
 
-Reference script for [toast]https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_snackbar
+Reference script for [toast](https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_snackbar)
 
-Bootstrap 4 floating label css from [floatinglabel]https://www.cssscript.com/pure-css-floating-label-pattern-bootstrap/
+Bootstrap 4 floating label css from [floatinglabel](https://www.cssscript.com/pure-css-floating-label-pattern-bootstrap/)
