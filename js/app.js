@@ -73,15 +73,15 @@ $(document).ready(function () {
         var errorMessage = xhr.status + ": " + xhr.statusText;
         console.log("Error - " + errorMessage);
         $("#toast").html(
-          `<h5>Api server error! The page will auto refresh in 5 sec or you can force refresh now.</5>`
+          `<h5>Api server error! Please force refresh your page now.</h5>`
         );
         $("#toast").addClass("show");
         setTimeout(function () {
           $("#toast").removeClass("show").addClass("");
         }, 5000);
-        window.setTimeout(function () {
-          window.location.reload();
-        }, 5000);
+        // window.setTimeout(function () {
+        //   window.location.reload();
+        // }, 5000);
       });
   });
 
