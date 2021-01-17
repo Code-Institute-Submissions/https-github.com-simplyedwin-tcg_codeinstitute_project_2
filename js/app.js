@@ -37,15 +37,14 @@ $(document).ready(function () {
   busstopnoapicalls.forEach(function (apicalls) {
     var settings = {
       url:
-        "http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
+        // "http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
+        "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
         apicalls,
-      // "https://tcg-cors-proxy.herokuapp.com",
       method: "GET",
       timeout: 0,
       headers: {
         AccountKey: "T+n6csk3Rd6vj7in0YOctw==",
         Accept: "application/json",
-        // 'Target-Url':'http://datamall2.mytransport.sg/ltaodataservice/BusStops',
       },
     };
 
@@ -372,11 +371,6 @@ $(document).ready(function () {
     var busno = $(this).text();
     bscode = $(`#bscodebtn`).text();
     busloc(bscode, busno, map);
-    // if (gculat != 0 && gculong != 0) {
-    //   busloc(bscode, busno, map);
-    // } else {
-    //   busloc(userstartbscode, busno, map);
-    // }
   });
 
   // to find the location of the bus when clicked on the service no
@@ -483,8 +477,8 @@ $(document).ready(function () {
     console.log(`busloc func is called with ${bscode}`);
     var settings = {
       url:
-        // "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
-        "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
+        "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
+        // "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
         bscode,
       method: "GET",
       timeout: 0,
@@ -708,8 +702,8 @@ $(document).ready(function () {
   function bussvcnos(bscode, source) {
     var settings = {
       url:
-        // "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
-        "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
+        "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
+        // "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
         bscode,
       method: "GET",
       timeout: 0,
