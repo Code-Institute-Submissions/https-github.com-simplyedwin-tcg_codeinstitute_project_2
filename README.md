@@ -1,4 +1,4 @@
-![brandlogo](https://github.com/simplyedwin/tcg_codeinstitute_project_2/blob/master/images/AlightLiaoLahCompleted.svg?raw=true)
+![brandlogo](https://github.com/simplyedwin/tcg_codeinstitute_project_2/blob/master/images/AlightLiaoLahBrandLogo.svg?raw=true)
 
 # Milestone Project 2 Interactive Front-End Development - AlightLiaoLah
 ## Introduction
