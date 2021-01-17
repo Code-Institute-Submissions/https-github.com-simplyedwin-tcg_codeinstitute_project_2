@@ -756,18 +756,35 @@ $(document).ready(function () {
           aria-hidden="true">
           <div class="modal-dialog modal-dialog-centered" role="document">
               <div class="modal-content">
-                  <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
+                          <span class="botcolor" aria-hidden="true" style="position: absolute;
+                          right: 10px;">&times;</span>
                       </button>
+                  <div class="modal-header">
+                      <h6 class="modal-title botcolor" id="exampleModalLongTitle">About AlightLiaoLah(ALL) 
+                      Busstop and Bus Finder</h6><br>
+                      
                   </div>
-                  <div class="modal-body">
+                  <div class="modal-body botcolor">
+                      <p>
+                      This application helps user to find Singapore bus stop information information of the following:
+                      <ul>
+                          <li>Bus stop code no</li>
+                          <li>Bus in service no</li>
+                          <li>Along road/street name</li>
+                          <li>Nearby building/amenities name</li>
+                          <li>Real-time information of bus location</li>
+                      </ul>
+                      </p>
+                  </div>
+                  <div class="modal-header">
+                      <h6 class="modal-title botcolor" id="exampleModalLongTitle">How To Use</h6><br>
+                  </div>
+                  <div class="modal-body botcolor">
                       ...
                   </div>
                   <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" class="btn btn-primary">Save changes</button>
+
                   </div>
               </div>
           </div>

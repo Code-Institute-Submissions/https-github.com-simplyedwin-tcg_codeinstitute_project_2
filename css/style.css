@@ -83,11 +83,6 @@ body {
   text-align: center;
 }
 
-#searchbutton{
-  height: 38px;
-  width:42px;
-}
-
 #usercurrentloc{
   height: 80x;
   width:40px;
@@ -107,11 +102,82 @@ body {
   color: white;
 }
 
-@media screen and (min-width: 450px) {  
+@media screen and (min-width: 542px){  
   #FromQuery {
     width: 450px;
   }
   #ToQuery{
     width: 450px;
+  }
+}
+
+@media screen and (max-width: 541px) and (min-width: 422px){  
+  #searchbox {
+    width: 400px;
+  }
+  #searchbox2{
+    width: 400px;
+  }
+  #brandlogo{
+    height:50%;
+    width:50%;
+  }
+  .navbar-toggler .navbar-toggler-icon{
+    height:0.7em;
+    width:0.7em;
+  }
+}
+
+@media screen and (max-width: 421px) and (min-width: 400px) {  
+  #searchbox {
+    width: 350px;
+  }
+  #searchbox2{
+    width: 350px;
+  }
+  #brandlogo{
+    height:50%;
+    width:50%;
+  }
+  .navbar-toggler .navbar-toggler-icon{
+    height:0.7em;
+    width:0.7em;
+  }
+}
+
+@media screen and (max-width: 376px) and (min-width: 330px) {  
+  #searchbox {
+    width: 300px;
+  }
+  #searchbox2{
+    width: 300px;
+  }
+  #brandlogo{
+    height:50%;
+    width:50%;
+  }
+  .navbar-toggler .navbar-toggler-icon{
+    height:0.7em;
+    width:0.7em;
+  }
+}
+
+@media screen and (max-width: 329px){  
+  #searchbox {
+    width: 200px;
+  }
+  #searchbox2{
+    width: 200px;
+  }
+  #brandlogo{
+    height:50%;
+    width:50%;
+  }
+  .navbar-toggler .navbar-toggler-icon{
+    height:0.7em;
+    width:0.7em;
+  }
+  .navbar .navbar-toggler{
+    font-size: 0.7rem;
   }
 }
