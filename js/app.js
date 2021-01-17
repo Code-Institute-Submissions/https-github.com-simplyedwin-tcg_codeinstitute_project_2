@@ -209,10 +209,10 @@ $(document).ready(function () {
               );
               nearby = true;
               break;
-            } 
+            }
           }
 
-          if(nearby===false){
+          if (nearby === false) {
             $("#toast").html(
               `<h5>There are no bus stop within 120 m of your location. Please go to somewhere else.</5>`
             );
@@ -221,7 +221,6 @@ $(document).ready(function () {
               $("#toast").removeClass("show").addClass("");
             }, 5000);
           }
-
         },
         error,
         options
@@ -273,11 +272,8 @@ $(document).ready(function () {
     $(`#markerdest`).remove();
     $(`#marker`).remove();
     $(`#buslocmarker`).remove();
-
     $("#destcard").remove();
-    // $("#guides").html(
-    //   "<p>Please provide a nearby road name / street name / bus stop code</p>"
-    // );
+
     $(`#ToQuery`).val(``);
 
     if (gculat != 0 && gculong != 0) {
@@ -286,8 +282,7 @@ $(document).ready(function () {
         center: [gculong, gculat],
         zoom: toqzoom,
       });
-    } else
-    {
+    } else {
       gculat = 0;
       gculong = 0;
       map.flyTo({
@@ -307,9 +302,10 @@ $(document).ready(function () {
     var description = "";
     var roadname = "";
 
-    var value = $("#FromQuery").val();
-    if (value != 0) {
-      var res = value.split("Bus Stop Code: ");
+    var toqueryvalue = $("#ToQuery").val();
+    var fromqueryvalue = $("#FromQuery").val();
+    if (fromqueryvalue.length != 0) {
+      var res = fromqueryvalue.split("Bus Stop Code: ");
       userstartbscode = res[1].slice(0, -1);
     }
 
@@ -319,7 +315,6 @@ $(document).ready(function () {
     the user current loc and destination and push to an array markercoords to generate markers*/
     for (var i = 0; i < querydata.length; i++) {
       // to handle empty value passed back to userdestcode
-
       if (userdestbscode == NaN) {
         e.preventDefault();
       } else if (querydata[i].BusStopCode == userstartbscode) {
@@ -333,14 +328,17 @@ $(document).ready(function () {
         roadname = querydata[i].RoadName;
       }
     }
-    busstopcardinfo(
-      userstartbscode,
-      description,
-      roadname,
-      querydata,
-      "Selected Bus Stop"
-    );
-    destcardinfo(userdestbscode, description, roadname, querydata);
+    //to make sure no empty values are passed to the busstopcardinfo and destcardinfo functions
+    if (fromqueryvalue.length != 0 && toqueryvalue.length != 0) {
+      busstopcardinfo(
+        userstartbscode,
+        description,
+        roadname,
+        querydata,
+        "Selected Bus Stop"
+      );
+      destcardinfo(userdestbscode, description, roadname, querydata);
+    }
 
     makedommarker(
       map,
@@ -390,9 +388,9 @@ $(document).ready(function () {
   });
 
   // to show the help modal
-  $(`#helpmebtn`).on("click",()=>{
-    console.log(`helpmebtn is clicked!`)
-    helpmodal()
+  $(`#helpmebtn`).on("click", () => {
+    console.log(`helpmebtn is clicked!`);
+    helpmodal();
   });
 
   // function to generating map using mapbox api
@@ -406,15 +404,8 @@ $(document).ready(function () {
       zoom: mapzoom, // starting zoom
     });
 
-    // to retrieve user location using mapbox build in feature
-    map.addControl(
-      new mapboxgl.GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true,
-        },
-        trackUserLocation: true,
-      })
-    );
+    // Add zoom and rotation controls to the map.
+    map.addControl(new mapboxgl.NavigationControl());
 
     // to interact with the bus stop layer "fullbuststopcode" on the map
     map.on("click", "fullbuststopcode", function (e) {
@@ -749,7 +740,7 @@ $(document).ready(function () {
   }
 
   //function for the help modal
-  function helpmodal(){
+  function helpmodal() {
     $(`#helpme`).html(
       `<!-- Modal -->
       <div class="modal fade" id="helpmeModal" tabindex="-1" role="dialog" aria-labelledby="helpmeModalTitle"
@@ -761,8 +752,8 @@ $(document).ready(function () {
                           right: 10px;">&times;</span>
                       </button>
                   <div class="modal-header">
-                      <h6 class="modal-title botcolor" id="helpmemodalabout">About AlightLiaoLah(ALL) 
-                      Busstop and Bus Finder</h6><br>
+                      <h5 class="modal-title botcolor" id="helpmemodalabout">About AlightLiaoLah(ALL) 
+                      Busstop and Bus Finder</h5>
                       
                   </div>
                   <div class="modal-body botcolor">
@@ -778,7 +769,7 @@ $(document).ready(function () {
                       </p>
                   </div>
                   <div class="modal-header">
-                      <h6 class="modal-title botcolor" id="helpmemodalhow">How To Use</h6><br>
+                      <h5 class="modal-title botcolor" id="helpmemodalhow">How To Use</h5>
                   </div>
                   <div class="modal-body botcolor">
                       <ul>
@@ -791,12 +782,16 @@ $(document).ready(function () {
 
                           <li><p>
                           Click onto any of the bus no in the bus stop card information and the map will show you 
-                          the current and real-time location of the selected bus no.
+                          the current and real-time location of the selected bus no
+                          <span><img class="modeliconsize"
+                          src="images/bus-vehicle.svg" alt="buslocicon"/>
+                          </span>.
                           </p></li>
 
                           <li><p>
                           You can query for a start point and destination by providing the address/road name/bus stop codes in the
-                          FROM and TO query boxes. These boxes will autocomplete your address if more than 4 characters are typed in.
+                          <span style="color:white;background-color:#083864fe;padding:4px;border-radius:3px">FROM</span> and 
+                          <span style="color:white;background-color:#083864fe;padding:4px;border-radius:3px"">TO</span> query boxes. These boxes will autocomplete your address if more than 4 characters are typed in.
                           You will see<span><img class="modeliconsize" src="images/startsign.svg" alt="startmarker"/>and<span><img 
                           class="modeliconsize" src="images/stopsign.svg" alt="stopmarker"/> appeared on the marked bus stop in the map
                           to indicate start point and destination after you clicked<span><img class="modeliconsize" src="images/search.svg" alt="searchbtn"/>.Do note
