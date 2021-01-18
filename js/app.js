@@ -37,8 +37,8 @@ $(document).ready(function () {
   busstopnoapicalls.forEach(function (apicalls) {
     var settings = {
       url:
-        // "http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
-        "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
+        "https://cors-anywhere-tcgversion.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
+        // "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
         apicalls,
       method: "GET",
       timeout: 0,
@@ -477,8 +477,8 @@ $(document).ready(function () {
     console.log(`busloc func is called with ${bscode}`);
     var settings = {
       url:
-        "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
-        // "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
+        // "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
+        "https://cors-anywhere-tcgversion.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
         bscode,
       method: "GET",
       timeout: 0,
@@ -702,8 +702,8 @@ $(document).ready(function () {
   function bussvcnos(bscode, source) {
     var settings = {
       url:
-        "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
-        // "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
+        // "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
+        "https://cors-anywhere-tcgversion.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
         bscode,
       method: "GET",
       timeout: 0,
