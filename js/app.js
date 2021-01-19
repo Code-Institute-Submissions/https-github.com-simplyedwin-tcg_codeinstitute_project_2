@@ -38,7 +38,6 @@ $(document).ready(function () {
     var settings = {
       url:
         "https://cors-anywhere-tcgversion.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
-        // "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
         apicalls,
       method: "GET",
       timeout: 0,
@@ -62,7 +61,6 @@ $(document).ready(function () {
           lat = response.value[i].Latitude;
           long = response.value[i].Longitude;
           queryResult.push(
-            // `${landmark} near ${roadname} (Bus Stop Code: ${busstopcode}) - [${lat},${long}])`
             `${landmark} near ${roadname} (Bus Stop Code: ${busstopcode})`
           );
           querydata.push(response.value[i]);
@@ -79,9 +77,6 @@ $(document).ready(function () {
         setTimeout(function () {
           $("#toast").removeClass("show").addClass("");
         }, 5000);
-        // window.setTimeout(function () {
-        //   window.location.reload();
-        // }, 5000);
       });
   });
 
@@ -118,9 +113,6 @@ $(document).ready(function () {
       setTimeout(function () {
         $("#toast").removeClass("show").addClass("");
       }, 5000);
-      // window.setTimeout(function () {
-      //   window.location.reload();
-      // }, 5000);
     }
 
     var options = {
@@ -252,9 +244,6 @@ $(document).ready(function () {
     <p>Please click onto any of the bus stop on the map to display the bus service no. at the bus
         stop.</p>
 </div>`);
-    // $("#guides").html(
-    //   "<p>Please provide a nearby road name / street name / bus stop code</p>"
-    // );
 
     map.flyTo({
       center: [centerlong, centerlat],
@@ -393,7 +382,7 @@ $(document).ready(function () {
       "pk.eyJ1Ijoic2ltcGx5ZWR3aW4iLCJhIjoiY2tpcmUycDI1MDZzczJ3cnh3cGx4NHZoYyJ9.h4T1J2-6QQW7-bRJZuwJrg";
     map = new mapboxgl.Map({
       container: "map", // container id
-      style: "mapbox://styles/simplyedwin/ckjdrlk8o054m19qjmihsxqe7", //"mapbox://styles/mapbox/streets-v11", // style URL
+      style: "mapbox://styles/simplyedwin/ckjdrlk8o054m19qjmihsxqe7",
       center: [gculong, gculat], // starting position [lng, lat]
       zoom: mapzoom, // starting zoom
     });
@@ -477,7 +466,6 @@ $(document).ready(function () {
     console.log(`busloc func is called with ${bscode}`);
     var settings = {
       url:
-        // "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
         "https://cors-anywhere-tcgversion.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
         bscode,
       method: "GET",
@@ -492,6 +480,7 @@ $(document).ready(function () {
       var apiservices = response.Services;
       console.log(apiservices);
       for (var i = 0; i < apiservices.length; i++) {
+        var estimaarr = apiservices[i].EstimatedArrival;
         var svcbusno = apiservices[i].ServiceNo;
         var nextbus = apiservices[i].NextBus;
         var nextbuslong = nextbus.Longitude;
@@ -702,7 +691,6 @@ $(document).ready(function () {
   function bussvcnos(bscode, source) {
     var settings = {
       url:
-        // "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
         "https://cors-anywhere-tcgversion.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
         bscode,
       method: "GET",
@@ -718,11 +706,13 @@ $(document).ready(function () {
       var apiservices = response.Services;
       console.log(apiservices);
       for (var i = 0; i < apiservices.length; i++) {
+        // to append to the destination card
         if (source === "d") {
           var destbussvcbtn = `<button class="btn" type = "button" style="margin:5px; color: white;
           background-color: #083864ff;
           font-weight: bold;" id = "destbussvcbtn">${apiservices[i].ServiceNo}</button>`;
           $("#destbussvcbtncard").after(destbussvcbtn);
+        // to append to the starting point card
         } else {
           var bussvcbtn = `<button class="btn" type = "button" style="margin:5px; color: white;
           background-color: #083864ff;

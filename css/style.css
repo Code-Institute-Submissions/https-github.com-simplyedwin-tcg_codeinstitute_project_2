@@ -103,11 +103,9 @@ body {
 }
 
 #mapdiv {
-  width:100vw;
-  height:80vh;
+  width: 100vw;
+  height: 80vh;
 }
-
-
 
 @media screen and (min-width: 542px) {
   #FromQuery {
@@ -116,7 +114,6 @@ body {
   #ToQuery {
     width: 450px;
   }
-  
 }
 
 @media screen and (max-width: 541px) and (min-width: 422px) {
@@ -136,14 +133,10 @@ body {
   }
 
   #mapdiv {
-    width:100vw;
-    height:60vh;
+    width: 100vw;
+    height: 60vh;
+    padding: 10px 25px;
   }
-  
-  .container-fluid{
-    padding: 0px 25px
-  }
-
 }
 
 @media screen and (max-width: 421px) and (min-width: 400px) {
@@ -163,14 +156,10 @@ body {
   }
 
   #mapdiv {
-    width:100vw;
-    height:60vh;
+    width: 100vw;
+    height: 60vh;
+    padding: 10px 25px;
   }
-  
-  .container-fluid{
-    padding: 0px 25px
-  }
-
 }
 
 @media screen and (max-width: 376px) and (min-width: 330px) {
@@ -189,12 +178,9 @@ body {
     width: 0.7em;
   }
   #mapdiv {
-    width:100vw;
-    height:60vh;
-  }
-  
-  .container-fluid{
-    padding: 0px 25px
+    width: 100vw;
+    height: 60vh;
+    padding: 10px 25px;
   }
 }
 
@@ -218,12 +204,9 @@ body {
   }
 
   #mapdiv {
-    width:100vw;
-    height:60vh;
-  }
-  
-  .container-fluid{
-    padding: 0px 25px
+    width: 100vw;
+    height: 60vh;
+    padding: 10px 25px;
   }
 }
 
