@@ -5,7 +5,7 @@ $(document).ready(function () {
   var querydata = []; // to store all the busstop info (roadname,description,bscode) from the api calls
   let centerlat = 1.3544; // default latitude setting when the map is first loaded
   let centerlong = 103.82; // default longtitude setting when the map is first loaded
-  var mapzoom = 10; // default zoom setting when the map is first loaded
+  var mapzoom = 10.5; // default zoom setting when the map is first loaded
   var mapstart = 0; // to load the map at default page which will show the entire of Singapore land mass
   var gculat = 0;
   var gculong = 0;
@@ -142,7 +142,7 @@ $(document).ready(function () {
           gculat = position.coords.latitude;
           gculong = position.coords.longitude;
           var nearby = false;
-          mapzoom = 16;
+          mapzoom = 14.5;
           makedommarker(
             map,
             "markerhere",
@@ -258,14 +258,14 @@ $(document).ready(function () {
 
     map.flyTo({
       center: [centerlong, centerlat],
-      zoom: 11,
+      zoom: 10.5,
     });
   });
 
   $("#ToQuery").click(function () {
     console.log(`ToQuery is working`);
     console.log(`gculong:${gculong}   gculat:${gculat}`);
-    var toqzoom = 11;
+    var toqzoom = 10.5;
 
     // clear all previous markers
     $(`#markerdest`).remove();
@@ -276,7 +276,7 @@ $(document).ready(function () {
     $(`#ToQuery`).val(``);
 
     if (gculat != 0 && gculong != 0) {
-      toqzoom = 16;
+      toqzoom = 14.5;
       map.flyTo({
         center: [gculong, gculat],
         zoom: toqzoom,
@@ -360,7 +360,7 @@ $(document).ready(function () {
     if (destlong != 0 || destlat != 0) {
       map.flyTo({
         center: [destlong, destlat],
-        zoom: 16,
+        zoom: 14.5,
       });
     }
   });
@@ -437,7 +437,7 @@ $(document).ready(function () {
       );
       map.flyTo({
         center: [busstopclickedlong, busstopclickedlat],
-        zoom: 16,
+        zoom: 14.5,
       });
 
       console.log(
@@ -516,7 +516,7 @@ $(document).ready(function () {
           console.log("The bus is in operation");
           map.flyTo({
             center: [nextbuslong, nextbuslat],
-            zoom: 16,
+            zoom: 14.5,
           });
           makedommarker(
             map,

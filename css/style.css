@@ -102,6 +102,13 @@ body {
   color: white;
 }
 
+#mapdiv {
+  width:100vw;
+  height:80vh;
+}
+
+
+
 @media screen and (min-width: 542px) {
   #FromQuery {
     width: 450px;
@@ -109,6 +116,7 @@ body {
   #ToQuery {
     width: 450px;
   }
+  
 }
 
 @media screen and (max-width: 541px) and (min-width: 422px) {
@@ -126,6 +134,16 @@ body {
     height: 0.7em;
     width: 0.7em;
   }
+
+  #mapdiv {
+    width:100vw;
+    height:60vh;
+  }
+  
+  .container-fluid{
+    padding: 0px 25px
+  }
+
 }
 
 @media screen and (max-width: 421px) and (min-width: 400px) {
@@ -143,6 +161,16 @@ body {
     height: 0.7em;
     width: 0.7em;
   }
+
+  #mapdiv {
+    width:100vw;
+    height:60vh;
+  }
+  
+  .container-fluid{
+    padding: 0px 25px
+  }
+
 }
 
 @media screen and (max-width: 376px) and (min-width: 330px) {
@@ -159,6 +187,14 @@ body {
   .navbar-toggler .navbar-toggler-icon {
     height: 0.7em;
     width: 0.7em;
+  }
+  #mapdiv {
+    width:100vw;
+    height:60vh;
+  }
+  
+  .container-fluid{
+    padding: 0px 25px
   }
 }
 
@@ -179,6 +215,15 @@ body {
   }
   .navbar .navbar-toggler {
     font-size: 0.7rem;
+  }
+
+  #mapdiv {
+    width:100vw;
+    height:60vh;
+  }
+  
+  .container-fluid{
+    padding: 0px 25px
   }
 }
 
