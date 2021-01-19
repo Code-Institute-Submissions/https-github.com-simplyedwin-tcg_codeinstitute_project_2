@@ -83,6 +83,16 @@ body {
   text-align: center;
 }
 
+#paramarker2 {
+  color: red;
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 1px;
+  margin: auto;
+  margin-top: 1px;
+  text-align: center;
+}
+
 #usercurrentloc {
   height: 80x;
   width: 40px;

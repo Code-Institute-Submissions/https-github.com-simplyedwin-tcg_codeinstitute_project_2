@@ -323,7 +323,7 @@ $(document).ready(function () {
         description,
         roadname,
         querydata,
-        "Selected Bus Stop"
+        "Starting Point Bus Stop"
       );
       destcardinfo(userdestbscode, description, roadname, querydata);
     }
@@ -479,8 +479,13 @@ $(document).ready(function () {
     $.ajax(settings).done(function (response) {
       var apiservices = response.Services;
       console.log(apiservices);
+      var current = new Date();
+      var currsec = current.getHours()*60*60 + current.getMinutes()*60 + current.getSeconds();
+
       for (var i = 0; i < apiservices.length; i++) {
-        var estimaarr = apiservices[i].EstimatedArrival;
+        var apiestimaarr = apiservices[i].NextBus.EstimatedArrival;
+        var estimarr = apiestimaarr.split("T")[1].split("+")
+        var estimarrsec = estimarr[0].split(":")[0]*60*60 +  estimarr[0].split(":")[1]*60 +  estimarr[0].split(":")[2]*1;
         var svcbusno = apiservices[i].ServiceNo;
         var nextbus = apiservices[i].NextBus;
         var nextbuslong = nextbus.Longitude;
@@ -502,7 +507,21 @@ $(document).ready(function () {
             center: [busstopclickedlong, busstopclickedlat],
           });
         } else if (svcbusno === busno) {
-          console.log("The bus is in operation");
+          var duration = (estimarrsec - currsec)/60;
+          var busstatus;
+          if(duration < 0){
+            busstatus = "Arriving";
+          }
+          else if((duration <= 2)){
+            busstatus = "<2mins"
+          }
+          else if((duration <= 5)){
+            busstatus = "<5mins"
+          }
+          else{
+            busstatus = ">5mins"
+          }
+          console.log(`The bus is in operation and arriving in ${ estimarr[0]} ${busstatus}`);
           map.flyTo({
             center: [nextbuslong, nextbuslat],
             zoom: 14.5,
@@ -515,7 +534,8 @@ $(document).ready(function () {
             "27",
             nextbuslong,
             nextbuslat,
-            busno
+            busno,
+            busstatus
           );
         }
       }
@@ -531,7 +551,8 @@ $(document).ready(function () {
     height,
     clickedlong,
     clickedlat,
-    busno = ""
+    busno = "",
+    busarr=""
   ) {
     $(`#${markerid}`).remove(); // to remove the previous marker when clicked from same bus stop
     var el = document.createElement("div");
@@ -545,8 +566,14 @@ $(document).ready(function () {
     if (markerid === "buslocmarker") {
       var para = document.createElement("p");
       para.id = "paramarker";
+      var para2 = document.createElement("p");
+      para.id = "paramarker";
+      para2.id = "paramarker2";
       var node = document.createTextNode(busno);
+      var node2 = document.createTextNode(busarr);
       para.appendChild(node);
+      para2.appendChild(node2);
+      el.appendChild(para2);
       el.appendChild(imgsvg);
       el.appendChild(para);
     } else {
@@ -630,7 +657,7 @@ $(document).ready(function () {
           <div class="botcolor card-header">
       
               <p class="card-text overflow-auto" id="buscardheader">
-              <h4>Selected Destination Bus Stop</h4>
+              <h4>Destination Bus Stop</h4>
               <hr>
               <div class="row justify-content-around">
                   <div class="col-sm-12" id="destbscbody">
