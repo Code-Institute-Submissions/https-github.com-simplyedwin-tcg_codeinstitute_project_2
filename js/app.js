@@ -718,7 +718,8 @@ $(document).ready(function () {
 
   // function to find bus service no at a bus stop using bus stop code
   function bussvcnos(bscode, source) {
-    var settings = {
+
+     var settings = {
       url:
         "https://cors-anywhere-tcgversion.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
         bscode,
