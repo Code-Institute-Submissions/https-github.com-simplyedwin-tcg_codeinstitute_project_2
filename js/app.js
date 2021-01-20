@@ -90,6 +90,7 @@ $(document).ready(function () {
       userstartbscode = res[1].slice(0, -1);
       console.log(userdestbscode);
     },
+    appendTo: '#menu-container'
   });
 
   $("#ToQuery").autocomplete({
@@ -101,6 +102,7 @@ $(document).ready(function () {
       userdestbscode = res[1].slice(0, -1);
       console.log(userdestbscode);
     },
+    appendTo: '#menu-container2'
   });
 
   $("#usercurrentloc").click(function () {
@@ -732,20 +734,30 @@ $(document).ready(function () {
       var apibscode = response.BusStopCode;
       var apiservices = response.Services;
       console.log(apiservices);
-      for (var i = 0; i < apiservices.length; i++) {
-        // to append to the destination card
-        if (source === "d") {
-          var destbussvcbtn = `<button class="btn" type = "button" style="margin:5px; color: white;
+      if (apiservices.length > 0) {
+        for (var i = 0; i < apiservices.length; i++) {
+          // to append to the destination card
+          if (source === "d") {
+            var destbussvcbtn = `<button class="btn" type = "button" style="margin:5px; color: white;
           background-color: #083864ff;
           font-weight: bold;" id = "destbussvcbtn">${apiservices[i].ServiceNo}</button>`;
-          $("#destbussvcbtncard").after(destbussvcbtn);
-        // to append to the starting point card
-        } else {
-          var bussvcbtn = `<button class="btn" type = "button" style="margin:5px; color: white;
+            $("#destbussvcbtncard").after(destbussvcbtn);
+            // to append to the starting point card
+          } else {
+            var bussvcbtn = `<button class="btn" type = "button" style="margin:5px; color: white;
           background-color: #083864ff;
           font-weight: bold;" id = "bussvcbtn">${apiservices[i].ServiceNo}</button>`;
-          $("#bussvcbtncard").after(bussvcbtn);
+            $("#bussvcbtncard").after(bussvcbtn);
+          }
         }
+      }
+      else
+      {
+        $("#bussvcbtncard").after(
+        `<div class="botcolor card-body shadow p-3">
+          <p>The selected bus stop code is not available from the api server. Please try others.</p>
+        </div>`
+        );
       }
     });
   }

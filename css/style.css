@@ -118,20 +118,17 @@ body {
 }
 
 @media screen and (min-width: 542px) {
-  #FromQuery {
-    width: 450px;
-  }
-  #ToQuery {
+  #FromQuery, #ToQuery, #menu-container,#menu-container2 {
     width: 450px;
   }
 }
 
 @media screen and (max-width: 541px) and (min-width: 422px) {
-  #searchbox {
+  #searchbox, #searchbox2 {
     width: 400px;
   }
-  #searchbox2 {
-    width: 400px;
+  #menu-container, #menu-container2 {
+    width: 331px;
   }
   #brandlogo {
     height: 50%;
@@ -145,16 +142,17 @@ body {
   #mapdiv {
     width: 100vw;
     height: 60vh;
-    padding: 10px 25px;
   }
+
+  
 }
 
 @media screen and (max-width: 421px) and (min-width: 400px) {
-  #searchbox {
+  #searchbox,#searchbox2  {
     width: 350px;
   }
-  #searchbox2 {
-    width: 350px;
+  #menu-container, #menu-container2 {
+    width: 281px;
   }
   #brandlogo {
     height: 50%;
@@ -168,16 +166,15 @@ body {
   #mapdiv {
     width: 100vw;
     height: 60vh;
-    padding: 10px 25px;
   }
 }
 
 @media screen and (max-width: 376px) and (min-width: 330px) {
-  #searchbox {
+  #searchbox,  #searchbox2 {
     width: 300px;
   }
-  #searchbox2 {
-    width: 300px;
+  #menu-container, #menu-container2 {
+    width: 231px;
   }
   #brandlogo {
     height: 50%;
@@ -190,15 +187,11 @@ body {
   #mapdiv {
     width: 100vw;
     height: 60vh;
-    padding: 10px 25px;
   }
 }
 
 @media screen and (max-width: 329px) {
-  #searchbox {
-    width: 200px;
-  }
-  #searchbox2 {
+  #searchbox, #menu-container,#searchbox2, #menu-container2 {
     width: 200px;
   }
   #brandlogo {
@@ -212,11 +205,9 @@ body {
   .navbar .navbar-toggler {
     font-size: 0.7rem;
   }
-
   #mapdiv {
     width: 100vw;
     height: 60vh;
-    padding: 10px 25px;
   }
 }
 
