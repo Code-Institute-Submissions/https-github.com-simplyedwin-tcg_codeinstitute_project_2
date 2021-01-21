@@ -1,7 +1,8 @@
 ![brandlogo](https://github.com/simplyedwin/tcg_codeinstitute_project_2/blob/master/images/AlightLiaoLahBrandLogo.svg?raw=true)
 
 # Milestone Project 2 Interactive Front-End Development - AlightLiaoLah
-## Introduction
+## Problem Statement
+
 
 
 ## Demo
@@ -15,7 +16,7 @@ The website can be accessed via [here]( https://simplyedwin.github.io/tcg_codein
       
  <br />
 
-### Problem Statements & Key Features
+### Key Features
 
 ### Explanation of the Chatbot Features
 

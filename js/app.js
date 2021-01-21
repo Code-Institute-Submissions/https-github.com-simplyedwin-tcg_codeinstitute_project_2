@@ -329,7 +329,8 @@ $(document).ready(function () {
     }
 
     //to make sure no empty values are passed to the busstopcardinfo and destcardinfo functions
-    if (fromqueryvalue.length != 0 && toqueryvalue.length != 0) {
+    if (fromqueryvalue.length != 0 && toqueryvalue.length != 0) 
+    {
       busstopcardinfo(
         userstartbscode,
         description,
@@ -338,31 +339,69 @@ $(document).ready(function () {
         "Starting Point Bus Stop"
       );
       destcardinfo(userdestbscode, description, roadname, querydata);
-    }
 
-    makedommarker(
-      map,
-      "markerstart",
-      "images/startsign.svg",
-      "71",
-      "57",
-      startlong,
-      startlat
-    );
-    makedommarker(
-      map,
-      "markerdest",
-      "images/stopsign.svg",
-      "71",
-      "57",
-      destlong,
-      destlat
-    );
-    if (destlong != 0 || destlat != 0) {
       map.flyTo({
         center: [destlong, destlat],
         zoom: 14.5,
       });
+      makedommarker(
+        map,
+        "markerstart",
+        "images/startsign.svg",
+        "71",
+        "57",
+        startlong,
+        startlat
+      );
+      makedommarker(
+        map,
+        "markerdest",
+        "images/stopsign.svg",
+        "71",
+        "57",
+        destlong,
+        destlat
+      );
+    }
+    else if (toqueryvalue.length != 0) 
+    {
+      destcardinfo(userdestbscode, description, roadname, querydata);
+      map.flyTo({
+        center: [destlong, destlat],
+        zoom: 14.5,
+      });
+      makedommarker(
+        map,
+        "markerdest",
+        "images/stopsign.svg",
+        "71",
+        "57",
+        destlong,
+        destlat
+      ); 
+    }
+    else if (fromqueryvalue.length != 0)
+    {
+      busstopcardinfo(
+        userstartbscode,
+        description,
+        roadname,
+        querydata,
+        "Starting Point Bus Stop"
+      );
+      map.flyTo({
+        center: [startlong, startlat],
+        zoom: 14.5,
+      });
+      makedommarker(
+        map,
+        "markerstart",
+        "images/startsign.svg",
+        "71",
+        "57",
+        startlong,
+        startlat
+      );
     }
   });
 
