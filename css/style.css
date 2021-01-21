@@ -117,6 +117,16 @@ body {
   height: 80vh;
 }
 
+@media screen and (min-width: 1300px) {
+  #FromQuery,
+  #ToQuery,
+  #menu-container,
+  #menu-container2 {
+    width: 600px;
+  }
+}
+
+
 @media screen and (min-width: 542px) {
   #FromQuery,
   #ToQuery,
