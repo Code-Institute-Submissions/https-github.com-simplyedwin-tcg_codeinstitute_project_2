@@ -1,20 +1,33 @@
 $(document).ready(function () {
-  var userstartbscode = "waiting for user input...";
-  var userdestbscode = "waiting for user input...";
-  var queryResult = []; // to only store result as data source for autocomplete
-  var querydata = []; // to store all the busstop info (roadname,description,bscode) from the api calls
-  let centerlat = 1.3544; // default latitude setting when the map is first loaded
-  let centerlong = 103.82; // default longtitude setting when the map is first loaded
-  var mapzoom = 10.5; // default zoom setting when the map is first loaded
-  var mapstart = 0; // to load the map at default page which will show the entire of Singapore land mass
+  // to retrieve user starting point bus stop code
+  var userstartbscode;
+
+  // to retrieve user destination bus stop code
+  var userdestbscode;
+
+  // to only store result as data source for autocomplete
+  var queryResult = [];
+
+  // to store all the busstop info (roadname,description,bscode) from the api calls
+  var querydata = [];
+
+  // default latitude setting when the map is first loaded
+  let centerlat = 1.3544;
+  let centerlong = 103.82;
+
+  // default zoom setting when the map is first loaded
+  var mapzoom = 10.5;
+
+  // to force user current location at 0
   var gculat = 0;
   var gculong = 0;
+
+  // set map as global variable as most interaction needs the map api
   var map;
+
   var bscode;
   var busstopclickedlat;
   var busstopclickedlong;
-  var fromlat = 0;
-  var fromlong = 0;
 
   getmap(mapzoom, centerlong, centerlat);
 
@@ -52,8 +65,6 @@ $(document).ready(function () {
         var roadname;
         var landmark;
         var busstopcode;
-        // var lat;
-        // var long;
         for (var i = 0; i < response.value.length; i++) {
           roadname = response.value[i].RoadName;
           landmark = response.value[i].Description;
@@ -67,7 +78,7 @@ $(document).ready(function () {
         }
       })
       .fail(function (xhr, status, error) {
-        //to give prompt if api server fail
+        //to give error prompt if api server fail
         var errorMessage = xhr.status + ": " + xhr.statusText;
         console.log("Error - " + errorMessage);
         $("#toast").html(
@@ -80,32 +91,33 @@ $(document).ready(function () {
       });
   });
 
-  // to provide autocomplete of address when user starts to type more than 1 character
+  // to provide autocomplete of address when user starts to type more than 4 character, which also prevent user from providing invalid info
   $("#FromQuery").autocomplete({
     source: queryResult,
     minLength: 4,
     select: function (event, ui) {
-      console.log(ui.item.value);
       var res = ui.item.value.split("Bus Stop Code: ");
       userstartbscode = res[1].slice(0, -1);
-      console.log(userdestbscode);
     },
-    appendTo: '#menu-container'
+    // this is to make the autocomplete menu to keep within the form input box
+    appendTo: "#menu-container",
   });
 
+  // to provide autocomplete of address when user starts to type more than 4 character,  which also prevent user from providing invalid info
   $("#ToQuery").autocomplete({
     source: queryResult,
     minLength: 4,
     select: function (event, ui) {
-      console.log(ui.item.value);
       var res = ui.item.value.split("Bus Stop Code: ");
       userdestbscode = res[1].slice(0, -1);
-      console.log(userdestbscode);
     },
-    appendTo: '#menu-container2'
+    // this is to make the autocomplete menu to keep within the form input box
+    appendTo: "#menu-container2",
   });
 
+  // to retrieve user current lat and long info
   $("#usercurrentloc").click(function () {
+    //to give error prompt if api server fail
     function error(err) {
       console.warn(`ERROR(${err.code}): ${err.message}`);
       $("#toast").html(
@@ -151,12 +163,11 @@ $(document).ready(function () {
             zoom: mapzoom,
           });
 
-          console.log(`gculat: ${gculat} gculong: ${gculong}`);
           fromlong = gculong;
           fromlat = gculat;
 
           for (var i = 0; i < querydata.length; i++) {
-            // if this location is within 0.1KM of the user, add it to the list
+            // if this location is within 0.12KM of the user, add it to the list
             if (
               distance(
                 gculat,
@@ -166,13 +177,8 @@ $(document).ready(function () {
                 "K"
               ) <= 0.12
             ) {
-              console.log(
-                `The nearest bus stop to your current location is ${querydata[i].Description} along ${querydata[i].RoadName} (${querydata[i].BusStopCode})`
-              );
               var loclong = querydata[i].Longitude;
               var loclat = querydata[i].Latitude;
-
-              console.log(querydata[i].BusStopCode);
               bscode = querydata[i].BusStopCode;
               var description = querydata[i].Description;
               var roadname = querydata[i].RoadName;
@@ -205,6 +211,7 @@ $(document).ready(function () {
             }
           }
 
+          // to give a warning prompt to user if no bus stop is found within 120m
           if (nearby === false) {
             $("#toast").html(
               `<h5>There are no bus stop within 120 m of your location. Please go to somewhere else.</5>`
@@ -219,17 +226,23 @@ $(document).ready(function () {
         options
       );
     } else {
-      console.log("Browser doesn't support geolocation!");
+      $("#toast").html(
+        `<h5>Browser doesn't support geolocation!</5>`
+      );
+      $("#toast").addClass("show");
+      setTimeout(function () {
+        $("#toast").removeClass("show").addClass("");
+      }, 5000);
     }
   });
 
-  // to retrieve user location using geolocation when clicked onto the form query and update onto the map
+  // to clear unnecessary markers
   $("#FromQuery").click(function () {
-    console.log(`FromQuery is working`);
     gculong = 0;
     gculat = 0;
 
     $("#destcard").remove();
+
     // clear all previous markers
     $(`#markerdest`).remove();
     $(`#markerstart`).remove();
@@ -253,9 +266,8 @@ $(document).ready(function () {
     });
   });
 
+  // to clear unnecessary markers
   $("#ToQuery").click(function () {
-    console.log(`ToQuery is working`);
-    console.log(`gculong:${gculong}   gculat:${gculat}`);
     var toqzoom = 10.5;
 
     // clear all previous markers
@@ -282,9 +294,9 @@ $(document).ready(function () {
     }
   });
 
+  // to retreive the locations of the starting point and destination bus stops and dislay onto the map
   $("#searchbutton").on("click", (e) => {
-    console.log(querydata.length);
-    console.log(`gculat: ${gculat} gculong: ${gculong}`);
+
     var destlong = 0;
     var destlat = 0;
     var startlong = 0;
@@ -299,8 +311,6 @@ $(document).ready(function () {
       userstartbscode = res[1].slice(0, -1);
     }
 
-    console.log(`found userstartbscode >>> ${userstartbscode}`);
-
     /* to loop through the querydata to find the lng and lat of the nearest stop to 
     the user current loc and destination and push to an array markercoords to generate markers*/
     for (var i = 0; i < querydata.length; i++) {
@@ -308,7 +318,6 @@ $(document).ready(function () {
       if (userdestbscode == NaN) {
         e.preventDefault();
       } else if (querydata[i].BusStopCode == userstartbscode) {
-        console.log(`found userstartbscode`);
         startlong = querydata[i].Longitude;
         startlat = querydata[i].Latitude;
       } else if (querydata[i].BusStopCode == userdestbscode) {
@@ -318,6 +327,7 @@ $(document).ready(function () {
         roadname = querydata[i].RoadName;
       }
     }
+
     //to make sure no empty values are passed to the busstopcardinfo and destcardinfo functions
     if (fromqueryvalue.length != 0 && toqueryvalue.length != 0) {
       busstopcardinfo(
@@ -356,17 +366,15 @@ $(document).ready(function () {
     }
   });
 
-  // to find the location of the bus when clicked on the service no
+  // to find the location of the bus when clicked on the service no in the "From" card
   $("div").on("click", "#bussvcbtn", function () {
-    console.log(`.card-body is clicked`);
     var busno = $(this).text();
     bscode = $(`#bscodebtn`).text();
     busloc(bscode, busno, map);
   });
 
-  // to find the location of the bus when clicked on the service no
+  // to find the location of the bus when clicked on the service no in the "To" card
   $("div").on("click", "#destbussvcbtn", function () {
-    console.log(`destcardbody is clicked`);
     bscode = $(`#destbscodebtn`).text();
     var busno = $(this).text();
     busloc(bscode, busno, map);
@@ -374,7 +382,6 @@ $(document).ready(function () {
 
   // to show the help modal
   $(`#helpmebtn`).on("click", () => {
-    console.log(`helpmebtn is clicked!`);
     helpmodal();
   });
 
@@ -407,7 +414,6 @@ $(document).ready(function () {
       bscode = feature.properties.busstopcode;
       var roadname = feature.properties.roadname;
       var description = feature.properties.description;
-      console.log(`bscode: ${bscode}`);
       busstopcardinfo(
         bscode,
         description,
@@ -430,16 +436,10 @@ $(document).ready(function () {
         center: [busstopclickedlong, busstopclickedlat],
         zoom: 14.5,
       });
-
-      console.log(
-        `Busstop code:${feature.properties.busstopcode} 
-  Description:${feature.properties.description} 
-  Roadname:${feature.properties.roadname}`
-      );
     });
   }
 
-  // to compute the distance between 2 coordiates
+  // function to compute the distance between 2 coordiates
   function distance(lat1, lon1, lat2, lon2, unit) {
     var radlat1 = (Math.PI * lat1) / 180;
     var radlat2 = (Math.PI * lat2) / 180;
@@ -465,7 +465,6 @@ $(document).ready(function () {
 
   // function to find bus service no at a bus stop using bus stop code
   function busloc(bscode, busno, map = "") {
-    console.log(`busloc func is called with ${bscode}`);
     var settings = {
       url:
         "https://cors-anywhere-tcgversion.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
@@ -480,23 +479,25 @@ $(document).ready(function () {
 
     $.ajax(settings).done(function (response) {
       var apiservices = response.Services;
-      console.log(apiservices);
       var current = new Date();
-      var currsec = current.getHours()*60*60 + current.getMinutes()*60 + current.getSeconds();
+      var currsec =
+        current.getHours() * 60 * 60 +
+        current.getMinutes() * 60 +
+        current.getSeconds();
 
       for (var i = 0; i < apiservices.length; i++) {
         var apiestimaarr = apiservices[i].NextBus.EstimatedArrival;
-        var estimarr = apiestimaarr.split("T")[1].split("+")
-        var estimarrsec = estimarr[0].split(":")[0]*60*60 +  estimarr[0].split(":")[1]*60 +  estimarr[0].split(":")[2]*1;
+        var estimarr = apiestimaarr.split("T")[1].split("+");
+        var estimarrsec =
+          estimarr[0].split(":")[0] * 60 * 60 +
+          estimarr[0].split(":")[1] * 60 +
+          estimarr[0].split(":")[2] * 1;
         var svcbusno = apiservices[i].ServiceNo;
         var nextbus = apiservices[i].NextBus;
         var nextbuslong = nextbus.Longitude;
         var nextbuslat = nextbus.Latitude;
-        console.log(`Bus in service: ${svcbusno} Bus clicked: ${busno} Current loc (long,lat): ${nextbuslong} ${nextbuslat}
-        Busstop loc (long,lat): ${busstopclickedlong} ${busstopclickedlat}`);
         //to inform the user if the bus location cannot be determined
         if (svcbusno === busno && nextbuslong == 0 && nextbuslat == 0) {
-          console.log("The bus is not in operation");
           $("#toast").html(
             `<h5>The bus may not be in service at this moment. Please try again later.</5>`
           );
@@ -509,21 +510,18 @@ $(document).ready(function () {
             center: [busstopclickedlong, busstopclickedlat],
           });
         } else if (svcbusno === busno) {
-          var duration = (estimarrsec - currsec)/60;
+          var duration = (estimarrsec - currsec) / 60;
           var busstatus;
-          if(duration < 0){
+          //to display the bus arrival timing to the user
+          if (duration < 0) {
             busstatus = "Arriving";
+          } else if (duration <= 2) {
+            busstatus = "<2mins";
+          } else if (duration <= 5) {
+            busstatus = "<5mins";
+          } else {
+            busstatus = ">5mins";
           }
-          else if((duration <= 2)){
-            busstatus = "<2mins"
-          }
-          else if((duration <= 5)){
-            busstatus = "<5mins"
-          }
-          else{
-            busstatus = ">5mins"
-          }
-          console.log(`The bus is in operation and arriving in ${ estimarr[0]} ${busstatus}`);
           map.flyTo({
             center: [nextbuslong, nextbuslat],
             zoom: 14.5,
@@ -544,7 +542,7 @@ $(document).ready(function () {
     });
   }
 
-  //function to create a custom map marker using DOM element
+  // function to create a custom map marker using DOM element
   function makedommarker(
     map,
     markerid,
@@ -554,7 +552,7 @@ $(document).ready(function () {
     clickedlong,
     clickedlat,
     busno = "",
-    busarr=""
+    busarr = ""
   ) {
     $(`#${markerid}`).remove(); // to remove the previous marker when clicked from same bus stop
     var el = document.createElement("div");
@@ -585,7 +583,7 @@ $(document).ready(function () {
     marker.setLngLat([clickedlong, clickedlat]).addTo(map);
   }
 
-  //  function to fill up the card component with the "FROM" bus stop information
+  // function to fill up the card component with the "FROM" bus stop information
   function busstopcardinfo(
     bscode,
     description,
@@ -621,11 +619,9 @@ $(document).ready(function () {
     );
 
     // to retrieve the bus service number at the bus stop and create clickable bus service number buttons
-    console.log(`busstopcardinfo func is running`);
     bussvcnos(bscode);
 
     // to retrieve lat and long of the selected bus stop
-
     if (querydata.length >= 1) {
       for (var i = 0; i < querydata.length; i++) {
         if (querydata[i].BusStopCode == bscode) {
@@ -634,7 +630,8 @@ $(document).ready(function () {
           $(".card-header button").css({ background: "none", border: "none" });
           $(".card-header").on("click", "button", () => {
             $(".card-header button:focus").css({ outline: "none" });
-            //to center the focus on the bus stop when clicked onto the bus code number
+
+            // to center the focus on the bus stop when clicked onto the bus code number
             map.flyTo({
               center: [busstopclickedlong, busstopclickedlat],
             });
@@ -649,7 +646,7 @@ $(document).ready(function () {
     }
   }
 
-  //  function to fill up the card component with the "TO" bus stop information
+  // function to fill up the card component with the "TO" bus stop information
   function destcardinfo(bscode, description, roadname, querydata = "") {
     $("#destcard").remove();
 
@@ -688,7 +685,6 @@ $(document).ready(function () {
     );
 
     // to retrieve the bus service number at the bus stop and create clickable bus service number buttons
-    console.log(`busstopcardinfo func is running`);
     bussvcnos(bscode, "d");
 
     // to retrieve lat and long of the selected bus stop
@@ -718,8 +714,7 @@ $(document).ready(function () {
 
   // function to find bus service no at a bus stop using bus stop code
   function bussvcnos(bscode, source) {
-
-     var settings = {
+    var settings = {
       url:
         "https://cors-anywhere-tcgversion.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2?BusStopCode=" +
         bscode,
@@ -734,7 +729,6 @@ $(document).ready(function () {
     $.ajax(settings).done(function (response) {
       var apibscode = response.BusStopCode;
       var apiservices = response.Services;
-      console.log(apiservices);
       if (apiservices.length > 0) {
         for (var i = 0; i < apiservices.length; i++) {
           // to append to the destination card
@@ -742,7 +736,9 @@ $(document).ready(function () {
             var destbussvcbtn = `<button class="btn" type = "button" style="margin:5px; color: white;
           background-color: #083864ff;
           font-weight: bold;" id = "destbussvcbtn">${apiservices[i].ServiceNo}</button>`;
+            $(`#loader`).remove();
             $("#destbussvcbtncard").after(destbussvcbtn);
+
             // to append to the starting point card
           } else {
             var bussvcbtn = `<button class="btn" type = "button" style="margin:5px; color: white;
@@ -751,11 +747,9 @@ $(document).ready(function () {
             $("#bussvcbtncard").after(bussvcbtn);
           }
         }
-      }
-      else
-      {
+      } else {
         $("#bussvcbtncard").after(
-        `<div class="botcolor card-body shadow p-3">
+          `<div class="botcolor card-body shadow p-3">
           <p>The selected bus stop code is not available from the api server. Please try others.</p>
         </div>`
         );
@@ -763,7 +757,7 @@ $(document).ready(function () {
     });
   }
 
-  //function for the help modal
+  // function for the help modal
   function helpmodal() {
     $(`#helpme`).html(
       `<!-- Modal -->
@@ -806,7 +800,7 @@ $(document).ready(function () {
 
                           <li><p>
                           Click onto any of the bus no in the bus stop card information and the map will show you 
-                          the current and real-time location of the selected bus no
+                          the current and real-time location and arriving time in mins of the selected bus
                           <span><img class="modeliconsize"
                           src="images/bus-vehicle.svg" alt="buslocicon"/>
                           </span>.
@@ -845,7 +839,6 @@ $(document).ready(function () {
 
   // function to create a pulsing dot object on the map
   function pulsingDot(map, size, r, g, b, a) {
-    console.log(`pulsingDot is called`);
 
     // this.map = map;
     this.width = size;
@@ -857,7 +850,6 @@ $(document).ready(function () {
     this.data = new Uint8Array(size * size * 4);
 
     this.onAdd = function () {
-      console.log(`onAdd is called`);
       var canvas = document.createElement("canvas");
       canvas.width = this.width;
       canvas.height = this.height;
@@ -865,7 +857,6 @@ $(document).ready(function () {
     };
 
     this.render = function () {
-      console.log(`render is called`);
       var duration = 1000;
       var t = (performance.now() % duration) / duration;
 
@@ -898,7 +889,6 @@ $(document).ready(function () {
 
       // continuously repaint the map, resulting in the smooth animation of the dot
       map.triggerRepaint();
-      console.log(`triggerRepaint is called`);
 
       // return `true` to let the map know that the image was updated
       return true;
