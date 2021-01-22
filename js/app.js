@@ -708,7 +708,7 @@ $(document).ready(function () {
                   </div>
               </div>
       
-              <div class="row justify-content-around" id="destbussvcbtncard">
+              <div class="row justify-content-around">
       
                   <div class="col">
                       <h5>${description} along ${roadname}</h5>

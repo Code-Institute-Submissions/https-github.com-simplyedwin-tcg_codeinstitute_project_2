@@ -1,34 +1,33 @@
 ![brandlogo](https://github.com/simplyedwin/tcg_codeinstitute_project_2/blob/master/images/AlightLiaoLahBrandLogo.svg?raw=true)
 
-# Milestone Project 2 Interactive Front-End Development - AlightLiaoLah
+# Milestone Project 2 Interactive Front-End Development - AlightLiaoLah (ALL) Singapore Bus Stop and Bus Finder
+
 ## Problem Statement
+<hr>
 
+Travelling by bus to different places in Singapore is one of the most convenient and cheapest public transport that most of us would inevitably use in our daily communte. 
 
-
-## Demo
-### Small Devices View (<767.98)
-
-### Large Devices View (>991.98px)
-
-The website can be accessed via [here]( https://simplyedwin.github.io/tcg_codeinstitute_project_2/)
 
 ## UX
+<hr>
       
- <br />
+### User Stories
 
-### Key Features
-
-### Explanation of the Chatbot Features
-
-### Communications
-
-## User Stories
-
-## Wireframe
+### Wireframe
 Click [here]() for the wireframe
 
-## Technologies
-### Styling
+## Features
+<hr>
+
+### Existing Feature
+to be updated
+
+### Feature Left to Implement
+- Link up the "Contact Me" link to the developer email
+
+## Technologies Used
+<hr>
+
 1. HTML/CSS 
 2. Javascript
 3. Bootstrap (4.5.3)
@@ -38,23 +37,22 @@ Click [here]() for the wireframe
 7. Mapbox Studio
 8. JQueryUI
 9. JQuery
-   
-### Engineering
-1. Jupyter Notebook 
-
-## Features
-### Existing Feature
-to be updated
-
-### Feature Left to Implement
-- Link up the "Contact Me" link to the developer email
+10. Jupyter Notebook
+11. Heroku App Server 
+<hr>
 
 ## Testing
+<hr>
 
 ## Deployment
-The website is hosted using github page. 
+<hr>
+
+The website is hosted using github page and can be accessed via [here]( https://simplyedwin.github.io/tcg_codeinstitute_project_2/).
+
 
 ## Credits
+<hr>
+
 ### Media
  
 
