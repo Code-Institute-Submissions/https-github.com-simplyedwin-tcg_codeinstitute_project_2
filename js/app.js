@@ -226,9 +226,7 @@ $(document).ready(function () {
         options
       );
     } else {
-      $("#toast").html(
-        `<h5>Browser doesn't support geolocation!</5>`
-      );
+      $("#toast").html(`<h5>Browser doesn't support geolocation!</5>`);
       $("#toast").addClass("show");
       setTimeout(function () {
         $("#toast").removeClass("show").addClass("");
@@ -296,7 +294,6 @@ $(document).ready(function () {
 
   // to retreive the locations of the starting point and destination bus stops and dislay onto the map
   $("#searchbutton").on("click", (e) => {
-
     var destlong = 0;
     var destlat = 0;
     var startlong = 0;
@@ -308,104 +305,129 @@ $(document).ready(function () {
 
     var toqueryvalue = $("#ToQuery").val();
     var fromqueryvalue = $("#FromQuery").val();
-    if (fromqueryvalue.length != 0) {
-      var res = fromqueryvalue.split("Bus Stop Code: ");
-      userstartbscode = res[1].slice(0, -1);
-    }
+    if (fromqueryvalue.length != 0 || toqueryvalue.length != 0) {
+      var fromres = fromqueryvalue.split("Bus Stop Code: ");
+      var tores = toqueryvalue.split("Bus Stop Code: ");
 
-    /* to loop through the querydata to find the lng and lat of the nearest stop to 
+      // to check for invalid content type
+      if (fromres.length <= 1 || tores.length <= 1) {
+        $("#toast").html(
+          `<h5>Please type in a valid road/street name or bus code no.</h5>`
+        );
+        $("#toast").addClass("show");
+        setTimeout(function () {
+          $("#toast").removeClass("show").addClass("");
+        }, 5000);
+        map.flyTo({
+          center: [centerlong, centerlat],
+          zoom: mapzoom,
+        });
+      } else {
+        console.log(fromres.length);
+        console.log(tores.length);
+        userstartbscode = fromres[1].slice(0, -1);
+        userdestbscode = tores[1].slice(0, -1);
+
+        /* to loop through the querydata to find the lng and lat of the nearest stop to 
     the user current loc and destination and push to an array markercoords to generate markers*/
-    for (var i = 0; i < querydata.length; i++) {
-      // to handle empty value passed back to userdestcode
-      if (userdestbscode == NaN) {
-        e.preventDefault();
-      } else if (querydata[i].BusStopCode == userstartbscode) {
-        startlong = querydata[i].Longitude;
-        startlat = querydata[i].Latitude;
-        startdescription = querydata[i].Description;
-        startroadname = querydata[i].RoadName;
-      } else if (querydata[i].BusStopCode == userdestbscode) {
-        destlong = querydata[i].Longitude;
-        destlat = querydata[i].Latitude;
-        destdescription = querydata[i].Description;
-        destroadname = querydata[i].RoadName;
+        for (var i = 0; i < querydata.length; i++) {
+          // to handle empty value passed back to userdestcode
+          if (userdestbscode == NaN) {
+            e.preventDefault();
+          } else if (querydata[i].BusStopCode == userstartbscode) {
+            startlong = querydata[i].Longitude;
+            startlat = querydata[i].Latitude;
+            startdescription = querydata[i].Description;
+            startroadname = querydata[i].RoadName;
+          } else if (querydata[i].BusStopCode == userdestbscode) {
+            destlong = querydata[i].Longitude;
+            destlat = querydata[i].Latitude;
+            destdescription = querydata[i].Description;
+            destroadname = querydata[i].RoadName;
+          }
+        }
+
+        //to make sure no empty values are passed to the busstopcardinfo and destcardinfo functions
+        if (fromqueryvalue.length != 0 && toqueryvalue.length != 0) {
+          busstopcardinfo(
+            userstartbscode,
+            startdescription,
+            startroadname,
+            querydata,
+            "Starting Point Bus Stop"
+          );
+          destcardinfo(
+            userdestbscode,
+            destdescription,
+            destroadname,
+            querydata
+          );
+
+          map.flyTo({
+            center: [destlong, destlat],
+            zoom: 14.5,
+          });
+          makedommarker(
+            map,
+            "markerstart",
+            "images/startsign.svg",
+            "71",
+            "57",
+            startlong,
+            startlat
+          );
+          makedommarker(
+            map,
+            "markerdest",
+            "images/stopsign.svg",
+            "71",
+            "57",
+            destlong,
+            destlat
+          );
+        } else if (toqueryvalue.length != 0) {
+          destcardinfo(
+            userdestbscode,
+            destdescription,
+            destroadname,
+            querydata
+          );
+          map.flyTo({
+            center: [destlong, destlat],
+            zoom: 14.5,
+          });
+          makedommarker(
+            map,
+            "markerdest",
+            "images/stopsign.svg",
+            "71",
+            "57",
+            destlong,
+            destlat
+          );
+        } else if (fromqueryvalue.length != 0) {
+          busstopcardinfo(
+            userstartbscode,
+            startdescription,
+            startroadname,
+            querydata,
+            "Starting Point Bus Stop"
+          );
+          map.flyTo({
+            center: [startlong, startlat],
+            zoom: 14.5,
+          });
+          makedommarker(
+            map,
+            "markerstart",
+            "images/startsign.svg",
+            "71",
+            "57",
+            startlong,
+            startlat
+          );
+        }
       }
-    }
-
-    //to make sure no empty values are passed to the busstopcardinfo and destcardinfo functions
-    if (fromqueryvalue.length != 0 && toqueryvalue.length != 0) 
-    {
-      busstopcardinfo(
-        userstartbscode,
-        startdescription,
-        startroadname,
-        querydata,
-        "Starting Point Bus Stop"
-      );
-      destcardinfo(userdestbscode, destdescription, destroadname, querydata);
-
-      map.flyTo({
-        center: [destlong, destlat],
-        zoom: 14.5,
-      });
-      makedommarker(
-        map,
-        "markerstart",
-        "images/startsign.svg",
-        "71",
-        "57",
-        startlong,
-        startlat
-      );
-      makedommarker(
-        map,
-        "markerdest",
-        "images/stopsign.svg",
-        "71",
-        "57",
-        destlong,
-        destlat
-      );
-    }
-    else if (toqueryvalue.length != 0) 
-    {
-      destcardinfo(userdestbscode, destdescription, destroadname, querydata);
-      map.flyTo({
-        center: [destlong, destlat],
-        zoom: 14.5,
-      });
-      makedommarker(
-        map,
-        "markerdest",
-        "images/stopsign.svg",
-        "71",
-        "57",
-        destlong,
-        destlat
-      ); 
-    }
-    else if (fromqueryvalue.length != 0)
-    {
-      busstopcardinfo(
-        userstartbscode,
-        startdescription,
-        startroadname,
-        querydata,
-        "Starting Point Bus Stop"
-      );
-      map.flyTo({
-        center: [startlong, startlat],
-        zoom: 14.5,
-      });
-      makedommarker(
-        map,
-        "markerstart",
-        "images/startsign.svg",
-        "71",
-        "57",
-        startlong,
-        startlat
-      );
     }
   });
 
@@ -882,7 +904,6 @@ $(document).ready(function () {
 
   // function to create a pulsing dot object on the map
   function pulsingDot(map, size, r, g, b, a) {
-
     // this.map = map;
     this.width = size;
     this.height = size;
