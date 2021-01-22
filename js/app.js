@@ -1,9 +1,13 @@
 $(document).ready(function () {
   // to retrieve user starting point bus stop code
   var userstartbscode;
+  var userstartdesc;
+  var userstartrd;
 
   // to retrieve user destination bus stop code
   var userdestbscode;
+  var userdestdesc;
+  var userdestrd;
 
   // to only store result as data source for autocomplete
   var queryResult = [];
@@ -21,11 +25,13 @@ $(document).ready(function () {
   // to force user current location at 0
   var gculat = 0;
   var gculong = 0;
+  var gcubscode;
+  var nearuserlong;
+  var nearuserlat;
 
   // set map as global variable as most interaction needs the map api
   var map;
 
-  var bscode;
   var busstopclickedlat;
   var busstopclickedlong;
 
@@ -97,6 +103,10 @@ $(document).ready(function () {
     minLength: 4,
     select: function (event, ui) {
       var res = ui.item.value.split("Bus Stop Code: ");
+      console.log(`FromQuery${res}`);
+      var descrd = res[0].split(" near ");
+      userstartdesc = descrd[0];
+      userstartrd = descrd[1].slice(0, -1);
       userstartbscode = res[1].slice(0, -1);
     },
     // this is to make the autocomplete menu to keep within the form input box
@@ -109,6 +119,10 @@ $(document).ready(function () {
     minLength: 4,
     select: function (event, ui) {
       var res = ui.item.value.split("Bus Stop Code: ");
+      console.log(`ToQuery${res}`);
+      var descrd = res[0].split(" near ");
+      userdestdesc = descrd[0];
+      userdestrd = descrd[1].slice(0, -1);
       userdestbscode = res[1].slice(0, -1);
     },
     // this is to make the autocomplete menu to keep within the form input box
@@ -177,19 +191,19 @@ $(document).ready(function () {
                 "K"
               ) <= 0.12
             ) {
-              var loclong = querydata[i].Longitude;
-              var loclat = querydata[i].Latitude;
-              bscode = querydata[i].BusStopCode;
+              nearuserlong = querydata[i].Longitude;
+              nearuserlat = querydata[i].Latitude;
+              gcubscode = querydata[i].BusStopCode;
               var description = querydata[i].Description;
               var roadname = querydata[i].RoadName;
 
               $(`#FromQuery`).val(
-                `${description} near ${roadname} (Bus Stop Code: ${bscode})`
+                `${description} near ${roadname} (Bus Stop Code: ${gcubscode})`
               );
 
               // to update the card component with closest bus stop info
               busstopcardinfo(
-                bscode,
+                gcubscode,
                 description,
                 roadname,
                 querydata,
@@ -203,8 +217,8 @@ $(document).ready(function () {
                 "images/startsign.svg",
                 "71",
                 "57",
-                loclong,
-                loclat
+                nearuserlong,
+                nearuserlat
               );
               nearby = true;
               break;
@@ -298,151 +312,189 @@ $(document).ready(function () {
     var destlat = 0;
     var startlong = 0;
     var startlat = 0;
-    var startdescription = "";
-    var startroadname = "";
-    var destdescription = "";
-    var destroadname = "";
+
+    $(`#marker`).remove();
 
     var toqueryvalue = $("#ToQuery").val();
     var fromqueryvalue = $("#FromQuery").val();
-    if (fromqueryvalue.length != 0 || toqueryvalue.length != 0) {
-      var fromres = fromqueryvalue.split("Bus Stop Code: ");
-      var tores = toqueryvalue.split("Bus Stop Code: ");
+    var descrd = fromqueryvalue.split(" (Bus Stop Code: ");
+    userstartdesc = descrd[0].split(" near ")[0];
+    userstartrd = descrd[0].split(" near ")[1];
 
-      // to check for invalid content type
-      if (fromres.length <= 1 || tores.length <= 1) {
-        $("#toast").html(
-          `<h5>Please type in a valid road/street name or bus code no.</h5>`
-        );
-        $("#toast").addClass("show");
-        setTimeout(function () {
-          $("#toast").removeClass("show").addClass("");
-        }, 5000);
-        map.flyTo({
-          center: [centerlong, centerlat],
-          zoom: mapzoom,
-        });
-      } else {
-        console.log(fromres.length);
-        console.log(tores.length);
-        userstartbscode = fromres[1].slice(0, -1);
-        userdestbscode = tores[1].slice(0, -1);
-
-        /* to loop through the querydata to find the lng and lat of the nearest stop to 
-    the user current loc and destination and push to an array markercoords to generate markers*/
-        for (var i = 0; i < querydata.length; i++) {
-          // to handle empty value passed back to userdestcode
-          if (userdestbscode == NaN) {
-            e.preventDefault();
-          } else if (querydata[i].BusStopCode == userstartbscode) {
-            startlong = querydata[i].Longitude;
-            startlat = querydata[i].Latitude;
-            startdescription = querydata[i].Description;
-            startroadname = querydata[i].RoadName;
-          } else if (querydata[i].BusStopCode == userdestbscode) {
-            destlong = querydata[i].Longitude;
-            destlat = querydata[i].Latitude;
-            destdescription = querydata[i].Description;
-            destroadname = querydata[i].RoadName;
+    if (fromqueryvalue.length != 0 && toqueryvalue.length != 0) {
+      // to ensure that both queries contents include bus stop code
+      if (
+        fromqueryvalue.includes("Bus Stop Code: ") &&
+        toqueryvalue.includes("Bus Stop Code: ")
+      ) {
+        if (gculat === 0 && gculong === 0) {
+          for (var i = 0; i < querydata.length; i++) {
+            if (querydata[i].BusStopCode === userstartbscode) {
+              startlong = querydata[i].Longitude;
+              startlat = querydata[i].Latitude;
+            } else if (querydata[i].BusStopCode === userdestbscode) {
+              destlong = querydata[i].Longitude;
+              destlat = querydata[i].Latitude;
+            } else if (
+              i === querydata.length &&
+              querydata[i].BusStopCode != userstartbscode &&
+              querydata[i].BusStopCode != userdestbscode
+            ) {
+              invalidtoast();
+              break;
+            }
           }
+        } else {
+          startlong = nearuserlong;
+          startlat = nearuserlat;
+          userstartbscode = gcubscode;
+          console.log(descrd);
         }
-
-        //to make sure no empty values are passed to the busstopcardinfo and destcardinfo functions
-        if (fromqueryvalue.length != 0 && toqueryvalue.length != 0) {
-          busstopcardinfo(
-            userstartbscode,
-            startdescription,
-            startroadname,
-            querydata,
-            "Starting Point Bus Stop"
-          );
-          destcardinfo(
-            userdestbscode,
-            destdescription,
-            destroadname,
-            querydata
-          );
-
+        busstopcardinfo(
+          userstartbscode,
+          userstartdesc,
+          userstartrd,
+          querydata,
+          "Starting Point Bus Stop"
+        );
+        destcardinfo(userdestbscode, userdestdesc, userdestrd, querydata);
+        makedommarker(
+          map,
+          "markerstart",
+          "images/startsign.svg",
+          "71",
+          "57",
+          startlong,
+          startlat
+        );
+        makedommarker(
+          map,
+          "markerdest",
+          "images/stopsign.svg",
+          "71",
+          "57",
+          destlong,
+          destlat
+        );
+        if (destlong != 0 && destlat != 0) {
           map.flyTo({
             center: [destlong, destlat],
             zoom: 14.5,
           });
-          makedommarker(
-            map,
-            "markerstart",
-            "images/startsign.svg",
-            "71",
-            "57",
-            startlong,
-            startlat
-          );
-          makedommarker(
-            map,
-            "markerdest",
-            "images/stopsign.svg",
-            "71",
-            "57",
-            destlong,
-            destlat
-          );
-        } else if (toqueryvalue.length != 0) {
-          destcardinfo(
-            userdestbscode,
-            destdescription,
-            destroadname,
-            querydata
-          );
+        } else {
           map.flyTo({
-            center: [destlong, destlat],
-            zoom: 14.5,
+            center: [centerlong, centerlat],
+            zoom: mapzoom,
           });
-          makedommarker(
-            map,
-            "markerdest",
-            "images/stopsign.svg",
-            "71",
-            "57",
-            destlong,
-            destlat
-          );
-        } else if (fromqueryvalue.length != 0) {
-          busstopcardinfo(
-            userstartbscode,
-            startdescription,
-            startroadname,
-            querydata,
-            "Starting Point Bus Stop"
-          );
+        }
+      } else {
+        invalidtoast();
+      }
+    } else if (fromqueryvalue.length != 0) {
+      if (fromqueryvalue.includes("Bus Stop Code: ")) {
+        if (gculat === 0 && gculong === 0) {
+          for (var i = 0; i < querydata.length; i++) {
+            if (querydata[i].BusStopCode === userstartbscode) {
+              startlong = querydata[i].Longitude;
+              startlat = querydata[i].Latitude;
+            } else if (
+              i === querydata.length &&
+              querydata[i].BusStopCode != userstartbscode
+            ) {
+              invalidtoast();
+              break;
+            }
+          }
+        } else {
+          startlong = nearuserlong;
+          startlat = nearuserlat;
+          userstartbscode = gcubscode;
+        }
+        busstopcardinfo(
+          userstartbscode,
+          userstartdesc,
+          userstartrd,
+          querydata,
+          "Starting Point Bus Stop"
+        );
+        makedommarker(
+          map,
+          "markerstart",
+          "images/startsign.svg",
+          "71",
+          "57",
+          startlong,
+          startlat
+        );
+        if (startlong != 0 && startlat != 0) {
           map.flyTo({
             center: [startlong, startlat],
             zoom: 14.5,
           });
-          makedommarker(
-            map,
-            "markerstart",
-            "images/startsign.svg",
-            "71",
-            "57",
-            startlong,
-            startlat
-          );
+        } else {
+          map.flyTo({
+            center: [centerlong, centerlat],
+            zoom: mapzoom,
+          });
         }
+      } else {
+        invalidtoast();
       }
+    } else if (toqueryvalue.length != 0) {
+      if (toqueryvalue.includes("Bus Stop Code: ")) {
+        for (var i = 0; i < querydata.length; i++) {
+          if (querydata[i].BusStopCode === userdestbscode) {
+            destlong = querydata[i].Longitude;
+            destlat = querydata[i].Latitude;
+          } else if (
+            i === querydata.length &&
+            querydata[i].BusStopCode != userdestbscode
+          ) {
+            invalidtoast();
+            break;
+          }
+        }
+        destcardinfo(userdestbscode, userdestdesc, userdestrd, querydata);
+        makedommarker(
+          map,
+          "markerdest",
+          "images/stopsign.svg",
+          "71",
+          "57",
+          destlong,
+          destlat
+        );
+        if (destlong != 0 && destlat != 0) {
+          map.flyTo({
+            center: [destlong, destlat],
+            zoom: 14.5,
+          });
+        } else {
+          map.flyTo({
+            center: [centerlong, centerlat],
+            zoom: mapzoom,
+          });
+        }
+      } else {
+        invalidtoast();
+      }
+    } else {
+      invalidtoast();
     }
   });
 
   // to find the location of the bus when clicked on the service no in the "From" card
   $("div").on("click", "#bussvcbtn", function () {
     var busno = $(this).text();
-    bscode = $(`#bscodebtn`).text();
-    busloc(bscode, busno, map);
+    var cardsbscode = $(`#bscodebtn`).text();
+    busloc(cardsbscode, busno, map);
   });
 
   // to find the location of the bus when clicked on the service no in the "To" card
   $("div").on("click", "#destbussvcbtn", function () {
-    bscode = $(`#destbscodebtn`).text();
+    var destbscode = $(`#destbscodebtn`).text();
     var busno = $(this).text();
-    busloc(bscode, busno, map);
+    busloc(destbscode, busno, map);
   });
 
   // to show the help modal
@@ -476,11 +528,11 @@ $(document).ready(function () {
         return;
       }
       var feature = features[0];
-      bscode = feature.properties.busstopcode;
+      var mapbscode = feature.properties.busstopcode;
       var roadname = feature.properties.roadname;
       var description = feature.properties.description;
       busstopcardinfo(
-        bscode,
+        mapbscode,
         description,
         roadname,
         querydata,
@@ -569,7 +621,7 @@ $(document).ready(function () {
           $("#toast").addClass("show");
           setTimeout(function () {
             $("#toast").removeClass("show").addClass("");
-          }, 4000);
+          }, 5000);
           //to prevent the bus to appear at long and lat of (0,0)
           map.flyTo({
             center: [busstopclickedlong, busstopclickedlat],
@@ -812,9 +864,15 @@ $(document).ready(function () {
             $("#bussvcbtncard").after(bussvcbtn);
           }
         }
+      } else if (source === "d") {
+        $("#destbussvcbtncard").after(
+          `<div class="botcolor card-body">
+          <p>The selected bus stop code is not available from the api server. Please try others.</p>
+        </div>`
+        );
       } else {
         $("#bussvcbtncard").after(
-          `<div class="botcolor card-body shadow p-3">
+          `<div class="botcolor card-body">
           <p>The selected bus stop code is not available from the api server. Please try others.</p>
         </div>`
         );
@@ -902,60 +960,17 @@ $(document).ready(function () {
     );
   }
 
-  // function to create a pulsing dot object on the map
-  function pulsingDot(map, size, r, g, b, a) {
-    // this.map = map;
-    this.width = size;
-    this.height = size;
-    this.r = r;
-    this.g = g;
-    this.b = b;
-    this.a = a;
-    this.data = new Uint8Array(size * size * 4);
-
-    this.onAdd = function () {
-      var canvas = document.createElement("canvas");
-      canvas.width = this.width;
-      canvas.height = this.height;
-      this.context = canvas.getContext("2d");
-    };
-
-    this.render = function () {
-      var duration = 1000;
-      var t = (performance.now() % duration) / duration;
-
-      var radius = (size / 2) * 0.3;
-      var outerRadius = (size / 2) * 0.7 * t + radius;
-      var context = this.context;
-
-      // draw outer circle
-      context.clearRect(0, 0, this.width, this.height);
-      context.beginPath();
-      context.arc(this.width / 2, this.height / 2, outerRadius, 0, Math.PI * 2);
-      a = 1 - t;
-      context.fillStyle = "rgba(" + r + "," + g + "," + b + "," + a + ")"; //"rgba(255, 200, 200," + (1 - t) + ")";
-      //context.fillStyle = "rgba(255, 200, 200," + (1 - t) + ")";
-      context.fill();
-
-      // draw inner circle
-      context.beginPath();
-      context.arc(this.width / 2, this.height / 2, radius, 0, Math.PI * 2);
-      context.fillStyle =
-        "rgba(" + r + "," + (g - g / 2) + "," + (b - b / 2) + ",1)"; //"rgba(255, 100, 100, 1)";
-      //context.fillStyle = "rgba(255, 100, 100, 1)";
-      context.strokeStyle = "white";
-      context.lineWidth = 2 + 4 * a;
-      context.fill();
-      context.stroke();
-
-      // update this image's data with data from the canvas
-      this.data = context.getImageData(0, 0, this.width, this.height).data;
-
-      // continuously repaint the map, resulting in the smooth animation of the dot
-      map.triggerRepaint();
-
-      // return `true` to let the map know that the image was updated
-      return true;
-    };
+  function invalidtoast() {
+    $("#toast").html(
+      `<h5>Please type in at least 4 characters of a valid road/street name or bus code no to trigger the autocomplete feature.</h5>`
+    );
+    $("#toast").addClass("show");
+    setTimeout(function () {
+      $("#toast").removeClass("show").addClass("");
+    }, 5000);
+    map.flyTo({
+      center: [centerlong, centerlat],
+      zoom: mapzoom,
+    });
   }
 });
