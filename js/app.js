@@ -301,8 +301,10 @@ $(document).ready(function () {
     var destlat = 0;
     var startlong = 0;
     var startlat = 0;
-    var description = "";
-    var roadname = "";
+    var startdescription = "";
+    var startroadname = "";
+    var destdescription = "";
+    var destroadname = "";
 
     var toqueryvalue = $("#ToQuery").val();
     var fromqueryvalue = $("#FromQuery").val();
@@ -320,11 +322,13 @@ $(document).ready(function () {
       } else if (querydata[i].BusStopCode == userstartbscode) {
         startlong = querydata[i].Longitude;
         startlat = querydata[i].Latitude;
+        startdescription = querydata[i].Description;
+        startroadname = querydata[i].RoadName;
       } else if (querydata[i].BusStopCode == userdestbscode) {
         destlong = querydata[i].Longitude;
         destlat = querydata[i].Latitude;
-        description = querydata[i].Description;
-        roadname = querydata[i].RoadName;
+        destdescription = querydata[i].Description;
+        destroadname = querydata[i].RoadName;
       }
     }
 
@@ -333,12 +337,12 @@ $(document).ready(function () {
     {
       busstopcardinfo(
         userstartbscode,
-        description,
-        roadname,
+        startdescription,
+        startroadname,
         querydata,
         "Starting Point Bus Stop"
       );
-      destcardinfo(userdestbscode, description, roadname, querydata);
+      destcardinfo(userdestbscode, destdescription, destroadname, querydata);
 
       map.flyTo({
         center: [destlong, destlat],
@@ -365,7 +369,7 @@ $(document).ready(function () {
     }
     else if (toqueryvalue.length != 0) 
     {
-      destcardinfo(userdestbscode, description, roadname, querydata);
+      destcardinfo(userdestbscode, destdescription, destroadname, querydata);
       map.flyTo({
         center: [destlong, destlat],
         zoom: 14.5,
@@ -384,8 +388,8 @@ $(document).ready(function () {
     {
       busstopcardinfo(
         userstartbscode,
-        description,
-        roadname,
+        startdescription,
+        startroadname,
         querydata,
         "Starting Point Bus Stop"
       );
@@ -647,7 +651,7 @@ $(document).ready(function () {
 
       <div class="row justify-content-around">
 
-            <div class="col">            
+            <div class="col" id="roadstinfo">            
             <h5>${description} along ${roadname}</h5>
             </div>
             </p>
@@ -710,7 +714,7 @@ $(document).ready(function () {
       
               <div class="row justify-content-around">
       
-                  <div class="col">
+                  <div class="col" id="destroadstinfo">
                       <h5>${description} along ${roadname}</h5>
                   </div>
                   </p>
