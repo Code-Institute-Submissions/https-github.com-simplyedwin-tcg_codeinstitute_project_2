@@ -63,7 +63,7 @@ By using front-end and back-end technologies such as bootstrap,  restful api, th
   map.on("click", "fullbuststopcode", function (e) {//codes 
   ....}
   ```
-  <br/><br/>
+  <br/>
 
 - <img src="images/toandfromcards.png" height=200>
   <br/>
