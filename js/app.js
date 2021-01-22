@@ -694,7 +694,7 @@ $(document).ready(function () {
         <div class="card text-dark bg-light mb-3" style="max-width: 100rem;" id="destcard">
           <div class="botcolor card-header">
       
-              <p class="card-text overflow-auto" id="buscardheader">
+              <p class="card-text overflow-auto" id="destbuscardheader">
               <h4>Destination Bus Stop</h4>
               <hr>
               <div class="row justify-content-around">
