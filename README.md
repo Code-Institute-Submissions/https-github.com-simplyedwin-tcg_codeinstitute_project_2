@@ -2,7 +2,7 @@
 
 # Milestone Project 2 Interactive Front-End Development - AlightLiaoLah (ALL) Singapore Bus Stop and Bus Finder
 <img src="images/ALL_landingpage.PNG">
-<center>Fig 1 - The landing page of AlightLiaoLah (ALL) Singapore Bus Stop and Bus Finder</center>
+Fig 1 - The landing page of AlightLiaoLah (ALL) Singapore Bus Stop and Bus Finder
 <br/><br/>
 <img src="images/alightliaolah.gif">
 Demonstration of AlightLiaoLah (ALL) Singapore Bus Stop and Bus Finder
@@ -14,16 +14,16 @@ Travelling around in Singapore by public bus is a common transport that most of 
 Despite its popularity, finding information about a bus service route or available bus service or bus stop location could be difficult, especially when you are at unfamiliar places. Also, interpretation of bus stop display information could also be challenging if one doesn't has good sense of orientation (see figure below).
 
 <img src="images/busstopinfo.jpg">
-<center>Fig 2 - Bus route information at a bus stop</center>
+Fig 2 - Bus route information at a bus stop<br/><br/>
 
 To overcome this inadequacy, many would search online for bus route, location, or street name and this information is usually built into an app or web page which encompasses an interactive map showing the real-time location of bus and routes. To aid app developer, [Bus information api]("https://datamall.lta.gov.sg/content/datamall/en/dynamic-data.html") is also available with information on the bus service no, arrival time etc (see below figure).
 
 
 <img src="images/busapiresult.png">
 
-<center>Fig 3 - Bus api result using postman </center>
+Fig 3 - Bus api result using postman<br/><br/>
 Hence, by leveraging on technology such as a bus information api, this application was made to address this problem.
-<br/><br/>
+<br/>
 
 ## UX
 Realization of this project depends on the availability of users and technologies. Users would be public bus commuters or individual who has lost his/her way at some unfamiliar places. This application should fulfill their following needs:
@@ -66,13 +66,13 @@ By using front-end and back-end technologies such as bootstrap,  restful api, th
   ....}
   ```
   <br/>
-- <img src="images/toandfromcards.png" height=200>
+- <img src="images/toandfromcards.png" height=300>
   <br/>
 
   ***Bus Information Cards*** - This feature displays information of a bus stop. 
   <br/><br/>
 
-- <img src="images/ALL_mapmarkers.PNG" height=50>
+- <img src="images/ALL_mapmarkers.PNG" height=80>
   <br/>
 
   ***Map Markers*** - (From left to right) "YOU ARE HERE" shows the current location of the on the map. The animated Green "S" and red "D" markers show the locations of the address or bus stop code in the "FROM" and "TO" query boxes. The animated white down arrow marker indicates selected bus stop on the map by the user. The animated red bus shows real time location of a bus with its service number and arrival time to the queried bus stop. The codes to make each marker is partially extracted from app.js as shown below:
