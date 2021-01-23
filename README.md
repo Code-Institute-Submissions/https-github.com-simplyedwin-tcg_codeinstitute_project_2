@@ -204,7 +204,7 @@ There are a numbers of bugs or problems encountered during the development of th
 - ***Cross-Origin Resource Sharing (CORS) Error***  
 <img src="images/CorsIssue_CorsPolicyBlocked.JPG" height=70><br>
 During the request of api response from the bus stop information api, an CORs error was encountered. This caused the application unable to receive any information. This was temporary resolved by running the application on a browser with lower security setting. 
-However, this solution was not feasible as the application will be hosted using github during submission.<br>
+However, this solution was not feasible as the application will be hosted using github.<br>
 Hence, an open source nodejs proxy, called [Cors Anywhere](https://github.com/Rob--W/cors-anywhere) , was used to add CORS headers to the proxied request. This was done by prefix the URL to the bus stop information api url as follow: <br>
 
       "https://cors-anywhere.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
@@ -248,3 +248,5 @@ Reference script for [toast](https://www.w3schools.com/howto/tryit.asp?filename=
 Bootstrap 4 floating label css from [floatinglabel](https://www.cssscript.com/pure-css-floating-label-pattern-bootstrap/)
 
 Readme template from [Code Institute](https://github.com/Code-Institute-Solutions/readme-template)
+
+For hosting the cors anywhere instance [Cors Anywhere](https://github.com/Rob--W/cors-anywhere)
