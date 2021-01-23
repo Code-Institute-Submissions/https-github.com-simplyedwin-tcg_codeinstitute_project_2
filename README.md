@@ -128,33 +128,21 @@ The project uses Heroku to host the cors anywhere instance to address the [CORS 
 
 ## Testing
 
-| Test 1: Floating Label moved higher after clicked into the query boxes |
+|Test 1: Floating Label moved higher after clicked into the query boxes|
 | ------- |
 | **Expected:** The floating label "Type a read name/street name/bus stoop code" should move higher when clicked onto the query boxes.<br/>**Test:** Click onto the query boxes.<br/>**Result:** The floating label "Type a read name/street name/bus stoop code" should moved higher when clicked onto the query boxes.<br/>|
 
 |Test 2: Autocomplete menu appeared for user queries of more than 4 characters|
 |-------|
-<br/>
-
->**Expected:** The autocomplete menu should appear if more than 4 characters are typed into the query boxes.<br/>
-**Test:** Type in more than 4 characters in the query boxes.<br/>
-**Result:** The autocomplete menu appeared when more than 4 characters are typed into the query boxes.<br/>
+|**Expected:** The autocomplete menu should appear if more than 4 characters are typed into the query boxes.<br/>**Test:** Type in more than 4 characters in the query boxes.<br/>**Result:** The autocomplete menu appeared when more than 4 characters are typed into the query boxes.<br/>|
 
 |Test 3: Autocomplete menu does not appeared for user queries of less than 4 characters|
 |-------|
-<br/>
-
->**Expected:** The autocomplete menu should not appear if less than 4 characters are typed into the query boxes.<br/>
-**Test:** Type in less than 4 characters in the query boxes.<br/>
-**Result:** The autocomplete menu does not appeared when less than 4 characters are typed into the query boxes.<br/>
+|**Expected:** The autocomplete menu should not appear if less than 4 characters are typed into the query boxes.<br/>**Test:** Type in less than 4 characters in the query boxes.<br/>**Result:** The autocomplete menu does not appeared when less than 4 characters are typed into the query boxes.<br/>|
 
 |Test 4: Autocomplete menu appear for user queries of bus stop codes numbers|
 |-------|
-<br/>
-
->**Expected:** The autocomplete menu should appear if bus stop code number of more than 4 characters are typed into the query boxes.<br/>
-**Test:** Type in more than 4 characters of bus stop code number in the query boxes.<br/>
-**Result:** The autocomplete menu appeared for bus stop code number of more than 4 characters are typed into the query boxes.<br/>
+|**Expected:** The autocomplete menu should appear if bus stop code number of more than 4 characters are typed into the query boxes.<br/>**Test:** Type in more than 4 characters of bus stop code number in the query boxes.<br/>**Result:** The autocomplete menu appeared for bus stop code number of more than 4 characters are typed into the query boxes.<br/>|
 
 
 
