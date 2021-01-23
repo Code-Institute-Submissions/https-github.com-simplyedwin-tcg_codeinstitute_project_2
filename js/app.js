@@ -941,11 +941,11 @@ $(document).ready(function () {
                           Click onto any of the bus stop icon <span><img 
                           src="images/AlightLiaoLah_Busstop.svg" alt="busstopicon"/>
                           </span> on the map which will display information about the bus stop onto the bus stop info card and<span><img 
-                          class="modeliconsize" src="images/clickedmarker.svg" alt="clickedbusstopmarker"/>will appear to indicated selected bus stop.
+                          class="modeliconsize" src="images/clickedmarker.svg" alt="clickedbusstopmarker"/>will appear to indicate selected bus stop.
                           </p></li>
 
                           <li><p>
-                          Click onto any of the bus no in the bus stop card information and the map will show you 
+                          Click onto any of the bus service no in the bus stop card information and the map will show you 
                           the current and real-time location and arriving time in mins of the selected bus
                           <span><img class="modeliconsize"
                           src="images/bus-vehicle.svg" alt="buslocicon"/>
@@ -969,7 +969,7 @@ $(document).ready(function () {
                            </p></li>
 
                            <li><p>
-                          Toast message popout will appear if there a network errors or missing information.
+                          Warning message will appear if there a network errors or missing information.
                            </p></li>
 
                       </ul>
