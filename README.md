@@ -64,10 +64,9 @@ By using front-end and back-end technologies such as bootstrap,  restful api, th
   ....}
   ```
   <br/>
-
 - <img src="images/toandfromcards.png" height=200>
   <br/>
-  
+
   ***Bus Information Cards*** - This feature displays information of a bus stop. 
   <br/><br/>
 
@@ -124,10 +123,55 @@ The project uses JQuery to ease the manipulation of DOM.
 - [Jupyter Notebook](jupyter.org)<br/>
 The project uses Jupyter Notebook for the creation of the bus stop location geodata to be used in the mapbox studio. 
 - [Heroku](https://www.heroku.com/)<br/>
-The project uses Heroku to host the cors anywhere instance to address the CORS setting issue when pulling from the bus stop information api. 
+The project uses Heroku to host the cors anywhere instance to address the [CORS setting issue](developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors) when pulling from the bus stop information api. 
 <br/><br/>
 
 ## Testing
+
+|Test 1: Floating Label moved higher after clicked into the query boxes|
+|-------|
+<br/>
+
+>**Expected:** The floating label "Type a read name/street name/bus stoop code" should move higher when clicked onto the query boxes.<br/>
+**Test:** Click onto the query boxes.<br/>
+**Result:** The floating label "Type a read name/street name/bus stoop code" should moved higher when clicked onto the query boxes.<br/>
+
+|Test 2: Autocomplete menu appeared for user queries of more than 4 characters|
+|-------|
+<br/>
+
+>**Expected:** The autocomplete menu should appear if more than 4 characters are typed into the query boxes.<br/>
+**Test:** Type in more than 4 characters in the query boxes.<br/>
+**Result:**The autocomplete menu appeared when more than 4 characters are typed into the query boxes.<br/>
+
+|Test 3: Autocomplete menu does not appeared for user queries of less than 4 characters|
+|-------|
+<br/>
+
+>**Expected:** The autocomplete menu should not appear if less than 4 characters are typed into the query boxes.<br/>
+**Test:** Type in less than 4 characters in the query boxes.<br/>
+**Result:** The autocomplete menu does not appeared when less than 4 characters are typed into the query boxes.<br/>
+
+|Test 4: Autocomplete menu appear for user queries of bus stop codes numbers|
+|-------|
+<br/>
+
+>**Expected:** The autocomplete menu should appear if bus stop code number of more than 4 characters are typed into the query boxes.<br/>
+**Test:** Type in more than 4 characters of bus stop code number in the query boxes.<br/>
+**Result:** The autocomplete menu appeared for bus stop code number of more than 4 characters are typed into the query boxes.<br/>
+
+
+
+
+### Bugs/Problems Encountered
+
+
+https://search.google.com/test/mobile-friendly
+
+
+
+
+
 
 ## Deployment
 
