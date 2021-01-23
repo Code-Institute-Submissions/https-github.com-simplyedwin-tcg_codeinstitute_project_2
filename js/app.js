@@ -3,11 +3,13 @@ $(document).ready(function () {
   var userstartbscode;
   var userstartdesc;
   var userstartrd;
+  var userstartlen;
 
   // to retrieve user destination bus stop code
   var userdestbscode;
   var userdestdesc;
   var userdestrd;
+  var userdestlen;
 
   // to only store result as data source for autocomplete
   var queryResult = [];
@@ -78,7 +80,7 @@ $(document).ready(function () {
           lat = response.value[i].Latitude;
           long = response.value[i].Longitude;
           queryResult.push(
-            `${landmark} near ${roadname} (Bus Stop Code: ${busstopcode})`
+            `${landmark} along ${roadname} (Bus Stop Code: ${busstopcode})`
           );
           querydata.push(response.value[i]);
         }
@@ -103,11 +105,11 @@ $(document).ready(function () {
     minLength: 4,
     select: function (event, ui) {
       var res = ui.item.value.split("Bus Stop Code: ");
-      console.log(`FromQuery${res}`);
-      var descrd = res[0].split(" near ");
+      var descrd = res[0].split(" along ");
       userstartdesc = descrd[0];
       userstartrd = descrd[1].slice(0, -1);
       userstartbscode = res[1].slice(0, -1);
+      userstartlen = ui.item.value.length;
     },
     // this is to make the autocomplete menu to keep within the form input box
     appendTo: "#menu-container",
@@ -119,11 +121,11 @@ $(document).ready(function () {
     minLength: 4,
     select: function (event, ui) {
       var res = ui.item.value.split("Bus Stop Code: ");
-      console.log(`ToQuery${res}`);
-      var descrd = res[0].split(" near ");
+      var descrd = res[0].split(" along ");
       userdestdesc = descrd[0];
       userdestrd = descrd[1].slice(0, -1);
       userdestbscode = res[1].slice(0, -1);
+      userdestlen = ui.item.value.length;
     },
     // this is to make the autocomplete menu to keep within the form input box
     appendTo: "#menu-container2",
@@ -162,7 +164,7 @@ $(document).ready(function () {
           gculat = position.coords.latitude;
           gculong = position.coords.longitude;
           var nearby = false;
-          mapzoom = 14.5;
+          var gcumapzoom = 14.5;
           makedommarker(
             map,
             "markerhere",
@@ -174,7 +176,7 @@ $(document).ready(function () {
           );
           map.flyTo({
             center: [gculong, gculat],
-            zoom: mapzoom,
+            zoom: gcumapzoom,
           });
 
           fromlong = gculong;
@@ -198,7 +200,7 @@ $(document).ready(function () {
               var roadname = querydata[i].RoadName;
 
               $(`#FromQuery`).val(
-                `${description} near ${roadname} (Bus Stop Code: ${gcubscode})`
+                `${description} along ${roadname} (Bus Stop Code: ${gcubscode})`
               );
 
               // to update the card component with closest bus stop info
@@ -315,12 +317,22 @@ $(document).ready(function () {
 
     $(`#marker`).remove();
 
+    // to ensure the value selected from the autocomplete menu remains in the query boxes
+    if (userstartlen > 0) {
+      $(`#FromQuery`).val(
+        `${userstartdesc} along ${userstartrd} (Bus Stop Code: ${userstartbscode})`
+      );
+    } else if (userdestlen > 0) {
+      $(`#ToQuery`).val(
+        `${userdestdesc} along ${userdestrd} (Bus Stop Code: ${userdestbscode})`
+      );
+    }
+
     var toqueryvalue = $("#ToQuery").val();
     var fromqueryvalue = $("#FromQuery").val();
     var descrd = fromqueryvalue.split(" (Bus Stop Code: ");
-    userstartdesc = descrd[0].split(" near ")[0];
-    userstartrd = descrd[0].split(" near ")[1];
-
+    userstartdesc = descrd[0].split(" along ")[0];
+    userstartrd = descrd[0].split(" along ")[1];
     if (fromqueryvalue.length != 0 && toqueryvalue.length != 0) {
       // to ensure that both queries contents include bus stop code
       if (
@@ -348,7 +360,18 @@ $(document).ready(function () {
           startlong = nearuserlong;
           startlat = nearuserlat;
           userstartbscode = gcubscode;
-          console.log(descrd);
+          for (var i = 0; i < querydata.length; i++) {
+            if (querydata[i].BusStopCode === userdestbscode) {
+              destlong = querydata[i].Longitude;
+              destlat = querydata[i].Latitude;
+            } else if (
+              i === querydata.length &&
+              querydata[i].BusStopCode != userdestbscode
+            ) {
+              invalidtoast();
+              break;
+            }
+          }
         }
         busstopcardinfo(
           userstartbscode,
@@ -930,9 +953,9 @@ $(document).ready(function () {
                           </p></li>
 
                           <li><p>
-                          You can query for a start point and destination by providing the address/road name/bus stop codes in the
-                          <span style="color:white;background-color:#083864fe;padding:4px;border-radius:3px">FROM</span> and 
-                          <span style="color:white;background-color:#083864fe;padding:4px;border-radius:3px"">TO</span> query boxes. These boxes will autocomplete your address if more than 4 characters are typed in.
+                          You can query for a start point and destination by providing at least 4 characters of the address/road name/bus stop codes that will triggers the
+                          the autocomplete menu in the <span style="color:white;background-color:#083864fe;padding:4px;border-radius:3px">FROM</span> and 
+                          <span style="color:white;background-color:#083864fe;padding:4px;border-radius:3px"">TO</span> query boxes. Select the address/road name/bus stop codes of your interest.
                           You will see<span><img class="modeliconsize" src="images/startsign.svg" alt="startmarker"/>and<span><img 
                           class="modeliconsize" src="images/stopsign.svg" alt="stopmarker"/> appeared on the marked bus stop in the map
                           to indicate start point and destination after you clicked<span><img class="modeliconsize" src="images/search.svg" alt="searchbtn"/>.Do note
@@ -962,7 +985,7 @@ $(document).ready(function () {
 
   function invalidtoast() {
     $("#toast").html(
-      `<h5>Please type in at least 4 characters of a valid road/street name or bus code no to trigger the autocomplete feature.</h5>`
+      `<h5>Please type in at least 4 characters of a valid road/street name or bus code no to trigger the autocomplete menu.</h5>`
     );
     $("#toast").addClass("show");
     setTimeout(function () {
