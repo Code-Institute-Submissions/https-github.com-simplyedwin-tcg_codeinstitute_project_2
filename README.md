@@ -178,7 +178,25 @@ The project uses Heroku to host the cors anywhere instance to address the [CORS 
 | **Expected:** The map shall respond accordingly to the selected map built in controls.<br/>**Test:** Click onto the zoom in/out and orientation controls.<br/>**Result:**  The map responded accordingly to the selected map built in controls.<br/>                                                                                                                                                                                                                |
 
 ### Responsiveness
+**360 x 640**<br>
+<img src="images/360by640Screen_1.JPG" height=200>
+<img src="images/360by640Screen_2.JPG" height=200>
+<img src="images/360by640Screen_3.JPG" height=200><br>
 
+**375 x 812**<br>
+<img src="images/375by812Screen_1.JPG" height=200>
+<img src="images/375by812Screen_2.JPG" height=200>
+<img src="images/375by812Screen_3.JPG" height=200><br>
+
+**411 x 731**<br>
+<img src="images/411by731Screen_1.JPG" height=200>
+<img src="images/411by731Screen_2.JPG" height=200>
+<img src="images/411by731Screen_3.JPG" height=200><br>
+
+**768 x 1024**<br>
+<img src="images/768by1024Screen_1.JPG" height=200>
+<img src="images/768by1024Screen_2.JPG" height=200>
+<img src="images/768by1024Screen_3.JPG" height=200><br>
 
 ### Bugs/Problems Encountered
 
