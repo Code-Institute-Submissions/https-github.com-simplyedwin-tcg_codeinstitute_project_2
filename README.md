@@ -257,4 +257,4 @@ The website is hosted using github page and can be accessed via [here]( https://
 
 - For hosting the cors anywhere instance [Cors Anywhere](https://github.com/Rob--W/cors-anywhere).
 
-- [Bus information api]("https://datamall.lta.gov.sg/content/datamall/en/dynamic-data.html") for the Singapore bus stop information.
+- [Bus information api](https://datamall.lta.gov.sg/content/datamall/en/dynamic-data.html) for the Singapore bus stop information.
