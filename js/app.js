@@ -1,42 +1,42 @@
 $(document).ready(function () {
-  // to retrieve user starting point bus stop code
+  // to declare user start information
   var userstartbscode;
   var userstartdesc;
   var userstartrd;
   var userstartlen;
 
-  // to retrieve user destination bus stop code
+  // to declare user destination information
   var userdestbscode;
   var userdestdesc;
   var userdestrd;
   var userdestlen;
 
-  // to only store result as data source for autocomplete
+  // to store api.result as data source for autocomplete menu
   var queryResult = [];
 
-  // to store all the busstop info (roadname,description,bscode) from the api calls
+  // to store all the busstop info from the api calls
   var querydata = [];
 
-  // default latitude setting when the map is first loaded
-  let centerlat = 1.3544;
-  let centerlong = 103.82;
+  // to declare default position when the map is first loaded
+  var centerlat = 1.3544;
+  var centerlong = 103.82;
 
   // default zoom setting when the map is first loaded
   var mapzoom = 10.5;
 
-  // to force user current location at 0
+  // to declare user information
   var gculat = 0;
   var gculong = 0;
   var gcubscode;
   var nearuserlong;
   var nearuserlat;
 
-  // set map as global variable as most interaction needs the map api
+  // to declare map interactions
   var map;
-
   var busstopclickedlat;
   var busstopclickedlong;
 
+  // to load the map at default
   getmap(mapzoom, centerlong, centerlat);
 
   // this array is declared due to pagination of the api, which will only publish the first 500 apis by default
@@ -99,7 +99,8 @@ $(document).ready(function () {
       });
   });
 
-  // to provide autocomplete of address when user starts to type more than 4 character, which also prevent user from providing invalid info
+  /*to provide autocomplete of address when user starts to type more than 4 character, 
+  which also prevent user from providing invalid info*/
   $("#FromQuery").autocomplete({
     source: queryResult,
     minLength: 4,
@@ -111,11 +112,13 @@ $(document).ready(function () {
       userstartbscode = res[1].slice(0, -1);
       userstartlen = ui.item.value.length;
     },
+
     // this is to make the autocomplete menu to keep within the form input box
     appendTo: "#menu-container",
   });
 
-  // to provide autocomplete of address when user starts to type more than 4 character,  which also prevent user from providing invalid info
+  /*to provide autocomplete of address when user starts to type more than 4 character, 
+  which also prevent user from providing invalid info*/
   $("#ToQuery").autocomplete({
     source: queryResult,
     minLength: 4,
@@ -127,6 +130,7 @@ $(document).ready(function () {
       userdestbscode = res[1].slice(0, -1);
       userdestlen = ui.item.value.length;
     },
+
     // this is to make the autocomplete menu to keep within the form input box
     appendTo: "#menu-container2",
   });
@@ -156,8 +160,8 @@ $(document).ready(function () {
     $(`#markerstart`).remove();
     $(`#marker`).remove();
 
+    //check geolocation available
     if (navigator.geolocation) {
-      //check geolocation available
       //try to get user current location using getCurrentPosition() method
       navigator.geolocation.getCurrentPosition(
         function (position) {
@@ -250,14 +254,12 @@ $(document).ready(function () {
     }
   });
 
-  // to clear unnecessary markers
   $("#FromQuery").click(function () {
     gculong = 0;
     gculat = 0;
 
+    // to reset to default page view
     $("#destcard").remove();
-
-    // clear all previous markers
     $(`#markerdest`).remove();
     $(`#markerstart`).remove();
     $(`#markerhere`).remove();
@@ -280,16 +282,14 @@ $(document).ready(function () {
     });
   });
 
-  // to clear unnecessary markers
   $("#ToQuery").click(function () {
     var toqzoom = 10.5;
 
-    // clear all previous markers
+    // to reset to default page view
     $(`#markerdest`).remove();
     $(`#marker`).remove();
     $(`#buslocmarker`).remove();
     $("#destcard").remove();
-
     $(`#ToQuery`).val(``);
 
     if (gculat != 0 && gculong != 0) {
@@ -308,7 +308,8 @@ $(document).ready(function () {
     }
   });
 
-  // to retreive the locations of the starting point and destination bus stops and dislay onto the map
+  /* to retreive the locations of the starting point and destination bus stops 
+  and dislay onto the map and bus stop information cards*/
   $("#searchbutton").on("click", (e) => {
     var destlong = 0;
     var destlat = 0;
@@ -317,7 +318,9 @@ $(document).ready(function () {
 
     $(`#marker`).remove();
 
-    // to ensure the value selected from the autocomplete menu remains in the query boxes
+    /* to ensure the value selected from the autocomplete menu remains 
+    in the query boxes even if user removed some characters and 
+    clicked the search button*/
     if (userstartlen > 0) {
       $(`#FromQuery`).val(
         `${userstartdesc} along ${userstartrd} (Bus Stop Code: ${userstartbscode})`
@@ -333,20 +336,25 @@ $(document).ready(function () {
     var descrd = fromqueryvalue.split(" (Bus Stop Code: ");
     userstartdesc = descrd[0].split(" along ")[0];
     userstartrd = descrd[0].split(" along ")[1];
+    // to check for existence of contents in the query boxes
     if (fromqueryvalue.length != 0 && toqueryvalue.length != 0) {
-      // to ensure that both queries contents include bus stop code
+      // to check that both queries contents include "Bus Stop Code: " substring
       if (
         fromqueryvalue.includes("Bus Stop Code: ") &&
         toqueryvalue.includes("Bus Stop Code: ")
       ) {
+        // to check whether the current user location button is triggered
         if (gculat === 0 && gculong === 0) {
           for (var i = 0; i < querydata.length; i++) {
+            //to search for the user start bus stop code
             if (querydata[i].BusStopCode === userstartbscode) {
               startlong = querydata[i].Longitude;
               startlat = querydata[i].Latitude;
+              //to search for the user destination bus stop code
             } else if (querydata[i].BusStopCode === userdestbscode) {
               destlong = querydata[i].Longitude;
               destlat = querydata[i].Latitude;
+              // break and sent warning prompt if not found
             } else if (
               i === querydata.length &&
               querydata[i].BusStopCode != userstartbscode &&
@@ -356,14 +364,18 @@ $(document).ready(function () {
               break;
             }
           }
+          /* to use the current user location as start information if the 
+        current user location button is triggered  */
         } else {
           startlong = nearuserlong;
           startlat = nearuserlat;
           userstartbscode = gcubscode;
           for (var i = 0; i < querydata.length; i++) {
+            // to search for the user destination bus stop code
             if (querydata[i].BusStopCode === userdestbscode) {
               destlong = querydata[i].Longitude;
               destlat = querydata[i].Latitude;
+              // break and sent warning prompt if not found
             } else if (
               i === querydata.length &&
               querydata[i].BusStopCode != userdestbscode
@@ -373,6 +385,7 @@ $(document).ready(function () {
             }
           }
         }
+        // to populate the start bus stop information card
         busstopcardinfo(
           userstartbscode,
           userstartdesc,
@@ -380,7 +393,9 @@ $(document).ready(function () {
           querydata,
           "Starting Point Bus Stop"
         );
+        // to populate the destination bus stop information card
         destcardinfo(userdestbscode, userdestdesc, userdestrd, querydata);
+        // to create the starting point marker
         makedommarker(
           map,
           "markerstart",
@@ -390,6 +405,7 @@ $(document).ready(function () {
           startlong,
           startlat
         );
+        // to create the destination marker
         makedommarker(
           map,
           "markerdest",
@@ -399,27 +415,35 @@ $(document).ready(function () {
           destlong,
           destlat
         );
+        // to focus the map onto the destination bus stop if found
         if (destlong != 0 && destlat != 0) {
           map.flyTo({
             center: [destlong, destlat],
-            zoom: 14.5,
+            zoom: 15,
           });
+          // to default landing page view if not found
         } else {
           map.flyTo({
             center: [centerlong, centerlat],
             zoom: mapzoom,
           });
         }
+        // to send a warning prompt if both query boxes has no "bus stop code" in the contents
       } else {
         invalidtoast();
       }
+      //check whether only "FROM" query box has content
     } else if (fromqueryvalue.length != 0) {
+      // to check content include "Bus Stop Code: " substring
       if (fromqueryvalue.includes("Bus Stop Code: ")) {
+        // to check whether the current user location button is triggered
         if (gculat === 0 && gculong === 0) {
           for (var i = 0; i < querydata.length; i++) {
+            //to search for the user start bus stop code
             if (querydata[i].BusStopCode === userstartbscode) {
               startlong = querydata[i].Longitude;
               startlat = querydata[i].Latitude;
+              // break and sent warning prompt if not found
             } else if (
               i === querydata.length &&
               querydata[i].BusStopCode != userstartbscode
@@ -428,11 +452,14 @@ $(document).ready(function () {
               break;
             }
           }
+          /* to use the current user location as start information if the 
+        current user location button is triggered  */
         } else {
           startlong = nearuserlong;
           startlat = nearuserlat;
           userstartbscode = gcubscode;
         }
+        // to populate the start bus stop information card
         busstopcardinfo(
           userstartbscode,
           userstartdesc,
@@ -440,6 +467,7 @@ $(document).ready(function () {
           querydata,
           "Starting Point Bus Stop"
         );
+        // to create the starting point marker
         makedommarker(
           map,
           "markerstart",
@@ -449,26 +477,33 @@ $(document).ready(function () {
           startlong,
           startlat
         );
+        // to focus the map onto the start bus stop if found
         if (startlong != 0 && startlat != 0) {
           map.flyTo({
             center: [startlong, startlat],
-            zoom: 14.5,
+            zoom: 15,
           });
+          // to default landing page view if not found
         } else {
           map.flyTo({
             center: [centerlong, centerlat],
             zoom: mapzoom,
           });
         }
+        // to send warning prompt if "Bus Stop Code: " substring is not found in the content
       } else {
         invalidtoast();
       }
+      //check whether only "TO" query box has content
     } else if (toqueryvalue.length != 0) {
+      // to check content include "Bus Stop Code: " substring
       if (toqueryvalue.includes("Bus Stop Code: ")) {
         for (var i = 0; i < querydata.length; i++) {
+          //to search for the user destination bus stop code
           if (querydata[i].BusStopCode === userdestbscode) {
             destlong = querydata[i].Longitude;
             destlat = querydata[i].Latitude;
+            // break and sent warning prompt if not found
           } else if (
             i === querydata.length &&
             querydata[i].BusStopCode != userdestbscode
@@ -477,7 +512,9 @@ $(document).ready(function () {
             break;
           }
         }
+        // to populate the destination bus stop information card
         destcardinfo(userdestbscode, userdestdesc, userdestrd, querydata);
+        // to create the destination marker
         makedommarker(
           map,
           "markerdest",
@@ -487,33 +524,37 @@ $(document).ready(function () {
           destlong,
           destlat
         );
+        // to focus the map onto the destination bus stop if found
         if (destlong != 0 && destlat != 0) {
           map.flyTo({
             center: [destlong, destlat],
-            zoom: 14.5,
+            zoom: 15,
           });
+          // to default landing page view if not found
         } else {
           map.flyTo({
             center: [centerlong, centerlat],
             zoom: mapzoom,
           });
         }
+        // to send warning prompt if "Bus Stop Code: " substring is not found in the content
       } else {
         invalidtoast();
       }
+      // show warning error if there are no contents in the query boxes
     } else {
       invalidtoast();
     }
   });
 
-  // to find the location of the bus when clicked on the service no in the "From" card
+  // to find the location of the bus when clicked on the bus service no in the "From" card
   $("div").on("click", "#bussvcbtn", function () {
     var busno = $(this).text();
     var cardsbscode = $(`#bscodebtn`).text();
     busloc(cardsbscode, busno, map);
   });
 
-  // to find the location of the bus when clicked on the service no in the "To" card
+  // to find the location of the bus when clicked on the bus service no in the "To" card
   $("div").on("click", "#destbussvcbtn", function () {
     var destbscode = $(`#destbscodebtn`).text();
     var busno = $(this).text();
@@ -542,9 +583,11 @@ $(document).ready(function () {
     // to interact with the bus stop layer "fullbuststopcode" on the map
     map.on("click", "fullbuststopcode", function (e) {
       $("#destcard").remove();
-      $(`#buslocmarker`).remove(); // to remove the previous bus location marker when clicked from different bus stop
+      // to remove the previous bus location marker when clicked onto different bus stop icons on the map
+      $(`#buslocmarker`).remove();
       var features = map.queryRenderedFeatures(e.point, {
-        layers: ["fullbuststopcode"], // replace this with the name of the layer (used name of the tiledata in mapbox studio)
+        // replace this with the name of the layer (the name used for the tiledata in mapbox studio)
+        layers: ["fullbuststopcode"],
       });
 
       if (!features.length) {
@@ -572,6 +615,7 @@ $(document).ready(function () {
         busstopclickedlong,
         busstopclickedlat
       );
+      // to focus the map on the selected bus stop
       map.flyTo({
         center: [busstopclickedlong, busstopclickedlat],
         zoom: 14.5,
@@ -628,6 +672,7 @@ $(document).ready(function () {
       for (var i = 0; i < apiservices.length; i++) {
         var apiestimaarr = apiservices[i].NextBus.EstimatedArrival;
         var estimarr = apiestimaarr.split("T")[1].split("+");
+        // to convert the time to secs
         var estimarrsec =
           estimarr[0].split(":")[0] * 60 * 60 +
           estimarr[0].split(":")[1] * 60 +
@@ -650,6 +695,7 @@ $(document).ready(function () {
             center: [busstopclickedlong, busstopclickedlat],
           });
         } else if (svcbusno === busno) {
+          // to convert the duration difference into min
           var duration = (estimarrsec - currsec) / 60;
           var busstatus;
           //to display the bus arrival timing to the user
@@ -662,10 +708,12 @@ $(document).ready(function () {
           } else {
             busstatus = ">5mins";
           }
+          // to focus the map onto the bus location
           map.flyTo({
             center: [nextbuslong, nextbuslat],
             zoom: 14.5,
           });
+          // to create the bus location marker
           makedommarker(
             map,
             "buslocmarker",
@@ -694,7 +742,8 @@ $(document).ready(function () {
     busno = "",
     busarr = ""
   ) {
-    $(`#${markerid}`).remove(); // to remove the previous marker when clicked from same bus stop
+    // to remove the previous marker when clicked from same bus stop
+    $(`#${markerid}`).remove();
     var el = document.createElement("div");
     el.id = markerid;
     var imgsvg = document.createElement("img");
@@ -729,8 +778,7 @@ $(document).ready(function () {
     description,
     roadname,
     querydata = "",
-    cardtitle,
-    source = "s"
+    cardtitle
   ) {
     $(".card-header").html(
       `
@@ -828,7 +876,6 @@ $(document).ready(function () {
     bussvcnos(bscode, "d");
 
     // to retrieve lat and long of the selected bus stop
-
     if (querydata.length >= 1) {
       for (var i = 0; i < querydata.length; i++) {
         if (querydata[i].BusStopCode == bscode) {
@@ -867,8 +914,8 @@ $(document).ready(function () {
     };
 
     $.ajax(settings).done(function (response) {
-      var apibscode = response.BusStopCode;
       var apiservices = response.Services;
+      // to check whether there is any content in the apiservices
       if (apiservices.length > 0) {
         for (var i = 0; i < apiservices.length; i++) {
           // to append to the destination card
@@ -887,16 +934,17 @@ $(document).ready(function () {
             $("#bussvcbtncard").after(bussvcbtn);
           }
         }
+        // to show no bus service information if no content in the apiservices
       } else if (source === "d") {
         $("#destbussvcbtncard").after(
           `<div class="botcolor card-body">
-          <p>The selected bus stop code is not available from the api server. Please try others.</p>
+          <p>The bus service information is of the selected bus stop code is unavailable from the api server. Please try others.</p>
         </div>`
         );
       } else {
         $("#bussvcbtncard").after(
           `<div class="botcolor card-body">
-          <p>The selected bus stop code is not available from the api server. Please try others.</p>
+          <p>The bus service information is of the selected bus stop code is unavailable from the api server. Please try others.</p>
         </div>`
         );
       }
@@ -960,7 +1008,7 @@ $(document).ready(function () {
                           class="modeliconsize" src="images/stopsign.svg" alt="stopmarker"/> appeared on the marked bus stop in the map
                           to indicate start point and destination after you clicked<span><img class="modeliconsize" src="images/search.svg" alt="searchbtn"/>.Do note
                           that the <span><img class="modeliconsize" src="images/clickedmarker.svg" alt="clickedbusstopmarker"/>will not appear if there is a start 
-                          marker (unless you click onto the bus stop)
+                          marker (unless you click onto the bus stop). If only markers appear, please zoom in further into the map.
                           </p></li>
 
                           <li><p>

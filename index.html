@@ -22,7 +22,7 @@
         <nav class="navbar sticky-top navbar-expand-lg navbar-light bg-light nav-fill">
 
             <!-- <a class="navbar-brand"> -->
-                <img src="images/AlightLiaoLahBrandLogo.svg" alt="" loading="logo" id="brandlogo">
+                <img src="images/AlightLiaoLahBrandLogo.svg" alt="" id="brandlogo">
             <!-- </a> -->
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03"
                     aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,7 +42,9 @@
                             <span class="has-float-label">
                                 <input type="text" class="form-control"
                                     placeholder="road name / street name / nearby bus stop" aria-label="From"
-                                    aria-describedby="button-addon2" id="FromQuery">
+                                    id="FromQuery">
+                                    <!-- aria-describedby="button-addon2" id="FromQuery"> -->
+
                                 <label class=" bg-light" for="FromQuery" style="font-size:50%; 
                                 font-weight:bold;" id="floatlabel">Type
                                     a road name / street
@@ -59,23 +61,32 @@
                             <span class="has-float-label">
                                 <input type="text" class="form-control"
                                     placeholder="road name / street name / nearby bus stop" aria-label="To"
-                                    aria-describedby="button-addon2" id="ToQuery">
+                                    id="ToQuery">
+                                    <!-- aria-describedby="button-addon2" id="ToQuery"> -->
+
                                 <label class="floatlabel bg-light" for="ToQuery" style="font-size:50%; font-weight:bold;">Type a
                                  road name / street name / bus stop code</label>
                             </span>
                             <div id="menu-container2" style="position:absolute;"></div>
 
                         </div>
-                        <div class="input-group mb-3 form-group" id="searchbox2">
-                            <img src="images/search.svg" alt="searchicon" type="button" id="searchbutton" data-toggle="tooltip"
-                                data-placement="top" title="Search">
-                            <img src="images/uarehere.svg" alt="uarehereicon" type="button" id="usercurrentloc" data-toggle="tooltip"
-                                data-placement="top" title="Your current location">
-                            <img src="images/information.svg" alt="helpmeicon" type="button" id="helpmebtn" data-toggle="modal"
-                                data-target="#helpmeModal" data-placement="bottom" title="How to use">
-                            <a href="https://github.com/simplyedwin/tcg_codeinstitute_project_2" target="_blank" rel="noopener noreferrer"><img
-                                    src="images\github.svg" alt="helpmeicon" type="button" id="githubbtn" data-toggle="modal"
-                                    data-target="#helpmeModal" data-placement="bottom" title="Github link"></a>
+                        <div class="input-group mb-3 form-group" id="buttonsgrp">
+                            <button class="btn shadow-none" style="border:none; background: none; padding: 0;" type="button">
+                                <img src="images/search.svg" alt="searchicon" id="searchbutton" data-toggle="tooltip" data-placement="top"
+                                    title="Search">
+                            </button>
+                            <button class="btn shadow-none" style="border:none; background: none; padding: 0;" type="button">
+                                <img src="images/uarehere.svg" alt="uarehereicon" id="usercurrentloc" data-toggle="tooltip" data-placement="top"
+                                    title="Your current location">
+                            </button>
+                            <button class="btn shadow-none" style="border:none; background: none; padding: 0;" type="button">
+                        
+                                <img src="images/information.svg" alt="helpmeicon" id="helpmebtn" data-toggle="modal" data-target="#helpmeModal"
+                                    data-placement="bottom" title="How to use">
+                            </button>
+                                <a href="https://github.com/simplyedwin/tcg_codeinstitute_project_2" target="_blank" rel="noopener noreferrer">
+                                    <img src="images/github.svg" alt="helpmeicon" id="githubbtn" title="Github link">
+                                </a>
                         </div>
                     </form>
 
