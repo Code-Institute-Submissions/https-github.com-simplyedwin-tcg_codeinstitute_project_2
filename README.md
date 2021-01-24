@@ -16,7 +16,7 @@ Despite its popularity, finding information about a bus service route or availab
 <img src="images/busstopinfo.jpg">
 Fig 2 - Bus route information at a bus stop<br/><br/>
 
-To overcome this inadequacy, many would search online for bus route, location, or street name and this information is usually built into an app or web page which encompasses an interactive map showing the real-time location of bus and routes. To aid app developer, [bus information api]("https://datamall.lta.gov.sg/content/datamall/en/dynamic-data.html") is also available with information on the bus service no, arrival time etc (see below figure).
+To overcome this inadequacy, many would search online for bus route, location, or street name and this information is usually built into an app or web page which encompasses an interactive map showing the real-time location of bus and routes. To aid app developer, bus information api is also available with information on the bus service no, arrival time etc (see below figure).
 
 
 <img src="images/busapiresult.png">
@@ -256,3 +256,5 @@ The website is hosted using github page and can be accessed via [here]( https://
 - Readme template from [Code Institute](https://github.com/Code-Institute-Solutions/readme-template).
 
 - For hosting the cors anywhere instance [Cors Anywhere](https://github.com/Rob--W/cors-anywhere).
+
+- [Bus information api]("https://datamall.lta.gov.sg/content/datamall/en/dynamic-data.html") for the Singapore bus stop information.
