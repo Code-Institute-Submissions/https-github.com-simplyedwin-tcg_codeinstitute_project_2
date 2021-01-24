@@ -9,20 +9,20 @@ Demonstration of AlightLiaoLah (ALL) Singapore Bus Stop and Bus Finder
 
 ## Problem Statement
 
-Travelling around in Singapore by public bus is a common transport that most of us would inevitably use in our daily communte. From transition between different type of transport to long distance travelling, public bus provides the cheapest and accessible means to reach our destination. Moreover, many of the bus stop are located near common amenties or landmarks, which makes it a prefer choice among the rest of the public transport. 
+Travelling around in Singapore by public bus is a common transport that most of us would inevitably use in our daily commute. From transition between different type of transport to long distance travelling, public bus provides the cheapest and accessible means to reach our destination. Moreover, many of the bus stop are located near common amenties or landmarks, which makes it a prefer choice among the rest of the public transport. 
 
 Despite its popularity, finding information about a bus service route or available bus service or bus stop location could be difficult, especially when you are at unfamiliar places. Also, interpretation of bus stop display information could also be challenging if one doesn't has good sense of orientation (see figure below).
 
 <img src="images/busstopinfo.jpg">
 Fig 2 - Bus route information at a bus stop<br/><br/>
 
-To overcome this inadequacy, many would search online for bus route, location, or street name and this information is usually built into an app or web page which encompasses an interactive map showing the real-time location of bus and routes. To aid app developer, [Bus information api]("https://datamall.lta.gov.sg/content/datamall/en/dynamic-data.html") is also available with information on the bus service no, arrival time etc (see below figure).
+To overcome this inadequacy, many would search online for bus route, location, or street name and this information is usually built into an app or web page which encompasses an interactive map showing the real-time location of bus and routes. To aid app developer, [bus information api]("https://datamall.lta.gov.sg/content/datamall/en/dynamic-data.html") is also available with information on the bus service no, arrival time etc (see below figure).
 
 
 <img src="images/busapiresult.png">
 
 Fig 3 - Bus api result using postman<br/><br/>
-Hence, by leveraging on technology such as a bus information api, this application was made to address this problem.
+Hence, by leveraging on technology such as bus information api, this application was made to address this problem.
 <br/>
 
 ## UX
@@ -37,12 +37,12 @@ Realization of this project depends on the availability of users and technologie
 - "I want to know what are the bus services available at the bus stop."
 - "I want to know the name of the street or road or bus stop code."
 
-By using front-end and back-end technologies such as bootstrap,  restful api, the user's needs can be achieved. This application would present a landing page of a singapore map with clickable buttons and text boxes for user's inputs. It would provides user on the location of the bus, bus stop and user, as well as real-time information of a bus stop and bus.  A wireframe of this application can be found here [here](https://xd.adobe.com/view/fbc25fb5-8cc7-4cdf-afc6-19bc692072b8-ae91/).
+By using front-end and back-end technologies such as bootstrap,  restful api, the user's needs can be achieved. This application would present a landing page of a singapore map with clickable buttons and text boxes for user's inputs. It would provides user on the location of the bus, bus stop and user, as well as real-time information of a bus stop and bus.  A wireframe of this application can be found [here](https://xd.adobe.com/view/fbc25fb5-8cc7-4cdf-afc6-19bc692072b8-ae91/).
 
 ## Features
 
 <img src="images/ALL_toandfrom.PNG">
-<center>Fig 4 - Page showing bus information and location for from and to queries </center>
+Fig 4 - Page showing bus information and location in the "FROM" and "TO" query boxes.
 <br/><br/>
 
 ### Existing Feature
@@ -53,13 +53,13 @@ By using front-end and back-end technologies such as bootstrap,  restful api, th
 
 - <img src="images/ALL_topbar_buttons.png" ><br/>
   
-  ***Buttons*** - (From left to right) The "YOU ARE HERE" button allow user to retrieve current location information to the application, which will be filled into the "FROM" query box. The "i" button is a help feature that display information about this application and user instructions. The github icon button links to the git repository of this application.
+  ***Buttons*** - (From left to right) The "YOU ARE HERE" button allow user to retrieve current location information to the application, which will then be filled into the "FROM" query box. The "i" button is a help feature that display information about this application and user guides. The github icon button opens a new tab from a browser to the git repository of this application.
   <br/><br/>
 
 - <img src="images/ALL_map.PNG">
   <br/>
 
-  ***Bus Stops on Map*** - This feature allow user to click the bus stop icon on the map to retrieve bus stop information and displayed onto the bus stop information card.The codes to be able to click onto each bus stop icon is partially extracted from app.js as shown below:
+  ***Bus Stop Icons on Map*** - This feature allow user to click the bus stop icon on the map to retrieve bus stop information and displayed onto the bus stop information card.The codes to be able to click onto each bus stop icon is partially extracted from app.js as shown below:
 
   ```
   map.on("click", "fullbuststopcode", function (e) {//codes 
@@ -75,7 +75,7 @@ By using front-end and back-end technologies such as bootstrap,  restful api, th
 - <img src="images/ALL_mapmarkers.PNG" height=80>
   <br/>
 
-  ***Map Markers*** - (From left to right) "YOU ARE HERE" shows the current location of the on the map. The animated Green "S" and red "D" markers show the locations of the address or bus stop code in the "FROM" and "TO" query boxes. The animated white down arrow marker indicates selected bus stop on the map by the user. The animated red bus shows real time location of a bus with its service number and arrival time to the queried bus stop. The codes to make each marker is partially extracted from app.js as shown below:
+  ***Map Markers*** - (From left to right) "YOU ARE HERE" marker shows the user current location on the map. The animated green "S" and red "D" markers show the locations of the address or bus stop code retrieved from the "FROM" and "TO" query boxes. The animated white down arrow marker indicates selected bus stop on the map by the user. The animated red bus location marker shows real time location of a bus with its service number and arrival time to the queried bus stop. The codes to make each marker is partially extracted from app.js as shown below:
 
   ```
   function makedommarker(
@@ -96,7 +96,7 @@ By using front-end and back-end technologies such as bootstrap,  restful api, th
   
 ### Feature Left to Implement
 - ***Bus Path/Route between Starting Point and Destination with user location***<br/>
-  This feature will shows the path between the starting point to the destination together with the user location. This can also be shown on the bus card information.<br/><br/> 
+  This feature will shows the path between the starting point to the destination together with the user location. This can also be shown onto the bus stop information card.<br/><br/> 
 - ***Alight Alert***<br/> This feature will reminds the user when to alight from the bus.
   <br/><br/>
 - ***Bus Service Number Recommendation***<br/>
@@ -109,7 +109,7 @@ The project uses HTML/CSS for base template and styling of the landing page.
 - [Javascript](javascript.com)<br/>
 The project uses Javascript as the primary programming language.
 - [Bootstrap](getbootstrap.com)<br/>
-The project uses Bootstrap for the responsive for different screens size.
+The project uses Bootstrap for the application responsiveness for different screen sizes.
 - [SVG Animation](css-tricks.com/guide-svg-animations-smil/)<br/>
 The project uses SVG animation for the animation of markers.
 - [Inkscape](https://inkscape.org/)<br/>
@@ -123,7 +123,7 @@ The project uses JQuery UI for the autocomplete function when user type into the
 - [JQuery](https://jquery.com/)<br/>
 The project uses JQuery to ease the manipulation of DOM. 
 - [Jupyter Notebook](jupyter.org)<br/>
-The project uses Jupyter Notebook for the creation of the bus stop location geodata to be used in the mapbox studio. 
+The project uses Jupyter Notebook for the creation of the bus stop location geodata, which is used in the mapbox studio. 
 - [Heroku](https://www.heroku.com/)<br/>
 The project uses Heroku to host the cors anywhere instance to address the [CORS setting issue](developer.mozilla.org/en-US/docs/Web/HTTP/CORS/Errors) when pulling from the bus stop information api. 
 <br/><br/>
@@ -205,7 +205,7 @@ The project uses Heroku to host the cors anywhere instance to address the [CORS 
 <img src="images/768by1024Screen_3.JPG" height=200><br>
 
 ### Bugs/Problems Encountered
-There are a numbers of bugs or problems encountered during the development of the project. Much of these issues are mainly due to the restful api and are explained as follow:
+There are a numbers of bugs or problems encountered during the development of the project. Much of these issues are due to the restful api as explained below:
 
 - ***Cross-Origin Resource Sharing (CORS) Error***  
 <img src="images/CorsIssue_CorsPolicyBlocked.JPG" height=70><br>
@@ -222,7 +222,7 @@ An eventual solution was soughted by hosting an instance of the cors anywhere pr
 
       "https://cors-anywhere-tcgversion.herokuapp.com/http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=" +
                 apicalls,           
-  By hosting a cors anywhere proxy instance which only accepts the bus stop information api, this will prevent others from using it as an open proxy. Hence, all the efforts on the api calls can be focused only to this application.  
+  By hosting a cors anywhere proxy instance which only accepts the bus stop information api, this will prevent others from using it as an open proxy. Hence, the proxy instance will only needs to serve this application and only requesting from the bus stop information api.  
   <br>
 
 - ***Missing Latitude and Longitude Information From API Server*** <br>
@@ -243,16 +243,16 @@ The website is hosted using github page and can be accessed via [here]( https://
 
 ### Acknowledgements
 
-Geodatasource on the sample code for the calculation of distance between 2 coordiates [distance](https://www.geodatasource.com/developers/javascript)
+- [Geodatasource](https://www.geodatasource.com/developers/javascript) on the sample code for the calculation of distance between 2 coordiates distance.
 
-Trent colleage staff and classmates for feedbacks on website design
+- Trent colleage staff and classmates for feedbacks on website design
 
-Design of logo are sourced from [Freepik](https://www.flaticon.com/authors/freepik)
+- Design of logo are sourced from [Freepik](https://www.flaticon.com/authors/freepik).
 
-Reference script for [toast](https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_snackbar)
+- Reference script for [toast message](https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_snackbar).
 
-Bootstrap 4 floating label css from [floatinglabel](https://www.cssscript.com/pure-css-floating-label-pattern-bootstrap/)
+- Bootstrap 4 floating label css from [floatinglabel](https://www.cssscript.com/pure-css-floating-label-pattern-bootstrap/).
 
-Readme template from [Code Institute](https://github.com/Code-Institute-Solutions/readme-template)
+- Readme template from [Code Institute](https://github.com/Code-Institute-Solutions/readme-template).
 
-For hosting the cors anywhere instance [Cors Anywhere](https://github.com/Rob--W/cors-anywhere)
+- For hosting the cors anywhere instance [Cors Anywhere](https://github.com/Rob--W/cors-anywhere).
